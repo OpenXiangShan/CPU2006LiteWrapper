@@ -1,0 +1,1 @@
+$APP > test.log

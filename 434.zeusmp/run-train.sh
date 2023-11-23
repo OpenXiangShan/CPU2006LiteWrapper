@@ -1,0 +1,1 @@
+$APP > zeusmp.stdout

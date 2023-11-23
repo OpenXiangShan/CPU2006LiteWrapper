@@ -1,0 +1,4 @@
+CROSS_COMPILE = i686-linux-gnu-
+CFLAGS  += -DSPEC_CPU_ILP32 -mlong-double-64
+FFLAGS  += -DSPEC_CPU_ILP32 -mlong-double-64
+LDFLAGS += -DSPEC_CPU_ILP32

@@ -1,6 +1,7 @@
 NAME = zeusmp
-SRCS = $(shell find ./src -name "*.f")
+SRCS = $(shell find ./src -name "*.[f|F]")
 LD_FORTRAN = 1
+SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 include ../Makefile.apps
 
 test-cmp:

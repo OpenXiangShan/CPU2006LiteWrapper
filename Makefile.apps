@@ -7,6 +7,7 @@ html:
 
 ## 1. Basic Setup and Checks
 
+SPEC=
 ### Default to create a bare-metal kernel image
 ifeq ($(MAKECMDGOALS),)
   MAKECMDGOALS  = $(APP)
@@ -41,7 +42,15 @@ APP_REL = build/$(NAME)
 APP     = $(abspath $(APP_REL))
 
 ### Files to be linked: object files (`.o`) and libraries (`.a`)
-OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
+OBJS := $(patsubst %.F,%.fppized.o,$(SRCS))
+OBJS := $(patsubst %.F90,%.fppized.o,$(OBJS))
+OBJS := $(patsubst %.f90,%.o,$(OBJS))
+OBJS := $(patsubst %.f,%.o,$(OBJS))
+OBJS := $(patsubst %.c,%.o,$(OBJS))
+OBJS := $(patsubst %.C,%.o,$(OBJS))
+OBJS := $(patsubst %.cpp,%.o,$(OBJS))
+OBJS := $(patsubst %.cc,%.o,$(OBJS))
+OBJS := $(addprefix $(DST_DIR)/, $(OBJS))
 
 ## 3. General Compilation Flags
 
@@ -68,6 +77,7 @@ CFLAGS   += -O2 -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64
 CXXFLAGS +=  $(CFLAGS)
 FFLAGS   += -O2 $(FFLAGS_EXTRA) -static
 LDFLAGS  += -O2 -static
+SPECPPFLAGS += -o
 
 ## 4. Compilation Rules
 
@@ -96,10 +106,30 @@ $(DST_DIR)/%.o: %.f
 	@mkdir -p $(dir $@) && echo + FC $<
 	@cd $(dir $<) && $(FC) $(FFLAGS) -c -o $(abspath $@) $(abspath $<)
 
+### Rule (compile): a single `.fppized.f90` -> `.fppized.o` (gfortran)
+$(DST_DIR)/%.fppized.o: %.fppized.f90
+	@mkdir -p $(dir $@) && echo + FC $<
+	@cd $(dir $<) && $(FC) $(FFLAGS) -c -o $(abspath $@) $(abspath $<)
+
+### Rule (compile): a single `.fppized.f` -> `.fppized.o` (gfortran)
+$(DST_DIR)/%.fppized.o: %.fppized.f
+	@mkdir -p $(dir $@) && echo + FC $<
+	@cd $(dir $<) && $(FC) $(FFLAGS) -c -o $(abspath $@) $(abspath $<)
+
 ### Rule (compile): a single `.f90` -> `.o` (gfortran)
 $(DST_DIR)/%.o: %.f90
 	@mkdir -p $(dir $@) && echo + FC $<
 	@cd $(dir $<) && $(FC) $(FFLAGS) -c -o $(abspath $@) $(abspath $<)
+
+### Rule (compile): a single `.F90` -> `.fppized.o` (gfortran)
+%.fppized.f90: %.F90
+	@echo + PREPARE $<
+	@cd $(dir $<) && ${SPEC}/bin/specperl ${SPEC}/bin/specpp $(SPECPPFLAGS) $(abspath $@) $(abspath $<)
+
+### Rule (compile): a single `.F` -> `.fppized.o` (gfortran)
+%.fppized.f: %.F
+	@echo + PREPARE $<
+	@cd $(dir $<) && ${SPEC}/bin/specperl ${SPEC}/bin/specpp $(SPECPPFLAGS) $(abspath $@) $(abspath $<)
 
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
 $(APP): $(OBJS)

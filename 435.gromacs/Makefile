@@ -1,6 +1,7 @@
 NAME = gromacs
-SRCS = $(shell find ./src -name "*.c") $(shell find ./src -name "*.f")
+SRCS = $(shell find ./src -name "*.c") $(shell find ./src -name "*.[f|F]")
 CFLAGS += -I./src -DHAVE_CONFIG_H
+SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 LD_FORTRAN = 1
 include ../Makefile.apps
 

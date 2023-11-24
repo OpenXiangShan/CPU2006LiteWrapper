@@ -1,7 +1,10 @@
 NAME = gamess
-SRCS = $(shell find src -name "*.f")
-FFLAGS_EXTRA = -std=legacy -funconstrained-commons
+CFLAGS = -funconstrained-commons
+FFLAGS_EXTRA = -std=legacy -funconstrained-commons -fno-strict-aliasing
 LD_FORTRAN = 1
+SRCS = $(shell find src -name "*.[f|F]")
+SPECPPFLAGS = -DSPEC_CPU_NO_HOLLERITH -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
+
 include ../Makefile.apps
 
 test-cmp:

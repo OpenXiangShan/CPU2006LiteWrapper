@@ -1,0 +1,35 @@
+
+- set SPEC2006 path in Makefile.app
+```Makefile
+## 1. Basic Setup and Checks
+
+SPEC=/spec2006/path
+### Default to create a bare-metal kernel image
+
+```
+- set SPEC2006 path in env vars
+
+```
+export SPEC=/spec2006/path
+```
+
+- source shrc
+
+```
+cd $SPEC && source shrc
+```
+
+- set SPEC_LITE env vars
+```
+export SPEC_LITE=/spec06_lite
+```
+- copy source
+```
+bash scripts/src_copy.sh
+```
+- compile binarys
+```
+export ARCH=riscv64
+export CROSS_COMPILE=riscv64-unknown-linux-gnu-
+make build-all
+```

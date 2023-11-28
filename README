@@ -3,14 +3,14 @@
 ```Makefile
 ## 1. Basic Setup and Checks
 
-SPEC=/spec2006/path
+SPEC=/spec2006_path
 ### Default to create a bare-metal kernel image
 
 ```
 - set SPEC2006 path in env vars
 
 ```
-export SPEC=/spec2006/path
+export SPEC=/spec2006_path
 ```
 
 - source shrc
@@ -31,5 +31,9 @@ bash scripts/src_copy.sh
 ```
 export ARCH=riscv64
 export CROSS_COMPILE=riscv64-unknown-linux-gnu-
-make build-all
+make build-all -j 70
+```
+- collect result
+```
+bash scripts/collect.sh
 ```

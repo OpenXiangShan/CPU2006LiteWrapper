@@ -27,6 +27,10 @@ clean_%:
 build-all: $(foreach t,$(SPECINT) $(SPECFP),build_$t)
 clean-all: $(foreach t,$(SPECINT) $(SPECFP),clean_$t)
 
+# simple source clean
+clean-src:
+	@find . -name "src" -type d -exec rm -r {}/* \;
+
 # prototype: cmd_template(size)
 define cmd_template
 run-int-$(1): $(foreach t,$(SPECINT),run-$t-$(1))

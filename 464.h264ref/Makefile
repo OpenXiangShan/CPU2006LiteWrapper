@@ -1,6 +1,6 @@
 NAME = h264ref
 SRCS = $(shell find ./src -name "*.c")
-CFLAGS = -fsigned-char
+CFLAGS += -fsigned-char
 LIBS = -lm
 include ../Makefile.apps
 

@@ -1,6 +1,6 @@
 NAME = soplex
 SRCS = $(shell find ./src -name "*.cc")
-CFLAGS = -std=c++03
+CFLAGS += -std=c++03
 LD_CXX = 1
 include ../Makefile.apps
 

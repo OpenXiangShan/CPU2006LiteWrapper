@@ -1,5 +1,5 @@
 NAME = gamess
-CFLAGS = -funconstrained-commons
+CFLAGS += -funconstrained-commons
 FFLAGS_EXTRA = -std=legacy -funconstrained-commons -fno-strict-aliasing
 LD_FORTRAN = 1
 SRCS = $(shell find src -name "*.[f|F]")

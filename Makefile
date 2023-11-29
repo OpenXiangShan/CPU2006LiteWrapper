@@ -18,13 +18,18 @@ init:
 	@echo "copy data OK"
 endif
 
-build_%:
+build_int_%:
+	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off
+
+build_fp_%:
 	@$(MAKE) -s -C $*
 
 clean_%:
 	@$(MAKE) -s -C $* clean
 
-build-all: $(foreach t,$(SPECINT) $(SPECFP),build_$t)
+build-int: $(foreach t,$(SPECINT),build_int_$t)
+build-fp: $(foreach t,$(SPECFP),build_int_$t)
+build-all: build-int build-fp
 clean-all: $(foreach t,$(SPECINT) $(SPECFP),clean_$t)
 
 # simple source clean

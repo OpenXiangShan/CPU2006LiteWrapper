@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ "$#" -ne 1 ]; then
+    echo "Illegal number of parameters"
+    exit
+fi
+
+toolchain_name=$1
+
 # Create a directory to store the build results
 mkdir -p cpu2006_build
 
@@ -9,7 +16,7 @@ find . -name "build" | while read build_dir; do
     benchmark_name=$(basename $(dirname "$build_dir") | sed 's/^[0-9]*\.//')
     
     # Construct the desired name for the target file
-    new_name="${benchmark_name}_base.riscv64-linux-gnu-gcc-9.4.0-rv64gc"
+    new_name="${benchmark_name}_base.${toolchain_name}"
     
     # Identify the target file. We're assuming it's the only non-directory item directly under the build directory.
     target_file=$(find "$build_dir" -maxdepth 1 -type f)

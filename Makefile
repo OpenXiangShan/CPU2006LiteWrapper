@@ -40,7 +40,7 @@ clean-all: clean-int clean-fp
 
 # simple source clean
 clean-src:
-	@find . -name "src" -type d -exec rm -r {}/* \;
+	@find . -name "src" -type d -exec rm -r {} \;
 
 # prototype: cmd_template(size)
 define cmd_template

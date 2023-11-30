@@ -1,0 +1,192 @@
+diff --git a/src/jemalloc_cpp.cpp b/src/jemalloc_cpp.cpp
+index 08107a8a..01f7ec03 100644
+--- a/src/jemalloc_cpp.cpp
++++ b/src/jemalloc_cpp.cpp
+@@ -24,33 +24,33 @@ extern "C" {
+ //
+ // ... but it needs to work with jemalloc namespaces.
+ 
+-void	*operator new(std::size_t size);
+-void	*operator new[](std::size_t size);
+-void	*operator new(std::size_t size, const std::nothrow_t &) noexcept;
+-void	*operator new[](std::size_t size, const std::nothrow_t &) noexcept;
+-void	operator delete(void *ptr) noexcept;
+-void	operator delete[](void *ptr) noexcept;
+-void	operator delete(void *ptr, const std::nothrow_t &) noexcept;
+-void	operator delete[](void *ptr, const std::nothrow_t &) noexcept;
++void	__attribute__((weak)) *operator new(std::size_t size);
++void	__attribute__((weak)) *operator new[](std::size_t size);
++void	__attribute__((weak)) *operator new(std::size_t size, const std::nothrow_t &) noexcept;
++void	__attribute__((weak)) *operator new[](std::size_t size, const std::nothrow_t &) noexcept;
++void	__attribute__((weak)) operator delete(void *ptr) noexcept;
++void	__attribute__((weak)) operator delete[](void *ptr) noexcept;
++void	__attribute__((weak)) operator delete(void *ptr, const std::nothrow_t &) noexcept;
++void	__attribute__((weak)) operator delete[](void *ptr, const std::nothrow_t &) noexcept;
+ 
+ #if __cpp_sized_deallocation >= 201309
+ /* C++14's sized-delete operators. */
+-void	operator delete(void *ptr, std::size_t size) noexcept;
+-void	operator delete[](void *ptr, std::size_t size) noexcept;
++void	__attribute__((weak)) operator delete(void *ptr, std::size_t size) noexcept;
++void	__attribute__((weak)) operator delete[](void *ptr, std::size_t size) noexcept;
+ #endif
+ 
+ #if __cpp_aligned_new >= 201606
+ /* C++17's over-aligned operators. */
+-void	*operator new(std::size_t size, std::align_val_t);
+-void	*operator new(std::size_t size, std::align_val_t, const std::nothrow_t &) noexcept;
+-void	*operator new[](std::size_t size, std::align_val_t);
+-void	*operator new[](std::size_t size, std::align_val_t, const std::nothrow_t &) noexcept;
+-void	operator delete(void* ptr, std::align_val_t) noexcept;
+-void	operator delete(void* ptr, std::align_val_t, const std::nothrow_t &) noexcept;
+-void	operator delete(void* ptr, std::size_t size, std::align_val_t al) noexcept;
+-void	operator delete[](void* ptr, std::align_val_t) noexcept;
+-void	operator delete[](void* ptr, std::align_val_t, const std::nothrow_t &) noexcept;
+-void	operator delete[](void* ptr, std::size_t size, std::align_val_t al) noexcept;
++void	__attribute__((weak)) *operator new(std::size_t size, std::align_val_t);
++void	__attribute__((weak)) *operator new(std::size_t size, std::align_val_t, const std::nothrow_t &) noexcept;
++void	__attribute__((weak)) *operator new[](std::size_t size, std::align_val_t);
++void	__attribute__((weak)) *operator new[](std::size_t size, std::align_val_t, const std::nothrow_t &) noexcept;
++void	__attribute__((weak)) operator delete(void* ptr, std::align_val_t) noexcept;
++void	__attribute__((weak)) operator delete(void* ptr, std::align_val_t, const std::nothrow_t &) noexcept;
++void	__attribute__((weak)) operator delete(void* ptr, std::size_t size, std::align_val_t al) noexcept;
++void	__attribute__((weak)) operator delete[](void* ptr, std::align_val_t) noexcept;
++void	__attribute__((weak)) operator delete[](void* ptr, std::align_val_t, const std::nothrow_t &) noexcept;
++void	__attribute__((weak)) operator delete[](void* ptr, std::size_t size, std::align_val_t al) noexcept;
+ #endif
+ 
+ JEMALLOC_NOINLINE
+@@ -115,22 +115,22 @@ newImpl(std::size_t size) noexcept(IsNoExcept) {
+ 	return imalloc_fastpath(size, &fallbackNewImpl<IsNoExcept>);
+ }
+ 
+-void *
++void __attribute__((weak))*
+ operator new(std::size_t size) {
+ 	return newImpl<false>(size);
+ }
+ 
+-void *
++void __attribute__((weak))*
+ operator new[](std::size_t size) {
+ 	return newImpl<false>(size);
+ }
+ 
+-void *
++void __attribute__((weak))*
+ operator new(std::size_t size, const std::nothrow_t &) noexcept {
+ 	return newImpl<true>(size);
+ }
+ 
+-void *
++void __attribute__((weak))*
+ operator new[](std::size_t size, const std::nothrow_t &) noexcept {
+ 	return newImpl<true>(size);
+ }
+@@ -149,44 +149,44 @@ alignedNewImpl(std::size_t size, std::align_val_t alignment) noexcept(IsNoExcept
+ 	return handleOOM(size, IsNoExcept);
+ }
+ 
+-void *
++void __attribute__((weak))*
+ operator new(std::size_t size, std::align_val_t alignment) {
+ 	return alignedNewImpl<false>(size, alignment);
+ }
+ 
+-void *
++void __attribute__((weak))*
+ operator new[](std::size_t size, std::align_val_t alignment) {
+ 	return alignedNewImpl<false>(size, alignment);
+ }
+ 
+-void *
++void __attribute__((weak))*
+ operator new(std::size_t size, std::align_val_t alignment, const std::nothrow_t &) noexcept {
+ 	return alignedNewImpl<true>(size, alignment);
+ }
+ 
+-void *
++void __attribute__((weak))*
+ operator new[](std::size_t size, std::align_val_t alignment, const std::nothrow_t &) noexcept {
+ 	return alignedNewImpl<true>(size, alignment);
+ }
+ 
+ #endif  // __cpp_aligned_new
+ 
+-void
++void __attribute__((weak))
+ operator delete(void *ptr) noexcept {
+ 	je_free_impl(ptr);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete[](void *ptr) noexcept {
+ 	je_free_impl(ptr);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete(void *ptr, const std::nothrow_t &) noexcept {
+ 	je_free_impl(ptr);
+ }
+ 
+-void operator delete[](void *ptr, const std::nothrow_t &) noexcept {
++void __attribute__((weak)) operator delete[](void *ptr, const std::nothrow_t &) noexcept {
+ 	je_free_impl(ptr);
+ }
+ 
+@@ -201,12 +201,12 @@ sizedDeleteImpl(void* ptr, std::size_t size) noexcept {
+ 	je_sdallocx_noflags(ptr, size);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete(void *ptr, std::size_t size) noexcept {
+ 	sizedDeleteImpl(ptr, size);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete[](void *ptr, std::size_t size) noexcept {
+ 	sizedDeleteImpl(ptr, size);
+ }
+@@ -227,32 +227,32 @@ alignedSizedDeleteImpl(void* ptr, std::size_t size, std::align_val_t alignment)
+ 	je_sdallocx_impl(ptr, size, MALLOCX_ALIGN(alignment));
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete(void* ptr, std::align_val_t) noexcept {
+ 	je_free_impl(ptr);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete[](void* ptr, std::align_val_t) noexcept {
+ 	je_free_impl(ptr);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete(void* ptr, std::align_val_t, const std::nothrow_t&) noexcept {
+ 	je_free_impl(ptr);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete[](void* ptr, std::align_val_t, const std::nothrow_t&) noexcept {
+ 	je_free_impl(ptr);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete(void* ptr, std::size_t size, std::align_val_t alignment) noexcept {
+ 	alignedSizedDeleteImpl(ptr, size, alignment);
+ }
+ 
+-void
++void __attribute__((weak))
+ operator delete[](void* ptr, std::size_t size, std::align_val_t alignment) noexcept {
+ 	alignedSizedDeleteImpl(ptr, size, alignment);
+ }

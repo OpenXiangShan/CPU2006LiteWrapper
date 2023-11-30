@@ -45,3 +45,25 @@ make build-all -j 70
 ```
 bash scripts/collect.sh
 ```
+
+# With jemalloc
+
+- compile jemalloc
+
+```
+export RISCV=/riscv_toolchain/top
+git clone https://github.com/jemalloc/jemalloc.git
+cd jemalloc
+cp /path/to/jemalloc_cpp.patch ./ && git apply jemalloc_cpp.patch
+CC=$RISCV/bin/riscv64-unknown-linux-gnu-gcc CXX=$RISCV/bin/riscv64-unknown-linux-gnu-c++ LD=$RISCV/bin/riscv64-unknown-linux-gnu-ld ./autogen.sh --prefix=$RISCV --host=x86_64-linux-gnu
+
+make && make install
+
+```
+
+```shell
+// prepare jemalloc compiled before
+export RISCV=/riscv_toolchain/top
+export LD_JEMALLOC=1
+make build-all -j 70
+```

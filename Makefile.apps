@@ -78,6 +78,10 @@ CXXFLAGS +=  $(CFLAGS)
 FFLAGS   += -O3 $(FFLAGS_EXTRA) -static -fno-strict-aliasing -flto $(TESTSET_SPECIFIC_FLAG)
 LDFLAGS  += -O3 -static -flto
 SPECPPFLAGS += -o
+LIBS = 
+ifeq ($(LD_JEMALLOC),1)
+LIBS += $(RISCV)/lib/libjemalloc.a -lm -pthread
+endif
 
 ## 4. Compilation Rules
 

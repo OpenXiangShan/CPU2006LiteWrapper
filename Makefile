@@ -24,13 +24,19 @@ build_int_%:
 build_fp_%:
 	@$(MAKE) -s -C $*
 
-clean_%:
+clean_int_%:
+	@$(MAKE) -s -C $* clean
+
+clean_fp_%:
 	@$(MAKE) -s -C $* clean
 
 build-int: $(foreach t,$(SPECINT),build_int_$t)
 build-fp: $(foreach t,$(SPECFP),build_int_$t)
 build-all: build-int build-fp
-clean-all: $(foreach t,$(SPECINT) $(SPECFP),clean_$t)
+
+clean-int: $(foreach t,$(SPECINT),clean_int_$t)
+clean-fp: $(foreach t,$(SPECFP),clean_fp_$t)
+clean-all: clean-int clean-fp
 
 # simple source clean
 clean-src:

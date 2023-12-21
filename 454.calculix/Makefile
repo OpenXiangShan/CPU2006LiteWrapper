@@ -1,8 +1,8 @@
 NAME = calculix
 SRCS = $(shell find ./src -name "*.c") $(shell find ./src -name "*.[F|f]" | grep -v gauss.f)
 PPREFIX = .fppized.o
-FFLAGS += -I./src/SPOOLES
-CFLAGS += -I./src/SPOOLES
+FFLAGS += -I$(abspath src/SPOOLES) -Wno-error
+CFLAGS += -I$(abspath src/SPOOLES) -Wno-error
 LD_FORTRAN = 1
 LIBS += -lm
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64

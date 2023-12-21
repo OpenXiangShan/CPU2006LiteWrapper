@@ -135,7 +135,7 @@ $(DST_DIR)/%.o: %.f90
 	@echo + PREPARE $<
 	@cd $(dir $<) && ${SPEC}/bin/specperl ${SPEC}/bin/specpp $(SPECPPFLAGS) $(abspath $@) $(abspath $<)
 
-.NOTPARALLEL: $(abspath build/GemsFDTD) $(abspath build/tonto) $(abspath build/wrf)
+.NOTPARALLEL: $(abspath build/GemsFDTD) $(abspath build/tonto) $(abspath build/wrf) $(abspath build/gromacs)
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
 $(APP): $(OBJS)
 	@echo + LD "->" $(APP_REL)

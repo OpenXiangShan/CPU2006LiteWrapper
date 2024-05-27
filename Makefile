@@ -6,7 +6,7 @@ ARCH ?= x86_64
 export ARCH
 
 # Set this variable to the path of SEPC2006 to run the `init` rule for the first time
-SPEC =
+SPEC ?=
 
 ifeq ($(SPEC),)
 init:

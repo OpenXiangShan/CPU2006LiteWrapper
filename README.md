@@ -35,6 +35,10 @@ export ARCH=riscv64
 export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 make build-all -j 70
 ```
+- init data
+```
+make init
+```
 - collect result
 ```
 bash scripts/collect.sh

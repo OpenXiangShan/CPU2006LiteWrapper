@@ -8,12 +8,6 @@ The compatibility flags and including paths are set in each Makefile of benchmar
 
 # How to
 
-- set SPEC2006 path in Makefile.app
-``` Makefile
-# update SPEC variable to your SPEC2006 path in Makefile.app
-SPEC=/spec2006_path
-
-```
 - set SPEC2006 path in env vars
 
 ``` shell

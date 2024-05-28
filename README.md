@@ -67,3 +67,35 @@ export RISCV=/riscv_toolchain/top
 export LD_JEMALLOC=1
 make build-all -j 70
 ```
+
+# Note for GCC >= 14
+
+The old version of xerces-c in 483.xalancbmk [contains a bug](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111544) that will cause compile errors in GCC 14 and later. You may need to apply the following patch to SPEC CPU 2006 source code to get this fixed:
+
+```diff
+diff --git a/benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NameIdPool.hpp b/benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NameIdPool.hpp
+--- a/benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NameIdPool.hpp
++++ b/benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NameIdPool.hpp
+@@ -329,7 +329,7 @@ private :
+     // -----------------------------------------------------------------------
+     unsigned int            fCurIndex;
+     NameIdPool<TElem>*      fToEnum;
+-    MemoryManager* const    fMemoryManager;
++    MemoryManager*          fMemoryManager;
+ };
+ 
+ XERCES_CPP_NAMESPACE_END
+diff --git a/MANIFEST b/MANIFEST
+--- a/MANIFEST
++++ b/MANIFEST
+@@ -9994,7 +9994,7 @@ ac0a17e3fe819364d3a8ea9354a27023 * 0004D188 benchspec/CPU2006/483.xalancbmk/src/
+ 2192f1105e11d8ea3cbb7019e8c5275e * 00001BC0 benchspec/CPU2006/483.xalancbmk/src/xercesc/util/MsgLoaders/Win32/Win32MsgLoader.hpp
+ ffdcae60bae1c42929d1f33389440ec7 * 00001878 benchspec/CPU2006/483.xalancbmk/src/xercesc/util/Mutexes.hpp
+ 5a5f8fb48bf4b7d3a612e0f005c82019 * 00003CDE benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NameIdPool.c
+-67f8de1ccc32e696ca600937d8638680 * 0000321C benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NameIdPool.hpp
++26e31191b8f87d85aa9abce0576d0f0a * 0000321C benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NameIdPool.hpp
+ 3f7d5f0dcb84f045d9493d125509a05f * 000010E5 benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NetAccessors/Socket/SocketNetAccessor.hpp
+ 86aa48fb589a764d0f0c994bb912d32f * 00001855 benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NetAccessors/Socket/UnixHTTPURLInputStream.hpp
+ 09b27f524d928a977425c4f009d25b50 * 00001D37 benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NetAccessors/WinSock/BinHTTPURLInputStream.hpp
+
+```

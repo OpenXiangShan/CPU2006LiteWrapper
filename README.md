@@ -41,8 +41,10 @@ make init
 ```
 - collect result
 ```
-bash scripts/collect.sh
+bash scripts/collect.sh gcc
 ```
+
+The `gcc` can be any name, only used as a suffix in the filename to tag the result.
 
 # With jemalloc
 

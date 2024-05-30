@@ -17,24 +17,25 @@ export SPEC=/spec2006_path
 - source shrc
 
 ``` shell
-cd $SPEC && source shrc
+pushd $SPEC && source shrc && popd
 ```
 
 - set SPEC_LITE env var to the path of this repo
 ``` shell
-export SPEC_LITE=/spec06_lite
+export SPEC_LITE=$(pwd)
 ```
 - copy source
 ``` shell
-cd $SPEC_LITE
-bash $SPEC_LITE/scripts/src_copy.sh
+bash scripts/src_copy.sh
 ```
 - compile binarys
 ```
-export ARCH=riscv64
-export CROSS_COMPILE=riscv64-unknown-linux-gnu-
-make build-all -j 70
+make ARCH=riscv64 \
+     CROSS_COMPILE=riscv64-unknown-linux-gnu- \
+     OPTIMIZE="-O3 -flto" \
+     build-all -j `nproc`
 ```
+
 - init data
 ```
 make init
@@ -65,7 +66,10 @@ make && make install
 // prepare jemalloc compiled before
 export RISCV=/riscv_toolchain/top
 export LD_JEMALLOC=1
-make build-all -j 70
+make ARCH=riscv64 \
+     CROSS_COMPILE=riscv64-unknown-linux-gnu- \
+     OPTIMIZE="-O3 -flto" \
+     build-all -j `nproc`
 ```
 
 # Note for GCC >= 14

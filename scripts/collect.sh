@@ -19,7 +19,7 @@ find . -name "build" | while read build_dir; do
     new_name="${benchmark_name}_base.${toolchain_name}"
     
     # Identify the target file. We're assuming it's the only non-directory item directly under the build directory.
-    target_file=$(find "$build_dir" -maxdepth 1 -type f)
+    target_file=$(find "$build_dir" -maxdepth 1 -type f ! -name "*.log")
     
     # If target_file isn't empty, copy it to the cpu2006_build directory with the new name
     if [ -n "$target_file" ]; then

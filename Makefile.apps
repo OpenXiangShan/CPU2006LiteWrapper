@@ -7,7 +7,7 @@ html:
 
 ## 1. Basic Setup and Checks
 
-SPEC=
+SPEC ?=
 ### Default to create a bare-metal kernel image
 ifeq ($(MAKECMDGOALS),)
   MAKECMDGOALS  = $(APP)
@@ -72,11 +72,13 @@ OBJCOPY   = $(CROSS_COMPILE)objcopy
 READELF   = $(CROSS_COMPILE)readelf
 
 ### Compilation flags
-
-CFLAGS   += -O3 -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -flto -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG)
-CXXFLAGS +=  $(CFLAGS)
-FFLAGS   += -O3 $(FFLAGS_EXTRA) -static -fno-strict-aliasing -flto $(TESTSET_SPECIFIC_FLAG)
-LDFLAGS  += -O3 -static -flto
+OPTIMIZE ?= -O3 -flto
+COPTIMIZE := $(OPTIMIZE)
+FOPTIMIZE := $(OPTIMIZE)
+CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG)
+CXXFLAGS += $(CFLAGS)
+FFLAGS   += $(FOPTIMIZE) $(FFLAGS_EXTRA) -static -fno-strict-aliasing $(TESTSET_SPECIFIC_FLAG)
+LDFLAGS  += -static $(OPTIMIZE)
 SPECPPFLAGS += -o
 JEMALLOC_LIBS :=
 ifeq ($(LD_JEMALLOC),1)

@@ -149,7 +149,7 @@ $(APP): $(OBJS)
 ## 5. Running Rules
 
 DIFF = diff
-SPECDIFF_FILE =  ../tools/specdiff
+SPECDIFF_FILE =  $(SPEC)/bin/specdiff
 SPECDIFF = cd $(dir $(SPECDIFF_FILE)) && ./specdiff -m -l 10 $(1) $(abspath $(2)) $(abspath $(3))
 
 # prototype: cmd_template(size)

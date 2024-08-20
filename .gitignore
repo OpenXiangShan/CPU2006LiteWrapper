@@ -4,3 +4,4 @@ run/
 *.mod
 */src
 bin
+cpu2006_build/

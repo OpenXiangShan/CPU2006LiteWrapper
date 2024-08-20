@@ -16,3 +16,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, run/sphere_td.nft, data/ref/output/sphere_td.nft)
+include Makefile.deps

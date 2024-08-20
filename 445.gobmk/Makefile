@@ -37,3 +37,4 @@ ref-cmp:
 	@for f in 13x13 nngs score2 trevorc trevord; do \
 		$(DIFF) run/$$f.out data/ref/output/$$f.out; \
 	done
+include Makefile.deps

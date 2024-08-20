@@ -31,3 +31,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --reltol 0.0125, run/gromacs.out, data/ref/output/gromacs.out)
+include Makefile.deps

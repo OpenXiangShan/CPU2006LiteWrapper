@@ -176,3 +176,4 @@ train-cmp:
 ref-cmp:
 	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, run/SPECtestformatmodifier_z.txt, data/ref/output/SPECtestformatmodifier_z.txt)
 	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, run/hyperviscoplastic.dat, data/ref/output/hyperviscoplastic.dat)
+include Makefile.deps

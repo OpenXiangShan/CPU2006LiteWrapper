@@ -18,3 +18,4 @@ ref-cmp:
 	$(call SPECDIFF, --abstol 1e-16, run/bwaves.out,  data/ref/output/bwaves.out)
 	$(call SPECDIFF, --reltol 0.015, run/bwaves2.out, data/ref/output/bwaves2.out)
 	$(call SPECDIFF, --abstol 1e-06, run/bwaves3.out, data/ref/output/bwaves3.out)
+include Makefile.deps

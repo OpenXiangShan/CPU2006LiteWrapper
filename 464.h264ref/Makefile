@@ -25,3 +25,4 @@ ref-cmp:
 	$(call SPECDIFF, --binary --cw --floatcompare, run/foreman_ref_main_leakybucketparam.cfg, data/ref/output/foreman_ref_main_leakybucketparam.cfg)
 	$(call SPECDIFF, --cw --floatcompare, run/sss_main_encodelog.out, data/ref/output/sss_main_encodelog.out)
 	$(call SPECDIFF, --binary --cw --floatcompare, run/sss_main_leakybucketparam.cfg, data/ref/output/sss_main_leakybucketparam.cfg)
+include Makefile.deps

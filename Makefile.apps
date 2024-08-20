@@ -7,7 +7,7 @@ html:
 
 ## 1. Basic Setup and Checks
 
-### Default to create a bare-metal kernel image
+### Default to create elf
 ifeq ($(MAKECMDGOALS),)
   MAKECMDGOALS  = $(APP)
   .DEFAULT_GOAL = $(APP)
@@ -53,7 +53,7 @@ OBJS := $(addprefix $(DST_DIR)/, $(OBJS))
 
 ## 3. General Compilation Flags
 
--include $(WORK_DIR)/../scripts/$(ARCH).mk
+-include $(SPEC_LITE)/scripts/$(ARCH).mk
 
 ### (Cross) compilers, e.g., mips-linux-gnu-g++
 CC        = $(CROSS_COMPILE)gcc
@@ -75,7 +75,7 @@ OPTIMIZE ?= -O3 -flto
 COPTIMIZE := $(OPTIMIZE)
 FOPTIMIZE := $(OPTIMIZE)
 CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG)
-CXXFLAGS += $(CFLAGS)
+CXXFLAGS += $(filter-out -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration, $(CFLAGS))
 FFLAGS   += $(FOPTIMIZE) $(FFLAGS_EXTRA) -static -fno-strict-aliasing $(TESTSET_SPECIFIC_FLAG)
 LDFLAGS  += -static $(OPTIMIZE)
 SPECPPFLAGS += -o
@@ -136,7 +136,6 @@ $(DST_DIR)/%.o: %.f90
 	@echo + PREPARE $<
 	@cd $(dir $<) && ${SPEC}/bin/specperl ${SPEC}/bin/specpp $(SPECPPFLAGS) $(abspath $@) $(abspath $<)
 
-.NOTPARALLEL: $(abspath build/GemsFDTD) $(abspath build/tonto) $(abspath build/wrf) $(abspath build/gromacs)
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
 $(APP): $(OBJS)
 	@echo + LD "->" $(APP_REL)
@@ -154,7 +153,7 @@ SPECDIFF = cd $(dir $(SPECDIFF_FILE)) && ./specdiff -m -l 10 $(1) $(abspath $(2)
 # prototype: cmd_template(size)
 define cmd_template
 run-$(1): $$(APP)
-	@sh $(WORK_DIR)/../scripts/run-template.sh $(WORK_DIR)/run-$(1).sh
+	@sh $(SPEC_LITE)/scripts/run-template.sh $(NAME)/run-$(1).sh
 	@echo ============ Checking $(notdir $$<) ============
 	@$(MAKE) -s $(1)-cmp
 	@echo ""
@@ -175,6 +174,7 @@ copy-data:
 	@cp -r $(SPEC)/benchspec/CPU2006/$(NAME)/data ./
 	@chmod -R +w data
 
+### Clean a single project (remove `build/`)
 .PHONY: clean-src
 clean-src:
 	@rm -rf ./src
@@ -183,14 +183,11 @@ clean-src:
 clean-data:
 	@rm -rf ./data
 
-### Clean a single project (remove `build/`)
-clean:
-	rm -rf Makefile.html $(WORK_DIR)/build/ $(WORK_DIR)/run/ src/*.mod
-.PHONY: clean
+.PHONY: clean-build
+clean-build:
+	@rm -rf ./build
+	@rm -rf src/*.mod
 
 ### Clean all sub-projects within depth 2 (and ignore errors)
-CLEAN_ALL = $(dir $(shell find . -mindepth 2 -name Makefile))
-clean-all: $(CLEAN_ALL) clean
-$(CLEAN_ALL):
-	-@$(MAKE) -s -C $@ clean
-.PHONY: clean-all $(CLEAN_ALL)
+.PHONY: clean-all
+clean-all: clean-src clean-data clean-build

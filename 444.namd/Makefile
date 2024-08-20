@@ -13,3 +13,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --abstol 1e-05, run/namd.out, data/ref/output/namd.out)
+include Makefile.deps

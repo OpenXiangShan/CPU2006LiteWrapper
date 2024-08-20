@@ -32,3 +32,4 @@ train-cmp:
 ref-cmp:
 	$(call SPECDIFF, --abstol 0  --reltol 5e-05, run/SPEC-benchmark.log, data/ref/output/SPEC-benchmark.log)
 	$(call SPECDIFF, --abstol 0  --reltol 5e-05  --skiptol 50 --binary, run/SPEC-benchmark.tga, data/ref/output/SPEC-benchmark.tga)
+include Makefile.deps

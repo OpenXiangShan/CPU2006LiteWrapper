@@ -67,3 +67,4 @@ ref-cmp:
 		$(call SPECDIFF, --abstol 1e-07, run/solution-$$i.gmv, data/ref/output/solution-$$i.gmv); \
 	done
 	$(call SPECDIFF, --abstol 1e-07, run/log, data/ref/output/log)
+include Makefile.deps

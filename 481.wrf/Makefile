@@ -64,3 +64,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, run/rsl.out.0000, data/ref/output/rsl.out.0000)
+include Makefile.deps

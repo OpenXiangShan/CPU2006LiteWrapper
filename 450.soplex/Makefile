@@ -30,3 +30,4 @@ ref-cmp:
 	$(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, run/pds-50.mps.stderr, data/ref/output/pds-50.mps.stderr)
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, run/ref.out, data/ref/output/ref.out)
 	$(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, run/ref.stderr, data/ref/output/ref.stderr)
+include Makefile.deps

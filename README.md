@@ -33,7 +33,8 @@ make copy-all-src
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
      OPTIMIZE="-O3 -flto" \
-     build-all -j `nproc`
+     SUBPROCESS_NUM=5 \
+     build-all -j 29
 ```
 
 - init data
@@ -69,7 +70,8 @@ export LD_JEMALLOC=1
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
      OPTIMIZE="-O3 -flto" \
-     build-all -j `nproc`
+     SUBPROCESS_BUM=5 \
+     build-all -j 29
 ```
 
 # Note for GCC >= 14

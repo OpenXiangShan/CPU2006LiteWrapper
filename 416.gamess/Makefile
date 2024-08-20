@@ -36,3 +36,4 @@ ref-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, run/cytosine.2.out, data/ref/output/cytosine.2.out)
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, run/h2ocu2+.gradient.out, data/ref/output/h2ocu2+.gradient.out)
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, run/triazolium.out, data/ref/output/triazolium.out)
+include Makefile.deps

@@ -28,3 +28,4 @@ ref-cmp:
 	$(call SPECDIFF, --reltol 0.001  --floatcompare, run/an4.log, data/ref/output/an4.log)
 	$(call SPECDIFF, --reltol 0.0004 --floatcompare, run/considered.out, data/ref/output/considered.out)
 	$(call SPECDIFF, --reltol 1e-06  --floatcompare, run/total_considered.out, data/ref/output/total_considered.out)
+include Makefile.deps

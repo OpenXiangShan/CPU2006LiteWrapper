@@ -31,3 +31,4 @@ ref-cmp:
 	@for f in checkspam.2500.5.25.11.150.1.1.1.1.out diffmail.4.800.10.17.19.300.out splitmail.1600.12.26.16.4500.out; do \
 		$(DIFF) run/$$f data/ref/output/$$f; \
 	done
+include Makefile.deps

@@ -11,3 +11,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --abstol 1e-07, run/lbm.out, data/ref/output/lbm.out)
+include Makefile.deps

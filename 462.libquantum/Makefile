@@ -14,3 +14,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --obiwan, run/ref.out, data/ref/output/ref.out)
+include Makefile.deps

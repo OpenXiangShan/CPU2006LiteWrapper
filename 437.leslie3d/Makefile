@@ -11,3 +11,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --floatcompare, run/leslie3d.out, data/ref/output/leslie3d.out)
+include Makefile.deps

@@ -20,3 +20,4 @@ train-cmp:
 ref-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, run/nph3.out, data/ref/output/nph3.out)
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, run/retro.out, data/ref/output/retro.out)
+include Makefile.deps

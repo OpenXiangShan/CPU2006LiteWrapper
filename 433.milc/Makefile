@@ -24,3 +24,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, run/su3imp.out, data/ref/output/su3imp.out)
+include Makefile.deps

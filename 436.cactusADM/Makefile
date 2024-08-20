@@ -144,3 +144,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --floatcompare, run/benchADM.out, data/ref/output/benchADM.out)
+include Makefile.deps

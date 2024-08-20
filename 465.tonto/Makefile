@@ -29,3 +29,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --reltol 0.006, run/stdout, data/ref/output/stdout)
+include Makefile.deps

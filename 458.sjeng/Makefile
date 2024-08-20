@@ -12,3 +12,4 @@ train-cmp:
 
 ref-cmp:
 	$(DIFF) run/ref.out data/ref/output/ref.out
+include Makefile.deps

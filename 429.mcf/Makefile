@@ -19,3 +19,4 @@ ref-cmp:
 	@for f in inp mcf; do \
 		$(DIFF) run/$$f.out data/ref/output/$$f.out; \
 	done
+include Makefile.deps

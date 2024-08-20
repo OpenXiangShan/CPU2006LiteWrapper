@@ -15,3 +15,4 @@ train-cmp:
 ref-cmp:
 	$(call SPECDIFF, --reltol 0.001, run/BigLakes2048.out, data/ref/output/BigLakes2048.out)
 	$(call SPECDIFF, --reltol 0.001, run/rivers.out, data/ref/output/rivers.out)
+include Makefile.deps

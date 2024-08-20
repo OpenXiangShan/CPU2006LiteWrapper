@@ -40,3 +40,4 @@ train-cmp:
 ref-cmp:
 	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, run/omnetpp.log, data/ref/output/omnetpp.log)
 	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, run/omnetpp.sca, data/ref/output/omnetpp.sca)
+include Makefile.deps

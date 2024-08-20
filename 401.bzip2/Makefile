@@ -18,3 +18,4 @@ ref-cmp:
 	@for f in chicken.jpg input.combined input.program input.source liberty.jpg text.html; do \
 		$(DIFF) run/$$f.out data/ref/output/$$f.out; \
 	done
+include Makefile.deps

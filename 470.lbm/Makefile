@@ -1,5 +1,5 @@
 NAME = 470.lbm
-SRCS = $(shell find ./src -name "*.c")
+SRCS = $(addprefix src/, lbm.c main.c)
 LIBS = -lm
 include ../Makefile.apps
 

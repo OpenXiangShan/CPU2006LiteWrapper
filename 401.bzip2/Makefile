@@ -1,5 +1,7 @@
 NAME = 401.bzip2
-SRCS = $(shell find ./src -name "*.c")
+SRCS = $(addprefix src/, spec.c blocksort.c bzip2.c bzlib.c compress.c crctable.c \
+decompress.c huffman.c randtable.c)
+
 include ../Makefile.apps
 
 test-cmp:

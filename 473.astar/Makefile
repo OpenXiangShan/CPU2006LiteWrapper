@@ -1,5 +1,6 @@
 NAME = 473.astar
-SRCS = $(shell find ./src -name "*.cpp")
+SRCS = $(addprefix src/, CreateWay_.cpp Places_.cpp RegBounds_.cpp RegMng_.cpp Way2_.cpp \
+	 WayInit_.cpp Library.cpp Random.cpp Region_.cpp RegWay_.cpp Way_.cpp)
 CFLAGS += -DSPEC_CPU_LITTLE_ENDIAN
 LD_CXX = 1
 include ../Makefile.apps

@@ -1,5 +1,6 @@
 NAME = 410.bwaves
-SRCS = $(shell find ./src -name "*.f")
+SRCS = $(addprefix src/, block_solver.f flow_lam.f flux_lam.f jacobian_lam.f shell_lam.f)
+
 LD_FORTRAN=1
 include ../Makefile.apps
 

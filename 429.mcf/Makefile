@@ -1,5 +1,6 @@
 NAME = 429.mcf
-SRCS = $(shell find ./src -name "*.c")
+SRCS = $(addprefix src/, mcf.c mcfutil.c readmin.c implicit.c pstart.c output.c treeup.c \
+	 pbla.c pflowup.c psimplex.c pbeampp.c)
 CFLAGS += -DWANT_STDC_PROTO
 LIBS += -lm
 include ../Makefile.apps

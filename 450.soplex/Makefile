@@ -1,5 +1,16 @@
 NAME = 450.soplex
-SRCS = $(shell find ./src -name "*.cc")
+SRCS = $(addprefix src/, changesoplex.cc didxset.cc dsvector.cc dvector.cc enter.cc \
+	 example.cc factor.cc forest.cc idxset.cc leave.cc lpcolset.cc lprow.cc \
+	 lprowset.cc message.cc mpsinput.cc nameset.cc slufactor.cc solve.cc \
+	 soplex.cc spxaggregatesm.cc spxbasis.cc spxbounds.cc spxchangebasis.cc \
+	 spxdefaultpr.cc spxdefaultrt.cc spxdefines.cc spxdesc.cc spxdevexpr.cc \
+	 spxequilisc.cc spxfastrt.cc spxgeneralsm.cc spxharrisrt.cc \
+	 spxhybridpr.cc spxid.cc spxio.cc spxlp.cc spxlpfread.cc spxmpsread.cc \
+	 spxmpswrite.cc spxparmultpr.cc spxquality.cc spxredundantsm.cc \
+	 spxrem1sm.cc spxscaler.cc spxshift.cc spxsolve.cc spxsolver.cc \
+	 spxstarter.cc spxsteeppr.cc spxsumst.cc spxvecs.cc spxvectorst.cc \
+	 spxweightpr.cc spxweightst.cc ssvector.cc svector.cc svset.cc timer.cc \
+	 unitvector.cc update.cc updatevector.cc vector.cc vsolve.cc)
 CFLAGS += -std=c++03
 LD_CXX = 1
 include ../Makefile.apps

@@ -1,5 +1,5 @@
 NAME = 437.leslie3d
-SRCS = $(shell find ./src -name "*.[f|F]")
+SRCS = src/tml.f
 LD_FORTRAN = 1
 include ../Makefile.apps
 

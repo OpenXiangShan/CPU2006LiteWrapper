@@ -1,5 +1,7 @@
 NAME = 444.namd
-SRCS = $(shell find ./src -name "*.C")
+SRCS = $(addprefix src/, Compute.C ComputeList.C ComputeNonbondedUtil.C LJTable.C \
+Molecule.C Patch.C PatchList.C ResultSet.C SimParameters.C erf.C \
+spec_namd.C)
 LD_CXX = 1
 include ../Makefile.apps
 

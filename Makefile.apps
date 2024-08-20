@@ -72,12 +72,13 @@ READELF   = $(CROSS_COMPILE)readelf
 
 ### Compilation flags
 OPTIMIZE ?= -O3 -flto
-COPTIMIZE := $(OPTIMIZE)
+LD_OPT ?= -O3 -flto
 FOPTIMIZE := $(OPTIMIZE)
-CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG)
-CXXFLAGS += $(CFLAGS)
-FFLAGS   += $(FOPTIMIZE) $(FFLAGS_EXTRA) -static -fno-strict-aliasing $(TESTSET_SPECIFIC_FLAG)
-LDFLAGS  += -static $(OPTIMIZE)
+COMMONFLAGS = $(OPTIMIZE) -fno-strict-aliasing -g -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 $(TESTSET_SPECIFIC_FLAG)
+CFLAGS   += $(COMMONFLAGS) -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration
+CXXFLAGS += $(COMMONFLAGS)
+FFLAGS   += $(FOPTIMIZE) $(FFLAGS_EXTRA) -fno-strict-aliasing -static $(TESTSET_SPECIFIC_FLAG)
+LDFLAGS  += $(LD_OPT) -DSPEC_CPU_LP64 -static
 SPECPPFLAGS += -o
 JEMALLOC_LIBS :=
 ifeq ($(LD_JEMALLOC),1)

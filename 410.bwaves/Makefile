@@ -1,4 +1,4 @@
-NAME = bwaves
+NAME = 410.bwaves
 SRCS = $(shell find ./src -name "*.f")
 LD_FORTRAN=1
 include ../Makefile.apps

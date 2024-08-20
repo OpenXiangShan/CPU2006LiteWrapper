@@ -1,4 +1,4 @@
-NAME = hmmer
+NAME = 456.hmmer
 SRCS = $(shell find ./src -name "*.c")
 LIBS = -lm
 include ../Makefile.apps

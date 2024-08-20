@@ -1,4 +1,4 @@
-NAME = h264ref
+NAME = 464.h264ref
 SRCS = $(shell find ./src -name "*.c")
 CFLAGS += -fsigned-char
 LIBS = -lm

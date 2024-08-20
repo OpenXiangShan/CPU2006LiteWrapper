@@ -1,4 +1,4 @@
-NAME = povray
+NAME = 453.povray
 SRCS = $(shell find ./src -name "*.cpp")
 LD_CXX = 1
 include ../Makefile.apps

@@ -1,4 +1,4 @@
-NAME = cactusADM
+NAME = 436.cactusADM
 SRCS = $(shell find ./src -name "*.c") $(shell find ./src -name "*.[f|F]")
 CFLAGS += -I./src/include -DCCODE
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64

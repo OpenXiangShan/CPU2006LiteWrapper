@@ -1,4 +1,4 @@
-NAME = dealII
+NAME = 447.dealII
 SRCS = $(shell find ./src -name "*.cc")
 CFLAGS += -I$(abspath ./src/include) -DBOOST_DISABLE_THREADS -Ddeal_II_dimension=3 -fpermissive -include cstring
 ifneq ($(ARCH),riscv64)

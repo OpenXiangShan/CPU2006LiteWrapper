@@ -1,4 +1,4 @@
-NAME = lbm
+NAME = 470.lbm
 SRCS = $(shell find ./src -name "*.c")
 LIBS = -lm
 include ../Makefile.apps

@@ -1,4 +1,4 @@
-NAME = mcf
+NAME = 429.mcf
 SRCS = $(shell find ./src -name "*.c")
 CFLAGS += -DWANT_STDC_PROTO
 LIBS += -lm

@@ -18,21 +18,25 @@ init:
 	@echo "copy data OK"
 endif
 
+copy_%:
+	@$(MAKE) -s -C $* copy-src
+
 build_int_%:
 	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off
 
 build_fp_%:
 	@$(MAKE) -s -C $*
 
-clean_int_%:
-	@$(MAKE) -s -C $* clean
-
-clean_fp_%:
+clean_%:
 	@$(MAKE) -s -C $* clean
 
 build-int: $(foreach t,$(SPECINT),build_int_$t)
-build-fp: $(foreach t,$(SPECFP),build_int_$t)
+build-fp: $(foreach t,$(SPECFP),build_fp_$t)
 build-all: build-int build-fp
+
+copy-int: $(foreach t,$(SPECINT),print_$t)
+copy-fp: $(foreach t,$(SPECFP),print_$t)
+copy-all: print-int print-fp
 
 clean-int: $(foreach t,$(SPECINT),clean_int_$t)
 clean-fp: $(foreach t,$(SPECFP),clean_fp_$t)

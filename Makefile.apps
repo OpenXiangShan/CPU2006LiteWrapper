@@ -166,6 +166,11 @@ $(eval $(foreach size,test train ref,$(call cmd_template,$(size))))
 
 ## 6. Miscellaneous
 
+.PHONY: copy-src
+copy-src:
+	@cp -r $(SPEC)/benchspec/CPU2006/$(NAME)/src ./
+	@chmod -R +w src
+
 ### Clean a single project (remove `build/`)
 clean:
 	rm -rf Makefile.html $(WORK_DIR)/build/ $(WORK_DIR)/run/ src/*.mod

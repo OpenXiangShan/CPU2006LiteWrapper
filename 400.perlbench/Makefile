@@ -1,4 +1,4 @@
-NAME = perlbench
+NAME = 400.perlbench
 SRCS = $(shell find ./src -name "*.c" | grep -vE "win32|hparser|parser-util")
 CFLAGS += -DPERL_CORE -std=gnu89
 ifeq ($(ARCH),i386)

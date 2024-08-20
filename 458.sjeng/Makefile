@@ -1,4 +1,4 @@
-NAME = sjeng
+NAME = 458.sjeng
 SRCS = $(shell find ./src -name "*.c")
 include ../Makefile.apps
 

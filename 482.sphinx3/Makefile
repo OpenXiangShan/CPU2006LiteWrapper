@@ -1,4 +1,4 @@
-NAME = sphinx3
+NAME = 482.sphinx3
 SRCS = $(shell find ./src -name "*.c")
 CFLAGS += -I. -DHAVE_CONFIG_H -Ilibutil -fsigned-char
 LIBS = -lm

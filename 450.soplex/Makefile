@@ -1,4 +1,4 @@
-NAME = soplex
+NAME = 450.soplex
 SRCS = $(shell find ./src -name "*.cc")
 CFLAGS += -std=c++03
 LD_CXX = 1

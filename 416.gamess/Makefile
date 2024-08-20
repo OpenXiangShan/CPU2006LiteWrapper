@@ -1,4 +1,4 @@
-NAME = gamess
+NAME = 416.gamess
 CFLAGS += -funconstrained-commons
 FFLAGS_EXTRA = -std=legacy -funconstrained-commons -fno-strict-aliasing
 LD_FORTRAN = 1

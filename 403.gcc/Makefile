@@ -1,4 +1,4 @@
-NAME = gcc
+NAME = 403.gcc
 SRCS = $(shell find ./src -name "*.c")
 CFLAGS += -I./src
 include ../Makefile.apps

@@ -1,4 +1,4 @@
-NAME = gobmk
+NAME = 445.gobmk
 SRCS = $(shell find ./src -name "*.c")
 CFLAGS += -DHAVE_CONFIG_H -I$(abspath ./src/include)
 LIBS = -lm

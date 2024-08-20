@@ -1,4 +1,4 @@
-NAME = zeusmp
+NAME = 434.zeusmp
 SRCS = $(shell find ./src -name "*.[f|F]")
 LD_FORTRAN = 1
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64

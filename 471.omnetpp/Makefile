@@ -1,4 +1,4 @@
-NAME = omnetpp
+NAME = 471.omnetpp
 SRCS = $(shell find ./src -name "*.cc")
 CFLAGS += -I$(abspath ./src) -I$(abspath ./src/omnet_include) -I$(abspath ./src/libs/envir)
 LD_CXX = 1

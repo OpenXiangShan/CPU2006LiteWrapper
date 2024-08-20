@@ -1,4 +1,4 @@
-NAME = namd
+NAME = 444.namd
 SRCS = $(shell find ./src -name "*.C")
 LD_CXX = 1
 include ../Makefile.apps

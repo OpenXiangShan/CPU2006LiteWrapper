@@ -1,4 +1,4 @@
-NAME = bzip2
+NAME = 401.bzip2
 SRCS = $(shell find ./src -name "*.c")
 include ../Makefile.apps
 

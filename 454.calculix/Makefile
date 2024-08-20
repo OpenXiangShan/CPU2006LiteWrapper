@@ -1,4 +1,4 @@
-NAME = calculix
+NAME = 454.calculix
 SRCS = $(shell find ./src -name "*.c") $(shell find ./src -name "*.[F|f]" | grep -v gauss.f)
 PPREFIX = .fppized.o
 FFLAGS += -I$(abspath src/SPOOLES) -Wno-error

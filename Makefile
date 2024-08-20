@@ -2,24 +2,33 @@ SPECINT = 400.perlbench 401.bzip2 403.gcc 429.mcf 445.gobmk 456.hmmer 458.sjeng 
 
 SPECFP = 410.bwaves 416.gamess 433.milc 434.zeusmp 435.gromacs 436.cactusADM 437.leslie3d 444.namd 447.dealII 450.soplex 453.povray 454.calculix 459.GemsFDTD 465.tonto 470.lbm 481.wrf 482.sphinx3
 
-ARCH ?= x86_64
+ARCH ?= riscv64
 export ARCH
 
-# Set this variable to the path of SEPC2006 to run the `init` rule for the first time
-SPEC ?=
+.PHONY: check_env_SPEC check_env_SPEC_LITE
+check_env_SPEC:
+	@if [ -z "$$SPEC" ]; then \
+		echo "Error: SPEC enviroment variable is not set."; \
+		exit 1; \
+	fi
 
-ifeq ($(SPEC),)
-init:
-	@echo "ERROR: enviroment variable SPEC is not defined" && false
-else
-CPU2006_PATH = $(SPEC)/benchspec/CPU2006
-init:
-	for t in $(SPECINT) $(SPECFP); do cp -r $(CPU2006_PATH)/$$t/data ./$$t/ ; done
-	@echo "copy data OK"
-endif
+check_env_SPEC_LITE:
+	@if [ -z "$$SPEC_LITE" ]; then \
+		echo "Error: SPEC_LITE enviroment variable is not set."; \
+		exit 1; \
+	fi
 
-copy_%:
+copy_src_%: check_env_SPEC
 	@$(MAKE) -s -C $* copy-src
+
+copy_data_%: check_env_SPEC
+	@$(MAKE) -s -C $* copy-data
+
+clean_src_%:
+	@$(MAKE) -s -C $* clean-src
+
+clean_data_%:
+	@$(MAKE) -s -C $* clean-data
 
 build_int_%:
 	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off
@@ -34,17 +43,25 @@ build-int: $(foreach t,$(SPECINT),build_int_$t)
 build-fp: $(foreach t,$(SPECFP),build_fp_$t)
 build-all: build-int build-fp
 
-copy-int: $(foreach t,$(SPECINT),print_$t)
-copy-fp: $(foreach t,$(SPECFP),print_$t)
-copy-all: print-int print-fp
+copy-int-src: $(foreach t,$(SPECINT),copy_src_$t)
+copy-fp-src: $(foreach t,$(SPECFP),copy_src_$t)
+copy-all-src: copy-int-src copy-fp-src
 
-clean-int: $(foreach t,$(SPECINT),clean_int_$t)
-clean-fp: $(foreach t,$(SPECFP),clean_fp_$t)
-clean-all: clean-int clean-fp
+copy-int-data: $(foreach t,$(SPECINT),copy_data_$t)
+copy-fp-data: $(foreach t,$(SPECFP),copy_data_$t)
+copy-all-data: copy-int-data copy-fp-data
 
-# simple source clean
-clean-src:
-	@find . -name "src" -type d -exec rm -r {} \;
+clean-int-src: $(foreach t,$(SPECINT),clean_src_$t)
+clean-fp-src: $(foreach t,$(SPECFP),clean_src_$t)
+clean-all-src: clean-int-src clean-fp-src
+
+clean-int-data: $(foreach t,$(SPECINT),clean_data_$t)
+clean-fp-data: $(foreach t,$(SPECFP),clean_data_$t)
+clean-all-data: clean-int-data clean-fp-data
+
+clean-int-build: $(foreach t,$(SPECINT),clean_int_$t)
+clean-fp-build: $(foreach t,$(SPECFP),clean_fp_$t)
+clean-all-build: clean-int-build clean-fp-build
 
 # prototype: cmd_template(size)
 define cmd_template

@@ -7,7 +7,6 @@ html:
 
 ## 1. Basic Setup and Checks
 
-SPEC ?=
 ### Default to create a bare-metal kernel image
 ifeq ($(MAKECMDGOALS),)
   MAKECMDGOALS  = $(APP)
@@ -170,6 +169,19 @@ $(eval $(foreach size,test train ref,$(call cmd_template,$(size))))
 copy-src:
 	@cp -r $(SPEC)/benchspec/CPU2006/$(NAME)/src ./
 	@chmod -R +w src
+
+.PHONY: copy-data
+copy-data:
+	@cp -r $(SPEC)/benchspec/CPU2006/$(NAME)/data ./
+	@chmod -R +w data
+
+.PHONY: clean-src
+clean-src:
+	@rm -rf ./src
+
+.PHONY: clean-data
+clean-data:
+	@rm -rf ./data
 
 ### Clean a single project (remove `build/`)
 clean:

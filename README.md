@@ -26,7 +26,7 @@ export SPEC_LITE=$(pwd)
 ```
 - copy source
 ``` shell
-bash scripts/src_copy.sh
+make copy-all-src
 ```
 - compile binarys
 ```
@@ -38,7 +38,7 @@ make ARCH=riscv64 \
 
 - init data
 ```
-make init
+make copy-all-data
 ```
 - collect result
 ```

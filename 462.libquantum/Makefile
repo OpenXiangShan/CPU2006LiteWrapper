@@ -1,5 +1,7 @@
 NAME = 462.libquantum
-SRCS = $(shell find ./src -name "*.c")
+SRCS = $(addprefix src/, classic.c complex.c decoherence.c expn.c gates.c matrix.c \
+	 measure.c oaddn.c objcode.c omuln.c qec.c qft.c qureg.c shor.c version.c \
+	 specrand.c)
 CFLAGS += -DSPEC_CPU_LINUX
 LIBS = -lm
 include ../Makefile.apps
@@ -12,3 +14,4 @@ train-cmp:
 
 ref-cmp:
 	$(call SPECDIFF, --obiwan, run/ref.out, data/ref/output/ref.out)
+include Makefile.deps

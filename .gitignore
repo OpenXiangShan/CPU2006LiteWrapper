@@ -4,3 +4,4 @@ run/
 *.mod
 */src
 bin
+Makefile.spec

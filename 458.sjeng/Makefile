@@ -1,5 +1,7 @@
 NAME = 458.sjeng
-SRCS = $(shell find ./src -name "*.c")
+SRCS = $(addprefix src/,attacks.c book.c crazy.c draw.c ecache.c epd.c eval.c leval.c \
+	 moves.c neval.c partner.c proof.c rcfile.c search.c see.c seval.c \
+	 sjeng.c ttable.c utils.c)
 include ../Makefile.apps
 
 test-cmp:
@@ -10,3 +12,4 @@ train-cmp:
 
 ref-cmp:
 	$(DIFF) run/ref.out data/ref/output/ref.out
+include Makefile.deps

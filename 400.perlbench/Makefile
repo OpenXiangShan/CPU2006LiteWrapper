@@ -1,5 +1,11 @@
 NAME = 400.perlbench
-SRCS = $(shell find ./src -name "*.c" | grep -vE "win32|hparser|parser-util")
+SRCS = $(addprefix src/, av.c deb.c doio.c doop.c dump.c globals.c gv.c hv.c locale.c mg.c \
+	 numeric.c op.c pad.c perl.c perlapi.c perlio.c perlmain.c perly.c pp.c \
+	 pp_ctl.c pp_hot.c pp_pack.c pp_sort.c pp_sys.c regcomp.c regexec.c run.c \
+	 scope.c sv.c taint.c toke.c universal.c utf8.c util.c xsutils.c Base64.c \
+	 Cwd.c Dumper.c HiRes.c IO.c Peek.c attrs.c poll.c stdio.c DynaLoader.c \
+	 MD5.c Storable.c Parser.c specrand.c Hostname.c Opcode.c)
+
 CFLAGS += -DPERL_CORE -std=gnu89
 ifeq ($(ARCH),i386)
 CFLAGS  += -DSPEC_CPU_LINUX_IA32
@@ -25,3 +31,4 @@ ref-cmp:
 	@for f in checkspam.2500.5.25.11.150.1.1.1.1.out diffmail.4.800.10.17.19.300.out splitmail.1600.12.26.16.4500.out; do \
 		$(DIFF) run/$$f data/ref/output/$$f; \
 	done
+include Makefile.deps

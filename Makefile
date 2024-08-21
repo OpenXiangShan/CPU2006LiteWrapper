@@ -5,16 +5,16 @@ SPECFP = 410.bwaves 416.gamess 433.milc 434.zeusmp 435.gromacs 436.cactusADM 437
 ARCH ?= riscv64
 export ARCH
 
-.PHONY: check_env_SPEC check_env_SPEC_LITE
+SUBPROCESS_NUM ?= 1
+
+ifeq ($(SPEC_LITE),)
+$(error ERROR: enviroment variable SPEC_LITE is not defined)
+endif
+
+.PHONY: check_env_SPEC
 check_env_SPEC:
 	@if [ -z "$$SPEC" ]; then \
 		echo "Error: SPEC enviroment variable is not set."; \
-		exit 1; \
-	fi
-
-check_env_SPEC_LITE:
-	@if [ -z "$$SPEC_LITE" ]; then \
-		echo "Error: SPEC_LITE enviroment variable is not set."; \
 		exit 1; \
 	fi
 
@@ -30,11 +30,14 @@ clean_src_%:
 clean_data_%:
 	@$(MAKE) -s -C $* clean-data
 
+clean_build_%:
+	@$(MAKE) -s -C $* clean-build
+
 build_int_%:
-	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off
+	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off -j $(SUBPROCESS_NUM)
 
 build_fp_%:
-	@$(MAKE) -s -C $*
+	@$(MAKE) -s -C $* -j $(SUBPROCESS_NUM)
 
 clean_%:
 	@$(MAKE) -s -C $* clean
@@ -59,8 +62,8 @@ clean-int-data: $(foreach t,$(SPECINT),clean_data_$t)
 clean-fp-data: $(foreach t,$(SPECFP),clean_data_$t)
 clean-all-data: clean-int-data clean-fp-data
 
-clean-int-build: $(foreach t,$(SPECINT),clean_int_$t)
-clean-fp-build: $(foreach t,$(SPECFP),clean_fp_$t)
+clean-int-build: $(foreach t,$(SPECINT),clean_build_$t)
+clean-fp-build: $(foreach t,$(SPECFP),clean_build_$t)
 clean-all-build: clean-int-build clean-fp-build
 
 # prototype: cmd_template(size)

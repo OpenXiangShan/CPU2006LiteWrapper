@@ -188,6 +188,10 @@ clean-src:
 clean-data:
 	@rm -rf ./data
 
+.PHONY: clean-logs
+clean-logs:
+	@rm -rf ./logs
+
 .PHONY: clean-build
 clean-build:
 	@rm -rf ./build
@@ -195,4 +199,4 @@ clean-build:
 
 ### Clean all sub-projects within depth 2 (and ignore errors)
 .PHONY: clean-all
-clean-all: clean-src clean-data clean-build
+clean-all: clean-src clean-data clean-build clean-logs

@@ -11,6 +11,15 @@ ifeq ($(SPEC_LITE),)
 $(error ERROR: enviroment variable SPEC_LITE is not defined)
 endif
 
+TIMESTAMP := $(shell date +%Y%m%d_%H%M%S)
+ifeq ($(ELF_PATH),)
+COPY_DST_PATH := $(CURDIR)/cpu2006_build_$(TIMESTAMP)
+else
+COPY_DST_PATH := $(CURDIR)/$(ELF_PATH)_$(TIMESTAMP)
+endif
+
+create_log_dir = @mkdir -p $*/logs
+
 .PHONY: check_env_SPEC
 check_env_SPEC:
 	@if [ -z "$$SPEC" ]; then \
@@ -33,18 +42,24 @@ clean_data_%:
 clean_build_%:
 	@$(MAKE) -s -C $* clean-build
 
+clean_logs_%:
+	@$(MAKE) -s -C $* clean-logs
+
+clean_all_%:
+	@$(MAKE) -s -C $* clean-all
+
 build_int_%:
-	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off -j $(SUBPROCESS_NUM)
+	@$(call create_log_dir)
+	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off -j $(SUBPROCESS_NUM) >> $*/logs/build_fp_$*_$(TIMESTAMP).log 2>&1
+	@echo "Build INT target: $*"
 
 build_fp_%:
-	@$(MAKE) -s -C $* -j $(SUBPROCESS_NUM)
+	@$(call create_log_dir)
+	@$(MAKE) -s -C $* -j $(SUBPROCESS_NUM) >> $*/logs/build_fp_$*_$(TIMESTAMP).log 2>&1
+	@echo "Build FP target: $*"
 
-clean_%:
-	@$(MAKE) -s -C $* clean
-
-build-int: $(foreach t,$(SPECINT),build_int_$t)
-build-fp: $(foreach t,$(SPECFP),build_fp_$t)
-build-all: build-int build-fp
+collect_%:
+	@$(MAKE) -s -C $* ELF_PATH=$(COPY_DST_PATH) collect
 
 copy-int-src: $(foreach t,$(SPECINT),copy_src_$t)
 copy-fp-src: $(foreach t,$(SPECFP),copy_src_$t)
@@ -53,6 +68,10 @@ copy-all-src: copy-int-src copy-fp-src
 copy-int-data: $(foreach t,$(SPECINT),copy_data_$t)
 copy-fp-data: $(foreach t,$(SPECFP),copy_data_$t)
 copy-all-data: copy-int-data copy-fp-data
+
+build-int: $(foreach t,$(SPECINT),build_int_$t)
+build-fp: $(foreach t,$(SPECFP),build_fp_$t)
+build-all: build-int build-fp
 
 clean-int-src: $(foreach t,$(SPECINT),clean_src_$t)
 clean-fp-src: $(foreach t,$(SPECFP),clean_src_$t)
@@ -65,6 +84,18 @@ clean-all-data: clean-int-data clean-fp-data
 clean-int-build: $(foreach t,$(SPECINT),clean_build_$t)
 clean-fp-build: $(foreach t,$(SPECFP),clean_build_$t)
 clean-all-build: clean-int-build clean-fp-build
+
+clean-int-logs: $(foreach t,$(SPECINT),clean_logs_$t)
+clean-fp-logs: $(foreach t,$(SPECFP),clean_logs_$t)
+clean-all-logs: clean-int-logs clean-fp-logs
+
+clean-int-all: $(foreach t,$(SPECINT),clean_all_$t)
+clean-fp-all: $(foreach t,$(SPECFP),clean_all_$t)
+clean-all: clean-fp-all clean-int-all
+
+collect-int: $(foreach t,$(SPECINT),collect_$t)
+collect-fp: $(foreach t,$(SPECFP),collect_$t)
+collect-all: collect-fp collect-int
 
 # prototype: cmd_template(size)
 define cmd_template

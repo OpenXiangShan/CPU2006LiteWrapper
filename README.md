@@ -43,10 +43,9 @@ make copy-all-data
 ```
 - collect result
 ```
-bash scripts/collect.sh gcc
+make collect-all # default collect folder is cpu2006_build_$(TIMESTAMP)
+make collect-all ELF_PATH=/path/to/elf # ELF_PATH is optional
 ```
-
-The `gcc` can be any name, only used as a suffix in the filename to tag the result.
 
 # With jemalloc
 

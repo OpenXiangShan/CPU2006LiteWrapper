@@ -56,7 +56,9 @@ The `gcc` can be any name, only used as a suffix in the filename to tag the resu
 export RISCV=/riscv_toolchain/top
 git clone https://github.com/jemalloc/jemalloc.git
 cd jemalloc
-cp /path/to/jemalloc_cpp.patch ./ && git apply jemalloc_cpp.patch
+cp /path/to/jemalloc_cpp.patch ./
+git checkout -b apply-patch da66aa391f853ccf2300845b3873cc8f1cf48f2d
+git apply jemalloc_cpp.patch
 CC=$RISCV/bin/riscv64-unknown-linux-gnu-gcc CXX=$RISCV/bin/riscv64-unknown-linux-gnu-c++ LD=$RISCV/bin/riscv64-unknown-linux-gnu-ld ./autogen.sh --prefix=$RISCV --host=x86_64-linux-gnu
 
 make && make install

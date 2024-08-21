@@ -1,5 +1,6 @@
-NAME = bwaves
-SRCS = $(shell find ./src -name "*.f")
+NAME = 410.bwaves
+SRCS = $(addprefix src/, block_solver.f flow_lam.f flux_lam.f jacobian_lam.f shell_lam.f)
+
 LD_FORTRAN=1
 include ../Makefile.apps
 
@@ -17,3 +18,4 @@ ref-cmp:
 	$(call SPECDIFF, --abstol 1e-16, run/bwaves.out,  data/ref/output/bwaves.out)
 	$(call SPECDIFF, --reltol 0.015, run/bwaves2.out, data/ref/output/bwaves2.out)
 	$(call SPECDIFF, --abstol 1e-06, run/bwaves3.out, data/ref/output/bwaves3.out)
+include Makefile.deps

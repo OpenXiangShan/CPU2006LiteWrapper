@@ -1,5 +1,7 @@
-NAME = bzip2
-SRCS = $(shell find ./src -name "*.c")
+NAME = 401.bzip2
+SRCS = $(addprefix src/, spec.c blocksort.c bzip2.c bzlib.c compress.c crctable.c \
+decompress.c huffman.c randtable.c)
+
 include ../Makefile.apps
 
 test-cmp:
@@ -16,3 +18,4 @@ ref-cmp:
 	@for f in chicken.jpg input.combined input.program input.source liberty.jpg text.html; do \
 		$(DIFF) run/$$f.out data/ref/output/$$f.out; \
 	done
+include Makefile.deps

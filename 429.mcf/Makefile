@@ -1,5 +1,6 @@
-NAME = mcf
-SRCS = $(shell find ./src -name "*.c")
+NAME = 429.mcf
+SRCS = $(addprefix src/, mcf.c mcfutil.c readmin.c implicit.c pstart.c output.c treeup.c \
+	 pbla.c pflowup.c psimplex.c pbeampp.c)
 CFLAGS += -DWANT_STDC_PROTO
 LIBS += -lm
 include ../Makefile.apps
@@ -18,3 +19,4 @@ ref-cmp:
 	@for f in inp mcf; do \
 		$(DIFF) run/$$f.out data/ref/output/$$f.out; \
 	done
+include Makefile.deps

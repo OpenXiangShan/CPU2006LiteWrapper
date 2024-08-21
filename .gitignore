@@ -5,3 +5,5 @@ run/
 */src
 bin
 cpu2006_build/
+Makefile.spec
+

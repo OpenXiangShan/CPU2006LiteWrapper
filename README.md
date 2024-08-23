@@ -76,6 +76,24 @@ make ARCH=riscv64 \
      build-all -j 29
 ```
 
+# Run with QEMU to difftest
+
+use qemu-riscv64 to run the riscv compiled binarys, 
+compare the output with speccpu reference output,
+you can check the correctness of the compiled binarys.
+
+use nix to install qemu or 
+sudo apt install qemu-user-static
+qemu version should be >= 8.2, support riscv64 zba extension
+
+```shell
+export ARCH=riscv64
+make run-int-test   // use specint test input, qemu runs about 3mins
+make run-fp-test    // use specfp test input, qemu runs about 15mins
+```
+
+if no error occurs, the compiled binarys are correct.
+
 # Note for GCC >= 14
 
 The old version of xerces-c in 483.xalancbmk [contains a bug](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111544) that will cause compile errors in GCC 14 and later. You may need to apply the following patch to SPEC CPU 2006 source code to get this fixed:

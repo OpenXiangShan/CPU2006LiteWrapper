@@ -76,6 +76,33 @@ make ARCH=riscv64 \
      build-all -j 29
 ```
 
+# Use Nix to build
+this repo can be built with nix, you do not need to warry about the dependencies.
+
+```shell
+// install nix
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
+
+// prepare spec source
+export SPEC=/spec2006_path
+pushd $SPEC && source shrc && popd
+make copy-all-src
+
+// enter nix shell
+nix-shell
+
+// build
+make build-all -j 29
+```
+shell.nix is prepared to build with jemalloc, if you do not want to use jemalloc, 
+you can use shell_no_jemalloc.nix
+
+```shell
+nix-shell shell_no_jemalloc.nix
+// build
+make build-all -j 29
+```
+
 # Note for GCC >= 14
 
 The old version of xerces-c in 483.xalancbmk [contains a bug](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111544) that will cause compile errors in GCC 14 and later. You may need to apply the following patch to SPEC CPU 2006 source code to get this fixed:

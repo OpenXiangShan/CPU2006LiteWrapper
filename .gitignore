@@ -6,4 +6,5 @@ run/
 bin
 cpu2006_build/
 Makefile.spec
-
+.cache/
+*/logs/*

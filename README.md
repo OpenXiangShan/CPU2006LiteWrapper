@@ -83,16 +83,38 @@ compare the output with speccpu reference output,
 you can check the correctness of the compiled binarys.
 
 use nix to install qemu or 
-sudo apt install qemu-user-static
-qemu version should be >= 8.2, support riscv64 zba extension
+sudo apt install qemu-user-static.
+```
+nix-env -iA nixpkgs.qemu 
+sudo apt install qemu-user-static  // ubuntu
+```
+
+qemu version should support riscv64 Bit extension
 
 ```shell
 export ARCH=riscv64
+make ARCH=riscv64 \
+     CROSS_COMPILE=riscv64-unknown-linux-gnu- \
+     OPTIMIZE="-O3 -flto" \
+     SUBPROCESS_NUM=5 \
+     build-all -j 29     // compile riscv version
 make run-int-test   // use specint test input, qemu runs about 3mins
 make run-fp-test    // use specfp test input, qemu runs about 15mins
 ```
 
 if no error occurs, the compiled binarys are correct.
+
+you can also compile x86 version and run the x86 compiled binarys native on your machine.
+
+```shell
+export ARCH=x86
+make ARCH=x86 \
+     OPTIMIZE="-O3 -flto" \
+     SUBPROCESS_BUM=5 \
+     build-all -j 29     // compile x86 version
+make run-int-test   // use specint test input
+make run-fp-test    // use specfp test input
+```
 
 # Note for GCC >= 14
 

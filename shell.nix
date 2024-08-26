@@ -23,6 +23,21 @@ let
       cp -v lib/libjemalloc.a $out/lib/
     '';
   });
+  riscv64Fortran = riscv64Pkgs.wrapCCWith {
+    cc = riscv64Pkgs.stdenv.cc.cc.override {
+      name = "gfortran";
+      langFortran = true;
+      langCC = false;
+      langC = false;
+      profiledCompiler = false;
+    };
+    # fixup wrapped prefix, which only appear if hostPlatform!=targetPlatform
+    #   for more details see <nixpkgs>/pkgs/build-support/cc-wrapper/default.nix
+    stdenvNoCC = riscv64Pkgs.stdenvNoCC.override {
+      hostPlatform = pkgs.stdenv.hostPlatform;
+    };
+  };
+
 in
 
 pkgs.mkShell {
@@ -31,6 +46,7 @@ pkgs.mkShell {
     file
     riscv64Pkgs.buildPackages.gcc
     riscv64Pkgs.buildPackages.binutils
+    riscv64Fortran
   ];
 
   buildInputs = with riscv64Pkgs; [

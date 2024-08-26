@@ -37,7 +37,20 @@ let
       hostPlatform = pkgs.stdenv.hostPlatform;
     };
   };
+  patchSPEC = let
+    rpath = pkgs.lib.makeLibraryPath [
+      pkgs.libxcrypt-legacy
+    ];
+  in pkgs.writeScriptBin "patchSPEC" ''
+    echo patching ''${SPEC:?env SPEC is not specified, fixupELFs aborted!}/bin
 
+    for file in $(find $SPEC/bin -type f \( -perm /0111 -o -name \*.so\* \) ); do
+      patchelf --set-interpreter "$(cat ${pkgs.stdenv.cc}/nix-support/dynamic-linker)" "$file" || true
+      patchelf --set-rpath ${rpath} $file || true
+    done
+
+    echo patchSPEC: done!
+  '';
 in
 
 pkgs.mkShell {
@@ -47,6 +60,7 @@ pkgs.mkShell {
     riscv64Pkgs.buildPackages.gcc
     riscv64Pkgs.buildPackages.binutils
     riscv64Fortran
+    patchSPEC
   ];
 
   buildInputs = with riscv64Pkgs; [

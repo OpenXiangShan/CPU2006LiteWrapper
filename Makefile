@@ -119,6 +119,7 @@ validate-fp-$(1):
 	for t in $$(SPECFP); do $$(MAKE) -s -C $$$$t $(1)-cmp; done
 
 run-%-$(1):
+	echo "Running $(1) on $$*"
 	@$$(MAKE) -s -C $$* run-$(1) > $$*/build/run-$(1).log
 
 report-int-$(1):

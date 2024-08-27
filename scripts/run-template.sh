@@ -20,5 +20,15 @@ TIME_LOG=$WORK_DIR/run/`basename $1`.timelog
 export TIME='%Uuser %Ssystem %Eelapsed %PCPU (%Xtext+%Ddata %Mmax)k\n%Iinputs+%Ooutputs (%Fmajor+%Rminor)pagefaults %Wswaps\n%e # elapsed in second'
 date | tee $TIME_LOG
 echo "@@@@@ Running $FULLNAME [$SIZE]..." | tee -a $TIME_LOG
-APP="/usr/bin/time -a -o $TIME_LOG $LOADER $WORK_DIR/build/$NAME" sh $RUN_SH
+
+# 检查环境变量，如果  ARCH == riscv64，那么使用 qemu-riscv64
+case "${ARCH:-}" in
+  riscv64)
+    LOADER="qemu-riscv64"
+    ;;
+  *)
+    LOADER=""
+    ;;
+esac
+APP="/usr/bin/time -a -o $TIME_LOG $LOADER $WORK_DIR/build/$FULLNAME" sh $RUN_SH
 cat $TIME_LOG

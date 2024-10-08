@@ -30,6 +30,8 @@ make copy-all-src
 ```
 - compile binarys
 ```
+# '-j 29' means that 29 subitems are constructed at the same time
+# 'SUBPROCESS_NUM' means how many threads are used in the construction of each individual subitem
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
      OPTIMIZE="-O3 -flto" \
@@ -45,6 +47,19 @@ make copy-all-data
 ```
 make collect-all # default collect folder is cpu2006_build_$(TIMESTAMP)
 make collect-all ELF_PATH=/path/to/elf # ELF_PATH is optional
+```
+
+# With Vector extension
+
+- compile binarys
+```
+# '-j 29' means that 29 subitems are constructed at the same time
+# 'SUBPROCESS_NUM' means how many threads are used in the construction of each individual subitem
+make ARCH=riscv64 \
+     CROSS_COMPILE=riscv64-unknown-linux-gnu- \
+     OPTIMIZE="-O3 -flto -march=rv64gcv_zvl128b_zba_zbb_zbc_zbs -ftree-vectorize  -mabi=lp64d -mrvv-max-lmul=m4 -mrvv-vector-bits=zvl" \
+     SUBPROCESS_NUM=5 \
+     build-all -j 29
 ```
 
 # With jemalloc
@@ -65,7 +80,9 @@ make && make install
 ```
 
 ```shell
-// prepare jemalloc compiled before
+# prepare jemalloc compiled before
+# '-j 29' means that 29 subitems are constructed at the same time
+# 'SUBPROCESS_NUM' means how many threads are used in the construction of each individual subitem
 export RISCV=/riscv_toolchain/top
 export LD_JEMALLOC=1
 make ARCH=riscv64 \

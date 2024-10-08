@@ -71,7 +71,7 @@ OBJCOPY   = $(CROSS_COMPILE)objcopy
 READELF   = $(CROSS_COMPILE)readelf
 
 ### Compilation flags
-OPTIMIZE ?= -O3 -flto
+OPTIMIZE ?= -O3 -flto -march=rv64gc_zba_zbb_zbc_zbs -mabi=lp64d
 COPTIMIZE := $(OPTIMIZE)
 FOPTIMIZE := $(OPTIMIZE)
 CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG)

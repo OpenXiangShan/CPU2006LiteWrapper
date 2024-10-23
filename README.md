@@ -123,8 +123,8 @@ if no error occurs, the compiled binarys are correct.
 you can also compile x86 version and run the x86 compiled binarys native on your machine.
 
 ```shell
-export ARCH=x86
-make ARCH=x86 \
+export ARCH=x86_64
+make ARCH=x86_64 \
      OPTIMIZE="-O3 -flto" \
      SUBPROCESS_BUM=5 \
      build-all -j 29     // compile x86 version

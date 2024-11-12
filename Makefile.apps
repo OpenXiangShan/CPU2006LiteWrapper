@@ -81,7 +81,7 @@ LDFLAGS  += -static $(OPTIMIZE)
 SPECPPFLAGS += -o
 JEMALLOC_LIBS :=
 ifeq ($(LD_JEMALLOC),1)
-JEMALLOC_LIBS += $(RISCV)/lib/libjemalloc.a -lm -pthread
+JEMALLOC_LIBS += $(RISCV)/lib/libjemalloc.a -lm -pthread -latomic
 endif
 
 ## 4. Compilation Rules

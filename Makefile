@@ -5,8 +5,6 @@ SPECFP = 410.bwaves 416.gamess 433.milc 434.zeusmp 435.gromacs 436.cactusADM 437
 ARCH ?= riscv64
 export ARCH
 
-SUBPROCESS_NUM ?= 1
-
 ifeq ($(SPEC_LITE),)
 $(error ERROR: enviroment variable SPEC_LITE is not defined)
 endif
@@ -50,12 +48,12 @@ clean_all_%:
 
 build_int_%:
 	@$(call create_log_dir)
-	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off -j $(SUBPROCESS_NUM) >> $*/logs/build_fp_$*_$(TIMESTAMP).log 2>&1
+	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off >> $*/logs/build_fp_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build INT target: $*"
 
 build_fp_%:
 	@$(call create_log_dir)
-	@$(MAKE) -s -C $* -j $(SUBPROCESS_NUM) >> $*/logs/build_fp_$*_$(TIMESTAMP).log 2>&1
+	@$(MAKE) -s -C $* >> $*/logs/build_fp_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build FP target: $*"
 
 collect_%:
@@ -104,7 +102,7 @@ run-int-$(1): $(foreach t,$(SPECINT),run-$t-$(1))
 	$(MAKE) report-int-$(1)
 
 validate-int-$(1):
-	for t in $$(SPECINT); do $$(MAKE) -s -C $$$$t $(1)-cmp; done
+	for t in $$(SPECINT); do $(MAKE) -s -C $$$$t $(1)-cmp; done
 
 run-fp-$(1): $(foreach t,$(SPECFP),run-$t-$(1))
 	echo "\n\n\n"
@@ -116,11 +114,11 @@ run-all-$(1): $(foreach t,$(SPECINT) $(SPECFP),run-$t-$(1))
 	$(MAKE) report-fp-$(1)
 
 validate-fp-$(1):
-	for t in $$(SPECFP); do $$(MAKE) -s -C $$$$t $(1)-cmp; done
+	for t in $$(SPECFP); do $(MAKE) -s -C $$$$t $(1)-cmp; done
 
 run-%-$(1):
 	echo "Running $(1) on $$*"
-	@$$(MAKE) -s -C $$* run-$(1) > $$*/build/run-$(1).log
+	@$(MAKE) -s -C $$* run-$(1) > $$*/build/run-$(1).log
 
 report-int-$(1):
 	for t in $$(SPECINT); do cat $$$$t/run/run-$(1).sh.timelog; echo ""; done

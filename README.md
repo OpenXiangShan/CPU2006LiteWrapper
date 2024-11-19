@@ -30,13 +30,10 @@ make copy-all-src
 ```
 - compile binarys
 ```
-# '-j 29' means that 29 subitems are constructed at the same time
-# 'SUBPROCESS_NUM' means how many threads are used in the construction of each individual subitem
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
      OPTIMIZE="-O3 -flto" \
-     SUBPROCESS_NUM=5 \
-     build-all -j 29
+     build-all -j `nproc`
 ```
 
 - init data
@@ -53,13 +50,10 @@ make collect-all ELF_PATH=/path/to/elf # ELF_PATH is optional
 
 - compile binarys
 ```
-# '-j 29' means that 29 subitems are constructed at the same time
-# 'SUBPROCESS_NUM' means how many threads are used in the construction of each individual subitem
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
      OPTIMIZE="-O3 -flto -march=rv64gcv_zvl128b_zba_zbb_zbc_zbs -ftree-vectorize  -mabi=lp64d -mrvv-max-lmul=m4 -mrvv-vector-bits=zvl" \
-     SUBPROCESS_NUM=5 \
-     build-all -j 29
+     build-all -j `nproc`
 ```
 
 # With jemalloc
@@ -81,15 +75,12 @@ make && make install
 
 ```shell
 # prepare jemalloc compiled before
-# '-j 29' means that 29 subitems are constructed at the same time
-# 'SUBPROCESS_NUM' means how many threads are used in the construction of each individual subitem
 export RISCV=/riscv_toolchain/top
 export LD_JEMALLOC=1
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
      OPTIMIZE="-O3 -flto" \
-     SUBPROCESS_BUM=5 \
-     build-all -j 29
+     build-all -j `nproc`
 ```
 
 # Run with QEMU to difftest
@@ -112,8 +103,7 @@ export ARCH=riscv64
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
      OPTIMIZE="-O3 -flto" \
-     SUBPROCESS_NUM=5 \
-     build-all -j 29     // compile riscv version
+     build-all -j `nproc`     // compile riscv version
 make run-int-test   // use specint test input, qemu runs about 3mins
 make run-fp-test    // use specfp test input, qemu runs about 15mins
 ```
@@ -126,8 +116,7 @@ you can also compile x86 version and run the x86 compiled binarys native on your
 export ARCH=x86_64
 make ARCH=x86_64 \
      OPTIMIZE="-O3 -flto" \
-     SUBPROCESS_BUM=5 \
-     build-all -j 29     // compile x86 version
+     build-all -j `nproc`     // compile x86 version
 make run-int-test   // use specint test input
 make run-fp-test    // use specfp test input
 ```

@@ -5,9 +5,8 @@ SPECFP = 410.bwaves 416.gamess 433.milc 434.zeusmp 435.gromacs 436.cactusADM 437
 ARCH ?= $(shell uname -m)
 export ARCH
 
-ifeq ($(SPEC_LITE),)
-$(error ERROR: enviroment variable SPEC_LITE is not defined)
-endif
+SPEC_LITE ?= $(CURDIR)
+export SPEC_LITE
 
 TIMESTAMP := $(shell date +%Y%m%d_%H%M%S)
 ifeq ($(ELF_PATH),)

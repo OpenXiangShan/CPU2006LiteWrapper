@@ -32,7 +32,7 @@ make copy-all-src
 ```
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
-     OPTIMIZE="-O3 -flto" \
+     OPTIMIZE="-O3 -flto -march=rv64gc_zba_zbb_zbc_zbs" \
      build-all -j `nproc`
 ```
 
@@ -106,6 +106,14 @@ make ARCH=riscv64 \
      build-all -j `nproc`     // compile riscv version
 make run-int-test   // use specint test input, qemu runs about 3mins
 make run-fp-test    // use specfp test input, qemu runs about 15mins
+```
+
+We will use `qemu-$(ARCH)` to run the compiled binary when `$(ARCH)` does not match `uname -m`.
+
+You can also specify `LOADER` argument to run the compiled binarys with different loader, such as `qemu-riscv64-static`:
+
+```shell
+make run-int-test LOADER=qemu-riscv64-static
 ```
 
 if no error occurs, the compiled binarys are correct.

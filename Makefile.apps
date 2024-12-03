@@ -20,7 +20,6 @@ ifeq ($(findstring $(MAKECMDGOALS),clean|clean-all|html),)
 $(info # Building $(NAME)-$(MAKECMDGOALS))
 
 ### Check: environment variable `$ARCH` must be in the supported list
-ARCH ?= x86_64
 ARCHS = $(basename $(notdir $(shell ls ../scripts/*.mk)))
 ifeq ($(filter $(ARCHS), $(ARCH)), )
   $(error Expected $$ARCH in {$(ARCHS)}, Got "$(ARCH)")
@@ -71,7 +70,7 @@ OBJCOPY   = $(CROSS_COMPILE)objcopy
 READELF   = $(CROSS_COMPILE)readelf
 
 ### Compilation flags
-OPTIMIZE ?= -O3 -flto -march=rv64gc_zba_zbb_zbc_zbs -mabi=lp64d
+OPTIMIZE ?= -O3 -flto
 COPTIMIZE := $(OPTIMIZE)
 FOPTIMIZE := $(OPTIMIZE)
 CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG)
@@ -153,7 +152,7 @@ SPECDIFF = cd $(dir $(SPECDIFF_FILE)) && ./specdiff -m -l 10 $(1) $(abspath $(2)
 # prototype: cmd_template(size)
 define cmd_template
 run-$(1): $$(APP)
-	@sh $(SPEC_LITE)/scripts/run-template.sh run-$(1).sh
+	@sh $(SPEC_LITE)/scripts/run-template.sh run-$(1).sh $(LOADER)
 	@echo ============ Checking $(notdir $$<) ============
 	@$(MAKE) -s $(1)-cmp
 	@echo ""

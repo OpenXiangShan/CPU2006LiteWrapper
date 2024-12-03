@@ -33,9 +33,6 @@ vector.long_double.cc vectors.all_dimensions.cc fe_dgp_monomial.cc \
 fe_poly.cc polynomials_bdm.cc polynomials_p.cc fe_dgp_monomial.cc \
 fe_poly.cc polynomials_bdm.cc polynomials_p.cc vectors.cc)
 CFLAGS += -I$(abspath ./src/include) -DBOOST_DISABLE_THREADS -Ddeal_II_dimension=3 -fpermissive -include cstring
-ifneq ($(ARCH),riscv64)
-CFLAGS += -mlong-double-64
-endif
 LD_CXX = 1
 include ../Makefile.apps
 

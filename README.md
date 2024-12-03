@@ -20,10 +20,6 @@ export SPEC=/spec2006_path
 pushd $SPEC && source shrc && popd
 ```
 
-- set SPEC_LITE env var to the path of this repo
-``` shell
-export SPEC_LITE=$(pwd)
-```
 - copy source
 ``` shell
 make copy-all-src

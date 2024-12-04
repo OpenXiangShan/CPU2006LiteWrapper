@@ -42,13 +42,40 @@ clean_build_%:
 clean_logs_%:
 	@$(MAKE) -s -C $* clean-logs
 
+clean_pgo_%:
+	@$(MAKE) -s -C $* clean-pgo
+
 clean_all_%:
 	@$(MAKE) -s -C $* clean-all
 
+build_intpgo_%:
+	@$(call create_log_dir)
+	@$(MAKE) -s -C $* clean-build
+	@mkdir -p $(CURDIR)/$*/pgo
+	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off PGO_FLAG=-fprofile-generate=$(CURDIR)/$*/pgo >> $*/logs/profilebuild_int_$*_$(TIMESTAMP).log 2>&1
+	@echo "Build INT PGO generator: $*"
+	@$(MAKE) run-$*-train >> $*/logs/pgorun_int_$*_$(TIMESTAMP).log 2>&1
+	@echo "Train INT PGO target: $*"
+	@$(MAKE) -s -C $* clean-build
+	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off PGO_FLAG=-fprofile-use=$(CURDIR)/$*/pgo >> $*/logs/pgobuild_int_$*_$(TIMESTAMP).log 2>&1
+	@echo "Build INT PGO target: $*"
+
 build_int_%:
 	@$(call create_log_dir)
-	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off >> $*/logs/build_fp_$*_$(TIMESTAMP).log 2>&1
+	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off >> $*/logs/build_int_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build INT target: $*"
+
+build_fppgo_%:
+	@$(call create_log_dir)
+	@$(MAKE) -s -C $* clean-build
+	@mkdir -p $(CURDIR)/$*/pgo
+	@$(MAKE) -s -C $* PGO_FLAG=-fprofile-generate=$(CURDIR)/$*/pgo >> $*/logs/profilebuild_fp_$*_$(TIMESTAMP).log 2>&1
+	@echo "Build FP PGO generator: $*"
+	@$(MAKE) run-$*-train >> $*/logs/pgorun_fp_$*_$(TIMESTAMP).log 2>&1
+	@echo "Train FP PGO target: $*"
+	@$(MAKE) -s -C $* clean-build
+	@$(MAKE) -s -C $* PGO_FLAG=-fprofile-use=$(CURDIR)/$*/pgo >> $*/logs/pgobuild_fp_$*_$(TIMESTAMP).log 2>&1
+	@echo "Build FP PGO target: $*"
 
 build_fp_%:
 	@$(call create_log_dir)
@@ -68,7 +95,10 @@ copy-all-data: copy-int-data copy-fp-data
 
 build-int: $(foreach t,$(SPECINT),build_int_$t)
 build-fp: $(foreach t,$(SPECFP),build_fp_$t)
+build-intpgo: $(foreach t,$(SPECINT),build_intpgo_$t)
+build-fppgo: $(foreach t,$(SPECFP),build_fppgo_$t)
 build-all: build-int build-fp
+build-allpgo: build-intpgo build-fppgo
 
 clean-int-src: $(foreach t,$(SPECINT),clean_src_$t)
 clean-fp-src: $(foreach t,$(SPECFP),clean_src_$t)

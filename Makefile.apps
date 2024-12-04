@@ -73,10 +73,10 @@ READELF   = $(CROSS_COMPILE)readelf
 OPTIMIZE ?= -O3 -flto
 COPTIMIZE := $(OPTIMIZE)
 FOPTIMIZE := $(OPTIMIZE)
-CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG)
+CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG) $(PGO_FLAG)
 CXXFLAGS += $(filter-out -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration, $(CFLAGS))
-FFLAGS   += $(FOPTIMIZE) $(FFLAGS_EXTRA) -static -fno-strict-aliasing $(TESTSET_SPECIFIC_FLAG)
-LDFLAGS  += -static $(OPTIMIZE)
+FFLAGS   += $(FOPTIMIZE) $(FFLAGS_EXTRA) -static -fno-strict-aliasing $(TESTSET_SPECIFIC_FLAG) $(PGO_FLAG)
+LDFLAGS  += -static $(OPTIMIZE) $(PGO_FLAG)
 SPECPPFLAGS += -o
 JEMALLOC_LIBS :=
 ifeq ($(LD_JEMALLOC),1)
@@ -196,6 +196,10 @@ clean-build:
 	@rm -rf ./build
 	@rm -rf src/*.mod
 
+.PHONY: clean-pgo
+clean-pgo:
+	@rm -rf ./pgo
+
 ### Clean all sub-projects within depth 2 (and ignore errors)
 .PHONY: clean-all
-clean-all: clean-src clean-data clean-build clean-logs
+clean-all: clean-src clean-data clean-build clean-logs clean-pgo

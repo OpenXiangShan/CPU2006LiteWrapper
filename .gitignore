@@ -2,6 +2,7 @@ build/
 data/
 run/
 logs/
+pgo/
 *.mod
 */src
 bin

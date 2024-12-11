@@ -1,1 +1,1 @@
-$APP -v allbooks.xml xalanc.xsl > train.out
+${APP}${TAG} -v allbooks.xml xalanc.xsl > train.out

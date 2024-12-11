@@ -1,1 +1,1 @@
-$APP > train.log
+${APP}${TAG} > train.log

@@ -1,1 +1,1 @@
-$APP 8 > log
+${APP}${TAG} 8 > log

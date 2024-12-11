@@ -1,1 +1,1 @@
-$APP ref.txt > ref.out
+${APP}${TAG} ref.txt > ref.out

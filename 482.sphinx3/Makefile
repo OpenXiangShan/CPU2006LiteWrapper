@@ -10,7 +10,7 @@ LIBS = -lm
 include ../Makefile.apps
 
 ### Override rule (compile): a single `.c` -> `.o` (gcc)
-$(DST_DIR)/%.o: %.c
+$(DST_DIR)/$(TAG)%.o: %.c
 	@mkdir -p $(dir $@) && echo + CC $<
 	cd $(dir $<) && $(CC) $(CFLAGS) -c -o $(abspath $@) $(notdir $<)
 

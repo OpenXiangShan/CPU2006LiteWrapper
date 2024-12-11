@@ -1,1 +1,1 @@
-$APP > rsl.out.0000
+${APP}${TAG} > rsl.out.0000

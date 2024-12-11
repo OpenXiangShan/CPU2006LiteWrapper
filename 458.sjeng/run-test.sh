@@ -1,1 +1,1 @@
-$APP test.txt > test.out
+${APP}${TAG} test.txt > test.out

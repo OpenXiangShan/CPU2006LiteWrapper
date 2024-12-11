@@ -1,1 +1,1 @@
-$APP omnetpp.ini > omnetpp.log
+${APP}${TAG} omnetpp.ini > omnetpp.log

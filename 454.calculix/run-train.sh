@@ -1,1 +1,1 @@
-$APP -i stairs > stairs.log
+${APP}${TAG} -i stairs > stairs.log

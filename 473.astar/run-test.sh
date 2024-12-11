@@ -1,1 +1,1 @@
-$APP lake.cfg > lake.out
+${APP}${TAG} lake.cfg > lake.out

@@ -1,1 +1,1 @@
-$APP -i beampic > beampic.log
+${APP}${TAG} -i beampic > beampic.log

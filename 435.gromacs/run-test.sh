@@ -1,1 +1,1 @@
-$APP -silent -deffnm gromacs -nice 0
+${APP}${TAG} -silent -deffnm gromacs -nice 0

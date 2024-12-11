@@ -45,18 +45,21 @@ clean_logs_%:
 clean_pgo_%:
 	@$(MAKE) -s -C $* clean-pgo
 
+clean_obj_%:
+	@$(MAKE) -C $* clean-obj
+
 clean_all_%:
 	@$(MAKE) -s -C $* clean-all
 
 build_intpgo_%:
 	@$(call create_log_dir)
-	@$(MAKE) -s -C $* clean-build
+	@$(MAKE) -s -C $* clean-obj
 	@mkdir -p $(CURDIR)/$*/pgo
 	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off PGO_FLAG=-fprofile-generate=$(CURDIR)/$*/pgo >> $*/logs/profilebuild_int_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build INT PGO generator: $*"
 	@$(MAKE) run-$*-train >> $*/logs/pgorun_int_$*_$(TIMESTAMP).log 2>&1
 	@echo "Train INT PGO target: $*"
-	@$(MAKE) -s -C $* clean-build
+	@$(MAKE) -s -C $* clean-obj
 	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off PGO_FLAG=-fprofile-use=$(CURDIR)/$*/pgo >> $*/logs/pgobuild_int_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build INT PGO target: $*"
 
@@ -67,13 +70,13 @@ build_int_%:
 
 build_fppgo_%:
 	@$(call create_log_dir)
-	@$(MAKE) -s -C $* clean-build
+	@$(MAKE) -s -C $* clean-obj
 	@mkdir -p $(CURDIR)/$*/pgo
 	@$(MAKE) -s -C $* PGO_FLAG=-fprofile-generate=$(CURDIR)/$*/pgo >> $*/logs/profilebuild_fp_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build FP PGO generator: $*"
 	@$(MAKE) run-$*-train >> $*/logs/pgorun_fp_$*_$(TIMESTAMP).log 2>&1
 	@echo "Train FP PGO target: $*"
-	@$(MAKE) -s -C $* clean-build
+	@$(MAKE) -s -C $* clean-obj
 	@$(MAKE) -s -C $* PGO_FLAG=-fprofile-use=$(CURDIR)/$*/pgo >> $*/logs/pgobuild_fp_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build FP PGO target: $*"
 
@@ -111,6 +114,10 @@ clean-all-data: clean-int-data clean-fp-data
 clean-int-build: $(foreach t,$(SPECINT),clean_build_$t)
 clean-fp-build: $(foreach t,$(SPECFP),clean_build_$t)
 clean-all-build: clean-int-build clean-fp-build
+
+clean-int-obj: $(foreach t,$(SPECINT),clean_obj_$t)
+clean-fp-obj: $(foreach t,$(SPECFP),clean_obj_$t)
+clean-all-obj: clean-int-obj clean-fp-obj
 
 clean-int-logs: $(foreach t,$(SPECINT),clean_logs_$t)
 clean-fp-logs: $(foreach t,$(SPECFP),clean_logs_$t)

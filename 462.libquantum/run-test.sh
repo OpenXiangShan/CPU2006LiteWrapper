@@ -1,1 +1,1 @@
-$APP 33 5 > test.out
+${APP}${TAG} 33 5 > test.out

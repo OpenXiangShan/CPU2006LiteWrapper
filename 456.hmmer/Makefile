@@ -8,6 +8,7 @@ SRCS = $(addprefix src/, alphabet.c core_algorithms.c debug.c display.c emit.c e
 	 seqencode.c shuffle.c sqerror.c sqio.c squidcore.c sre_ctype.c \
 	 sre_math.c sre_random.c sre_string.c ssi.c stack.c stockholm.c \
 	 translate.c types.c vectorops.c weight.c)
+CFLAGS += -std=c11
 LIBS = -lm
 include ../Makefile.apps
 

@@ -131,7 +131,7 @@ IOASCII/Write3D.c IOBasic/WriteScalar.c IOBasic/OutputScalar.c \
 IOBasic/OutputInfo.c IOBasic/Startup.c IOBasic/WriteInfo.c \
 IOBasic/cctk_ThornBindings.c)
 
-CFLAGS += -I./src/include -DCCODE
+CFLAGS += -I./src/include -DCCODE -D__USE_BSD
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 LD_FORTRAN = 1
 include ../Makefile.apps

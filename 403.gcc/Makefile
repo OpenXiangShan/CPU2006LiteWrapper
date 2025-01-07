@@ -24,7 +24,7 @@ SRCS = $(addprefix src/, alloca.c asprintf.c vasprintf.c c-parse.c c-lang.c attr
  xstrdup.c md5.c fibheap.c xstrerror.c concat.c partition.c hex.c \
  lbasename.c getpwd.c ucbqsort.c)
 
-CFLAGS += -I./src
+CFLAGS += -I./src -std=c11
 include ../Makefile.apps
 
 test-cmp:

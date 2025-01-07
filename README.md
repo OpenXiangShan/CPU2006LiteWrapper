@@ -156,3 +156,7 @@ diff --git a/MANIFEST b/MANIFEST
  09b27f524d928a977425c4f009d25b50 * 00001D37 benchspec/CPU2006/483.xalancbmk/src/xercesc/util/NetAccessors/WinSock/BinHTTPURLInputStream.hpp
 
 ```
+
+# Note for GCC >= 15
+
+The 436.cactusADM [contains a bug](https://stackoverflow.com/questions/25483031/storage-size-of-tzp-isn-t-known) that will cause compile errors in GCC 15 and later. You may need to apply the [patch](./patches/436.cactusADM.patch) to fixed.

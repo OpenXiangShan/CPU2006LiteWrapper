@@ -1,0 +1,38 @@
+diff --git a/DefaultTimers.c b/DefaultTimers.c
+index 0d8e2ec..a4bd937 100644
+--- a/DefaultTimers.c
++++ b/DefaultTimers.c
+@@ -247,7 +247,6 @@ static void CCTKi_TimerGetTimeOfDayStart(int timernum, void *idata)
+   t_GetTimeOfDayTimer *data;
+ 
+   struct timeval tp;
+-  struct timezone tzp;
+ 
+   timernum = timernum;
+   data = (t_GetTimeOfDayTimer *)idata;
+@@ -256,7 +255,7 @@ static void CCTKi_TimerGetTimeOfDayStart(int timernum, void *idata)
+   data->last.tv_sec = 0;
+   data->last.tv_usec = 0;
+ #else
+-  gettimeofday(&tp, &tzp);
++  gettimeofday(&tp, NULL);
+ 
+   data->last = tp;
+ #endif
+@@ -299,7 +298,6 @@ static void CCTKi_TimerGetTimeOfDayStop(int timernum, void *idata)
+   t_GetTimeOfDayTimer *data;
+ 
+   struct timeval tp;
+-  struct timezone tzp;
+ 
+   timernum = timernum;
+   data = (t_GetTimeOfDayTimer *)idata;
+@@ -308,7 +306,7 @@ static void CCTKi_TimerGetTimeOfDayStop(int timernum, void *idata)
+   data->total.tv_sec = 0;
+   data->total.tv_usec= 0;
+ #else
+-  gettimeofday(&tp, &tzp);
++  gettimeofday(&tp, NULL);
+ 
+   data->total.tv_sec  += (tp.tv_sec  - data->last.tv_sec);
+   data->total.tv_usec += (tp.tv_usec - data->last.tv_usec);

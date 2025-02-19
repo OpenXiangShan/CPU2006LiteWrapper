@@ -50,6 +50,10 @@ OBJS := $(patsubst %.cpp,%.o,$(OBJS))
 OBJS := $(patsubst %.cc,%.o,$(OBJS))
 OBJS := $(addprefix $(DST_DIR)/$(TAG), $(OBJS))
 
+ifneq (,$(findstring -g, $(OPTIMIZE)))
+.PRECIOUS: %.fppized.f90 %.fppized.f
+endif
+
 ## 3. General Compilation Flags
 
 -include $(SPEC_LITE)/scripts/$(ARCH).mk

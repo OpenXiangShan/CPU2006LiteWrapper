@@ -1,14 +1,14 @@
 #!/bin/bash
 
 echo "SPEC="$SPEC
-#SPEC=/www/SPEC2006/cpu2006-1.2
+#SPEC=~/dev/SPEC2006/cpu2006-1.2
 SPEC_BM=$SPEC/benchspec/CPU2006
 echo "SPEC_BM="$SPEC_BM
 
 cases=$(find $SPEC_BM -maxdepth 1 -type d -name '[0-9]*' -exec basename {} \;)
 echo "$cases"
 
-# TEST_DIR=/www/CPU2006LiteWrapper/scripts/test_copy_dir
+# TEST_DIR=~/dev/checkpoint/CPU2006LiteWrapper/scripts/test_copy_dir
 # for case in $cases; do
 #     mkdir -p $TEST_DIR/$case/src
 #     echo "Ready to copy $SPEC_BM/$case/src into "

@@ -175,6 +175,7 @@ copy-src:
 .PHONY: copy-data
 copy-data:
 	@cp -r $(SPEC)/benchspec/CPU2006/$(NAME)/data ./
+	@if [ -d $(SPEC)/benchspec/CPU2006/$(NAME)/extra-data ]; then cp -r $(SPEC)/benchspec/CPU2006/$(NAME)/extra-data ./ ; chmod -R +w extra-data; fi
 	@chmod -R +w data
 
 .PHONY: collect

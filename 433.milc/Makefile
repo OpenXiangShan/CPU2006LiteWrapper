@@ -15,13 +15,14 @@ SRCS = $(addprefix src/, control.c f_meas.c gauge_info.c setup.c update.c update
 CFLAGS += -I./src -DFN -DFAST -DCONGRAD_TMP_VECTORS -DDSLASH_TMP_LINKS
 LIBS += -lm
 include ../Makefile.apps
+include ../Makefile.run
 
-test-cmp:
-	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, run/su3imp.out, data/test/output/su3imp.out)
+test-cmp: run
+	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/test/output/su3imp.out)
 
-train-cmp:
-	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, run/su3imp.out, data/train/output/su3imp.out)
+train-cmp: run
+	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/train/output/su3imp.out)
 
-ref-cmp:
-	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, run/su3imp.out, data/ref/output/su3imp.out)
+ref-cmp: run
+	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/ref/output/su3imp.out)
 include Makefile.deps

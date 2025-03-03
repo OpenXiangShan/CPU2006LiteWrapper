@@ -164,16 +164,17 @@ LD_FORTRAN = 1
 LIBS += -lm
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 include ../Makefile.apps
+include ../Makefile.run
 
-test-cmp:
-	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, run/SPECtestformatmodifier_z.txt, data/test/output/SPECtestformatmodifier_z.txt)
-	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, run/beampic.dat, data/test/output/beampic.dat)
+test-cmp: run
+	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/test/output/SPECtestformatmodifier_z.txt)
+	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/beampic.dat, data/test/output/beampic.dat)
 
-train-cmp:
-	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, run/SPECtestformatmodifier_z.txt, data/train/output/SPECtestformatmodifier_z.txt)
-	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, run/stairs.dat, data/train/output/stairs.dat)
+train-cmp: run
+	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/train/output/SPECtestformatmodifier_z.txt)
+	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/stairs.dat, data/train/output/stairs.dat)
 
-ref-cmp:
-	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, run/SPECtestformatmodifier_z.txt, data/ref/output/SPECtestformatmodifier_z.txt)
-	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, run/hyperviscoplastic.dat, data/ref/output/hyperviscoplastic.dat)
+ref-cmp: run
+	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/ref/output/SPECtestformatmodifier_z.txt)
+	$(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/hyperviscoplastic.dat, data/ref/output/hyperviscoplastic.dat)
 include Makefile.deps

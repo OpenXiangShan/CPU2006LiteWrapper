@@ -154,7 +154,7 @@ validate-fp-$(1):
 
 run-%-$(1):
 	echo "Running $(1) on $$*"
-	@$(MAKE) -s -C $$* run-$(1) > $$*/build/run-$(1).log
+	@$(MAKE) -s -C $$* $(1)-cmp TYPE=$(1) > $$*/logs/run-$(1).log
 
 report-int-$(1):
 	for t in $$(SPECINT); do cat $$$$t/run/run-$(1).sh.timelog; echo ""; done

@@ -14,33 +14,34 @@ SRCS = $(addprefix src/, changesoplex.cc didxset.cc dsvector.cc dvector.cc enter
 CFLAGS += -std=c++03
 LD_CXX = 1
 include ../Makefile.apps
+include ../Makefile.run
 
 # Add this function to accommodate different versions of spec06 file suffixes
 adapt_suffix = $(shell if test -f $(1)$(2); then echo $(1)$(2); elif test -f $(1)$(3); then echo $(1)$(3); elif test -f $(1)$(4); then echo $(1)$(4); elif test -f $(1)$(5); then echo $(1)$(5); fi)
 
-test-cmp:
-	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001 --obiwan, run/test.out, data/test/output/test.out)
+test-cmp: run
+	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001 --obiwan, $(RUN_DIR)/test.out, data/test/output/test.out)
 	$(call SPECDIFF, --abstol 20  --reltol 10 --obiwan, \
-		$(call adapt_suffix,run/test,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
+		$(call adapt_suffix,$(RUN_DIR)/test,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/test/output/test,.mps.out,.mps.stderr,.mps.info,.out,.stderr))
 
-train-cmp:
-	$(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, run/pds-20.mps.out, data/train/output/pds-20.mps.out)
+train-cmp: run
+	$(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, $(RUN_DIR)/pds-20.mps.out, data/train/output/pds-20.mps.out)
 	$(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
-		$(call adapt_suffix,run/pds-20,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
+		$(call adapt_suffix,$(RUN_DIR)/pds-20,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/train/output/pds-20,.mps.out,.mps.stderr,.mps.info,.out,.stderr))
-	$(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, run/train.out, data/train/output/train.out)
+	$(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, $(RUN_DIR)/train.out, data/train/output/train.out)
 	$(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
-		$(call adapt_suffix,run/train,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
+		$(call adapt_suffix,$(RUN_DIR)/train,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/train/output/train,.mps.out,.mps.stderr,.mps.info,.out,.stderr))
 
-ref-cmp:
-	$(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, run/pds-50.mps.out, data/ref/output/pds-50.mps.out)
+ref-cmp: run
+	$(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, $(RUN_DIR)/pds-50.mps.out, data/ref/output/pds-50.mps.out)
 	$(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
-		$(call adapt_suffix,run/pds-50,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
+		$(call adapt_suffix,$(RUN_DIR)/pds-50,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/ref/output/pds-50,.mps.out,.mps.stderr,.mps.info,.out,.stderr))
-	$(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, run/ref.out, data/ref/output/ref.out)
+	$(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, $(RUN_DIR)/ref.out, data/ref/output/ref.out)
 	$(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
-		$(call adapt_suffix,run/ref,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
+		$(call adapt_suffix,$(RUN_DIR)/ref,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/ref/output/ref,.mps.out,.mps.stderr,.mps.info,.out,.stderr))
 include Makefile.deps

@@ -55,13 +55,14 @@ FFLAGS = -I$(abspath ./src) -I$(abspath ./src/netcdf/include) -std=legacy -fallo
 LD_FORTRAN = 1
 SPECPPFLAGS = -w -m literal.pm -I. -DINTIO -DIWORDSIZE=4  -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNETCDF  -DTRIEDNTRUE -DLIMIT_ARGS -DEM_CORE=1  -DNMM_CORE=0 -DNMM_MAX_DIM=1000 -DCOAMPS_CORE=0  -DEXP_CORE=0 -DF90_STANDALONE -DCONFIG_BUF_LEN=8192 -DMAX_DOMAINS_F=21 -DNO_NAMELIST_PRINT -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64 -DSPEC_CPU_CASE_FLAG -DSPEC_CPU_LINUX
 include ../Makefile.apps
+include ../Makefile.run
 
-test-cmp:
-	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, run/rsl.out.0000, data/test/output/rsl.out.0000)
+test-cmp: run
+	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/test/output/rsl.out.0000)
 
-train-cmp:
-	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, run/rsl.out.0000, data/train/output/rsl.out.0000)
+train-cmp: run
+	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/train/output/rsl.out.0000)
 
-ref-cmp:
-	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, run/rsl.out.0000, data/ref/output/rsl.out.0000)
+ref-cmp: run
+	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/ref/output/rsl.out.0000)
 include Makefile.deps

@@ -3,19 +3,20 @@ SRCS = $(addprefix src/, spec.c blocksort.c bzip2.c bzlib.c compress.c crctable.
 decompress.c huffman.c randtable.c)
 
 include ../Makefile.apps
+include ../Makefile.run
 
-test-cmp:
+test-cmp: run
 	@for f in dryer.jpg input.program; do \
-		$(DIFF) run/$$f.out data/test/output/$$f.out; \
+		$(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out; \
 	done
 
-train-cmp:
+train-cmp: run
 	@for f in byoudoin.jpg input.combined input.program; do \
-		$(DIFF) run/$$f.out data/train/output/$$f.out; \
+		$(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out; \
 	done
 
-ref-cmp:
+ref-cmp: run
 	@for f in chicken.jpg input.combined input.program input.source liberty.jpg text.html; do \
-		$(DIFF) run/$$f.out data/ref/output/$$f.out; \
+		$(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out; \
 	done
 include Makefile.deps

@@ -20,13 +20,14 @@ SRCS = $(addprefix src/, types.F90 system.F90 str.F90 int.F90 real.F90 intvec.F9
 SPECPPFLAGS = -w -DUSE_PRE_AND_POST_CONDITIONS -DUSE_ERROR_MANAGEMENT -m literal.pm -m tonto.pm -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 LD_FORTRAN = 1
 include ../Makefile.apps
+include ../Makefile.run
 
-test-cmp:
-	$(call SPECDIFF, --reltol 0.006, run/stdout, data/test/output/stdout)
+test-cmp: run
+	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/test/output/stdout)
 
-train-cmp:
-	$(call SPECDIFF, --reltol 0.006, run/stdout, data/train/output/stdout)
+train-cmp: run
+	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/train/output/stdout)
 
-ref-cmp:
-	$(call SPECDIFF, --reltol 0.006, run/stdout, data/ref/output/stdout)
+ref-cmp: run
+	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/ref/output/stdout)
 include Makefile.deps

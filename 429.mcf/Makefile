@@ -4,19 +4,20 @@ SRCS = $(addprefix src/, mcf.c mcfutil.c readmin.c implicit.c pstart.c output.c 
 CFLAGS += -DWANT_STDC_PROTO
 LIBS += -lm
 include ../Makefile.apps
+include ../Makefile.run
 
-test-cmp:
+test-cmp: run
 	@for f in inp mcf; do \
-		$(DIFF) run/$$f.out data/test/output/$$f.out; \
+		$(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out; \
 	done
 
-train-cmp:
+train-cmp: run
 	@for f in inp mcf; do \
-		$(DIFF) run/$$f.out data/train/output/$$f.out; \
+		$(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out; \
 	done
 
-ref-cmp:
+ref-cmp: run
 	@for f in inp mcf; do \
-		$(DIFF) run/$$f.out data/ref/output/$$f.out; \
+		$(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out; \
 	done
 include Makefile.deps

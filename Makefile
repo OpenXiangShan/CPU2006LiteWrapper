@@ -140,7 +140,7 @@ run-int-$(1): $(foreach t,$(SPECINT),run-$t-$(1))
 validate-int-$(1):
 	for t in $$(SPECINT); do $(MAKE) -s -C $$$$t $(1)-cmp; done
 
-backup-int-$(1): $(foreach t,$(SPECINT),backup-$t-$(1))
+backup_int_$(1): $(foreach t,$(SPECINT),backup-$t-$(1))
 
 run-fp-$(1): $(foreach t,$(SPECFP),run-$t-$(1))
 	@echo "\n\n\n"
@@ -154,9 +154,9 @@ run-all-$(1): $(foreach t,$(SPECINT) $(SPECFP),run-$t-$(1))
 validate-fp-$(1):
 	for t in $$(SPECFP); do $(MAKE) -s -C $$$$t $(1)-cmp; done
 
-backup-fp-$(1): $(foreach t,$(SPECFP),backup-$t-$(1))
+backup_fp_$(1): $(foreach t,$(SPECFP),backup-$t-$(1))
 
-backup-all-$(1): $(foreach t,$(SPECINT) $(SPECFP),backup-$t-$(1))
+backup_all_$(1): $(foreach t,$(SPECINT) $(SPECFP),backup-$t-$(1))
 
 run-%-$(1):
 	@echo "Running $(1) on $$*"

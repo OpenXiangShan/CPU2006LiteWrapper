@@ -7,13 +7,14 @@ SRCS = $(addprefix src/, errorcheck.f90 parameter.f90 globalvar.f90 excite.f90 \
 LD_FORTRAN = 1
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 include ../Makefile.apps
+include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, run/sphere_td.nft, data/test/output/sphere_td.nft)
+	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/test/output/sphere_td.nft)
 
 train-cmp:
-	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, run/sphere_td.nft, data/train/output/sphere_td.nft)
+	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/train/output/sphere_td.nft)
 
 ref-cmp:
-	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, run/sphere_td.nft, data/ref/output/sphere_td.nft)
+	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/ref/output/sphere_td.nft)
 include Makefile.deps

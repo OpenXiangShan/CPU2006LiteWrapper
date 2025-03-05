@@ -37,14 +37,14 @@ LD_CXX = 1
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	for i in 0 1 2 3 4 5 6 7 8; do \
 		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps); \
 		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv); \
 	done
 	$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/log, data/test/output/log)
 
-train-cmp: run
+train-cmp:
 	for i in 0 1 2 3 4 5 6 7 8; do \
 		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps); \
 		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv); \
@@ -55,7 +55,7 @@ train-cmp: run
 	done
 	$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/log, data/train/output/log)
 
-ref-cmp: run
+ref-cmp:
 	for i in 0 1 2 3 4 5 6 7 8; do \
 		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps); \
 		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv); \

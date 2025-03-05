@@ -22,12 +22,12 @@ LD_FORTRAN = 1
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/test/output/stdout)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/train/output/stdout)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/ref/output/stdout)
 include Makefile.deps

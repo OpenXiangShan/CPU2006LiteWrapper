@@ -5,16 +5,15 @@ RUN_SH ?= $(abspath run-$(TYPE).sh)
 FULL_WORK_DIR = $(shell dirname $(RUN_SH))
 WORKLOAD_NAME = $(shell basename $(FULL_WORK_DIR))
 
-NAME := $(shell echo $(WORKLOAD_NAME) | sed -e 's/....//')
 SIZE := $(patsubst run-%.sh,%,$(shell basename $(RUN_SH)))
 
 SOURCE_ALL_INPUT := $(CURDIR)/data/all/input
 SOURCE_SIZE_INPUT := $(CURDIR)/data/$(SIZE)/input
-SOURCE_EXTRA_INPUT := $(CURDIR)/extra-data/$(SIZE).sh
+SOURCE_EXTRA_INPUT := $(CURDIR)/extra-data
 
-RUN_DIR := $(CURDIR)/run_$(SIZE)_$(TIMESTAMP)
+RUN_DIR := $(CURDIR)/run
 
-TIME_LOG := $(RUN_DIR)/$(WORKLOAD_NAME).timelog
+TIME_LOG := $(RUN_DIR)/run-$(SIZE).sh.timelog
 
 HOST_ARCH := $(shell uname -m)
 ARCH ?= $(HOST_ARCH)
@@ -31,6 +30,7 @@ SPECDIFF = cd $(dir $(SPECDIFF_FILE)) && ./specdiff -m -l 10 $(1) $(abspath $(2)
 
 .PHONY: copy_run_data
 copy_run_data:
+	-@rm -rf $(RUN_DIR)
 	@mkdir -p $(RUN_DIR)
 	@if [ -d $(SOURCE_ALL_INPUT) ]; then \
 		cp -r $(SOURCE_ALL_INPUT)/* $(RUN_DIR)/ ; \
@@ -39,14 +39,15 @@ copy_run_data:
 		cp -r $(SOURCE_SIZE_INPUT)/* $(RUN_DIR)/ ; \
 		fi
 	@if [ -d $(SOURCE_EXTRA_INPUT) ]; then \
-		echo "Prepare extra data..." \
-		sh $(SOURCE_EXTRA_INPUT); \
+		echo "Prepare extra data..."; \
+		sh $(SOURCE_EXTRA_INPUT)/$(SIZE).sh; \
 		fi
 
 .PHONY: prepare_data
 prepare_data:
 	@export TIME='%Uuser %Ssystem %Eelapsed %PCPU (%Xtext+%Ddata %Mmax)k\n%Iinputs+%Ooutputs (%Fmajor+%Rminor)pagefaults %Wswaps\n%e # elapsed in second'
 	@date | tee $(TIME_LOG)
+	@echo "Using command: ${LOADER} to execute" | tee -a $(TIME_LOG)
 	@echo "@@@@@ Running $(WORKLOAD_NAME) [$(SIZE)]..." | tee -a $(TIME_LOG)
 
 .PHONY: run
@@ -54,4 +55,14 @@ run: copy_run_data prepare_data
 	cd $(RUN_DIR) && \
 		APP='/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build/$(WORKLOAD_NAME)' \
 		sh $(RUN_SH) && \
-		cd $(CURDIR)
+		cd $(CURDIR) \
+	make -s $(SIZE)-cmp
+
+.PHONY: run_result_backup
+run_result_backup:
+	@if [ -d $(RUN_DIR) ]; then \
+		cp -r $(RUN_DIR) $(RUN_DIR)_$(TYPE)_$(TIMESTAMP)_backup; \
+		fi
+	@echo "Already backup into $(RUN_DIR)_$(TYPE)_$(TIMESTAMP)_backup"
+
+

@@ -19,13 +19,13 @@ include ../Makefile.run
 # Add this function to accommodate different versions of spec06 file suffixes
 adapt_suffix = $(shell if test -f $(1)$(2); then echo $(1)$(2); elif test -f $(1)$(3); then echo $(1)$(3); elif test -f $(1)$(4); then echo $(1)$(4); elif test -f $(1)$(5); then echo $(1)$(5); fi)
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001 --obiwan, $(RUN_DIR)/test.out, data/test/output/test.out)
 	$(call SPECDIFF, --abstol 20  --reltol 10 --obiwan, \
 		$(call adapt_suffix,$(RUN_DIR)/test,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/test/output/test,.mps.out,.mps.stderr,.mps.info,.out,.stderr))
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, $(RUN_DIR)/pds-20.mps.out, data/train/output/pds-20.mps.out)
 	$(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
 		$(call adapt_suffix,$(RUN_DIR)/pds-20,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
@@ -35,7 +35,7 @@ train-cmp: run
 		$(call adapt_suffix,$(RUN_DIR)/train,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/train/output/train,.mps.out,.mps.stderr,.mps.info,.out,.stderr))
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, $(RUN_DIR)/pds-50.mps.out, data/ref/output/pds-50.mps.out)
 	$(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
 		$(call adapt_suffix,$(RUN_DIR)/pds-50,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \

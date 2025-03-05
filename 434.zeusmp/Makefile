@@ -12,12 +12,12 @@ SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/test/output/tsl000aa)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/train/output/tsl000aa)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/ref/output/tsl000aa)
 include Makefile.deps

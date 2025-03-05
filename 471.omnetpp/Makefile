@@ -30,15 +30,15 @@ LD_CXX = 1
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/test/output/omnetpp.log)
 	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/test/output/omnetpp.sca)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/train/output/omnetpp.log)
 	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/train/output/omnetpp.sca)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/ref/output/omnetpp.log)
 	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/ref/output/omnetpp.sca)
 include Makefile.deps

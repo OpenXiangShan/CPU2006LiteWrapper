@@ -27,13 +27,13 @@ SPECPPFLAGS = -DSPEC_CPU_NO_HOLLERITH -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/exam29.out, data/test/output/exam29.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/h2ocu2+.energy.out, data/train/output/h2ocu2+.energy.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/cytosine.2.out, data/ref/output/cytosine.2.out)
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/h2ocu2+.gradient.out, data/ref/output/h2ocu2+.gradient.out)
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/triazolium.out, data/ref/output/triazolium.out)

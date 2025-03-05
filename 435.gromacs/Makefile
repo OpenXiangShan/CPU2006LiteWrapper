@@ -24,12 +24,12 @@ LD_FORTRAN = 1
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/test/output/gromacs.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/train/output/gromacs.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/ref/output/gromacs.out)
 include Makefile.deps

@@ -6,17 +6,17 @@ LIBS += -lm
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	@for f in inp mcf; do \
 		$(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out; \
 	done
 
-train-cmp: run
+train-cmp:
 	@for f in inp mcf; do \
 		$(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out; \
 	done
 
-ref-cmp: run
+ref-cmp:
 	@for f in inp mcf; do \
 		$(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out; \
 	done

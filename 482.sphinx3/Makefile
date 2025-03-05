@@ -15,17 +15,17 @@ $(DST_DIR)/$(TAG)%.o: %.c
 	@mkdir -p $(dir $@) && echo + CC $<
 	cd $(dir $<) && $(CC) $(CFLAGS) -c -o $(abspath $@) $(notdir $<)
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/test/output/an4.log)
 	$(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/test/output/considered.out)
 	$(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/test/output/total_considered.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/train/output/an4.log)
 	$(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/train/output/considered.out)
 	$(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/train/output/total_considered.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/ref/output/an4.log)
 	$(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/ref/output/considered.out)
 	$(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/ref/output/total_considered.out)

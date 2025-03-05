@@ -28,13 +28,13 @@ CFLAGS += -I./src -std=c11
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(DIFF) $(RUN_DIR)/cccp.s data/test/output/cccp.s
 
-train-cmp: run
+train-cmp:
 	$(DIFF) $(RUN_DIR)/integrate.s data/train/output/integrate.s
 
-ref-cmp: run
+ref-cmp:
 	@for f in 166 200 c-typeck cp-decl expr expr2 g23 s04 scilab; do \
 		$(DIFF) $(RUN_DIR)/$$f.s data/ref/output/$$f.s; \
 	done

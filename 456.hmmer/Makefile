@@ -13,13 +13,13 @@ LIBS = -lm
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/bombesin.out, data/test/output/bombesin.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/leng100.out, data/train/output/leng100.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/nph3.out, data/ref/output/nph3.out)
 	$(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/retro.out, data/ref/output/retro.out)
 include Makefile.deps

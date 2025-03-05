@@ -137,12 +137,12 @@ LD_FORTRAN = 1
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/test/output/benchADM.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/train/output/benchADM.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/ref/output/benchADM.out)
 include Makefile.deps

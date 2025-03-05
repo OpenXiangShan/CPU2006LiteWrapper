@@ -5,17 +5,17 @@ decompress.c huffman.c randtable.c)
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	@for f in dryer.jpg input.program; do \
 		$(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out; \
 	done
 
-train-cmp: run
+train-cmp:
 	@for f in byoudoin.jpg input.combined input.program; do \
 		$(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out; \
 	done
 
-ref-cmp: run
+ref-cmp:
 	@for f in chicken.jpg input.combined input.program input.source liberty.jpg text.html; do \
 		$(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out; \
 	done

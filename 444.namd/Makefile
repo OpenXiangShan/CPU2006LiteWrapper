@@ -6,12 +6,12 @@ LD_CXX = 1
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --abstol 1e-05, $(RUN_DIR)/namd.out, data/test/output/namd.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --abstol 1e-05, $(RUN_DIR)/namd.out, data/train/output/namd.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --abstol 1e-05, $(RUN_DIR)/namd.out, data/ref/output/namd.out)
 include Makefile.deps

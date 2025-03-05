@@ -5,12 +5,12 @@ SRCS = $(addprefix src/,attacks.c book.c crazy.c draw.c ecache.c epd.c eval.c le
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(DIFF) $(RUN_DIR)/test.out data/test/output/test.out
 
-train-cmp: run
+train-cmp:
 	$(DIFF) $(RUN_DIR)/train.out data/train/output/train.out
 
-ref-cmp: run
+ref-cmp:
 	$(DIFF) $(RUN_DIR)/ref.out data/ref/output/ref.out
 include Makefile.deps

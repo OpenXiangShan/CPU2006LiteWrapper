@@ -17,12 +17,12 @@ LIBS += -lm
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/test/output/su3imp.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/train/output/su3imp.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/ref/output/su3imp.out)
 include Makefile.deps

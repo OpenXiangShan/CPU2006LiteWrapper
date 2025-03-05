@@ -6,14 +6,14 @@ LD_CXX = 1
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --reltol 0.001, $(RUN_DIR)/lake.out, data/test/output/lake.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --reltol 0.001, $(RUN_DIR)/BigLakes1024.out, data/train/output/BigLakes1024.out)
 	$(call SPECDIFF, --reltol 0.001, $(RUN_DIR)/rivers1.out, data/train/output/rivers1.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --reltol 0.001, $(RUN_DIR)/BigLakes2048.out, data/ref/output/BigLakes2048.out)
 	$(call SPECDIFF, --reltol 0.001, $(RUN_DIR)/rivers.out, data/ref/output/rivers.out)
 include Makefile.deps

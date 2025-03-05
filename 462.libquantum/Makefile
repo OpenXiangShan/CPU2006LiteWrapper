@@ -7,12 +7,12 @@ LIBS = -lm
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --obiwan, $(RUN_DIR)/test.out, data/test/output/test.out)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --obiwan, $(RUN_DIR)/train.out, data/train/output/train.out)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --obiwan, $(RUN_DIR)/ref.out, data/ref/output/ref.out)
 include Makefile.deps

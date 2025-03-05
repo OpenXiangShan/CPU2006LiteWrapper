@@ -57,12 +57,12 @@ SPECPPFLAGS = -w -m literal.pm -I. -DINTIO -DIWORDSIZE=4  -DDWORDSIZE=8 -DRWORDS
 include ../Makefile.apps
 include ../Makefile.run
 
-test-cmp: run
+test-cmp:
 	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/test/output/rsl.out.0000)
 
-train-cmp: run
+train-cmp:
 	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/train/output/rsl.out.0000)
 
-ref-cmp: run
+ref-cmp:
 	$(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/ref/output/rsl.out.0000)
 include Makefile.deps

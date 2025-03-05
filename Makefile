@@ -134,27 +134,37 @@ collect-all: collect-fp collect-int
 # prototype: cmd_template(size)
 define cmd_template
 run-int-$(1): $(foreach t,$(SPECINT),run-$t-$(1))
-	echo "\n\n\n"
+	@echo "\n\n\n"
 	$(MAKE) report-int-$(1)
 
 validate-int-$(1):
 	for t in $$(SPECINT); do $(MAKE) -s -C $$$$t $(1)-cmp; done
 
+backup_int_$(1): $(foreach t,$(SPECINT),backup-$t-$(1))
+
 run-fp-$(1): $(foreach t,$(SPECFP),run-$t-$(1))
-	echo "\n\n\n"
+	@echo "\n\n\n"
 	$(MAKE) report-fp-$(1)
 
 run-all-$(1): $(foreach t,$(SPECINT) $(SPECFP),run-$t-$(1))
-	echo "\n\n\n"
+	@echo "\n\n\n"
 	$(MAKE) report-int-$(1)
 	$(MAKE) report-fp-$(1)
 
 validate-fp-$(1):
 	for t in $$(SPECFP); do $(MAKE) -s -C $$$$t $(1)-cmp; done
 
+backup_fp_$(1): $(foreach t,$(SPECFP),backup-$t-$(1))
+
+backup_all_$(1): $(foreach t,$(SPECINT) $(SPECFP),backup-$t-$(1))
+
 run-%-$(1):
-	echo "Running $(1) on $$*"
-	@$(MAKE) -s -C $$* run-$(1) > $$*/build/run-$(1).log
+	@echo "Running $(1) on $$*"
+	@-$(MAKE) -s -C $$* run TYPE=$(1) > $$*/run/run-$(1).log 2>&1
+
+backup-%-$(1):
+	@echo "Backup $(1) on $$*"
+	@-$(MAKE) -s -C $$* run_result_backup TYPE=$(1)
 
 report-int-$(1):
 	for t in $$(SPECINT); do cat $$$$t/run/run-$(1).sh.timelog; echo ""; done

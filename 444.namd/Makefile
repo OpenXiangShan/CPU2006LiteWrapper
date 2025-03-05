@@ -4,13 +4,14 @@ Molecule.C Patch.C PatchList.C ResultSet.C SimParameters.C erf.C \
 spec_namd.C)
 LD_CXX = 1
 include ../Makefile.apps
+include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --abstol 1e-05, run/namd.out, data/test/output/namd.out)
+	$(call SPECDIFF, --abstol 1e-05, $(RUN_DIR)/namd.out, data/test/output/namd.out)
 
 train-cmp:
-	$(call SPECDIFF, --abstol 1e-05, run/namd.out, data/train/output/namd.out)
+	$(call SPECDIFF, --abstol 1e-05, $(RUN_DIR)/namd.out, data/train/output/namd.out)
 
 ref-cmp:
-	$(call SPECDIFF, --abstol 1e-05, run/namd.out, data/ref/output/namd.out)
+	$(call SPECDIFF, --abstol 1e-05, $(RUN_DIR)/namd.out, data/ref/output/namd.out)
 include Makefile.deps

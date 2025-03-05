@@ -25,15 +25,16 @@ unport.F vibanl.F vscf.F zheev.F zmatrx.F)
 SPECPPFLAGS = -DSPEC_CPU_NO_HOLLERITH -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 
 include ../Makefile.apps
+include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, run/exam29.out, data/test/output/exam29.out)
+	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/exam29.out, data/test/output/exam29.out)
 
 train-cmp:
-	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, run/h2ocu2+.energy.out, data/train/output/h2ocu2+.energy.out)
+	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/h2ocu2+.energy.out, data/train/output/h2ocu2+.energy.out)
 
 ref-cmp:
-	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, run/cytosine.2.out, data/ref/output/cytosine.2.out)
-	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, run/h2ocu2+.gradient.out, data/ref/output/h2ocu2+.gradient.out)
-	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, run/triazolium.out, data/ref/output/triazolium.out)
+	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/cytosine.2.out, data/ref/output/cytosine.2.out)
+	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/h2ocu2+.gradient.out, data/ref/output/h2ocu2+.gradient.out)
+	$(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/triazolium.out, data/ref/output/triazolium.out)
 include Makefile.deps

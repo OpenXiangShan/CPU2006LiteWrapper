@@ -26,15 +26,16 @@ SRCS = $(addprefix src/, alloca.c asprintf.c vasprintf.c c-parse.c c-lang.c attr
 
 CFLAGS += -I./src -std=c11
 include ../Makefile.apps
+include ../Makefile.run
 
 test-cmp:
-	$(DIFF) run/cccp.s data/test/output/cccp.s
+	$(DIFF) $(RUN_DIR)/cccp.s data/test/output/cccp.s
 
 train-cmp:
-	$(DIFF) run/integrate.s data/train/output/integrate.s
+	$(DIFF) $(RUN_DIR)/integrate.s data/train/output/integrate.s
 
 ref-cmp:
 	@for f in 166 200 c-typeck cp-decl expr expr2 g23 s04 scilab; do \
-		$(DIFF) run/$$f.s data/ref/output/$$f.s; \
+		$(DIFF) $(RUN_DIR)/$$f.s data/ref/output/$$f.s; \
 	done
 include Makefile.deps

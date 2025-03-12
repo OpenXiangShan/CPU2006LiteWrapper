@@ -23,11 +23,17 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/test/output/stdout)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/test/output/stdout),stdout) \
+	$(call check_all_result)
 
 train-cmp:
-	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/train/output/stdout)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/train/output/stdout), stdout) \
+	$(call check_all_result)
 
 ref-cmp:
-	$(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/ref/output/stdout)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --reltol 0.006, $(RUN_DIR)/stdout, data/ref/output/stdout), stdout) \
+	$(call check_all_result)
 include Makefile.deps

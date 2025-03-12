@@ -13,11 +13,17 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/test/output/tsl000aa)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/test/output/tsl000aa),tsl000aa) \
+	$(call check_all_result)
 
 train-cmp:
-	$(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/train/output/tsl000aa)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/train/output/tsl000aa),tsl000aa) \
+	$(call check_all_result)
 
 ref-cmp:
-	$(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/ref/output/tsl000aa)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 0.001  --reltol 0.001, $(RUN_DIR)/tsl000aa, data/ref/output/tsl000aa),tsl000aa) \
+	$(call check_all_result)
 include Makefile.deps

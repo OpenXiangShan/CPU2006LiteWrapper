@@ -10,11 +10,17 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/test/output/sphere_td.nft)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/test/output/sphere_td.nft),sphere_td.nft) \
+	$(call check_all_result)
 
 train-cmp:
-	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/train/output/sphere_td.nft)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/train/output/sphere_td.nft),sphere_td.nft) \
+	$(call check_all_result)
 
 ref-cmp:
-	$(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/ref/output/sphere_td.nft)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-10  --reltol 1e-09  --obiwan, $(RUN_DIR)/sphere_td.nft, data/ref/output/sphere_td.nft),sphere_td.nft) \
+	$(call check_all_result)
 include Makefile.deps

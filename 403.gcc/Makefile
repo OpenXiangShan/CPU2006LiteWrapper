@@ -29,13 +29,23 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	$(DIFF) $(RUN_DIR)/cccp.s data/test/output/cccp.s
+	@total=0; success=0; failed=0; \
+	for f in cccp; do \
+	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.s data/test/output/$$f.s) \
+	done; \
+	$(call check_all_result)
 
 train-cmp:
-	$(DIFF) $(RUN_DIR)/integrate.s data/train/output/integrate.s
+	@total=0; success=0; failed=0; \
+	for f in integrate; do \
+	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.s data/train/output/$$f.s) \
+	done; \
+	$(call check_all_result)
 
 ref-cmp:
-	@for f in 166 200 c-typeck cp-decl expr expr2 g23 s04 scilab; do \
-		$(DIFF) $(RUN_DIR)/$$f.s data/ref/output/$$f.s; \
-	done
+	@total=0; success=0; failed=0; \
+	for f in 166 200 c-typeck cp-decl expr expr2 g23 s04 scilab; do \
+	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.s data/ref/output/$$f.s) \
+	done; \
+	$(call check_all_result)
 include Makefile.deps

@@ -31,14 +31,20 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/test/output/omnetpp.log)
-	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/test/output/omnetpp.sca)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/test/output/omnetpp.log),omnetpp.log) \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/test/output/omnetpp.sca),omnetpp.sca) \
+	$(call check_all_result)
 
 train-cmp:
-	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/train/output/omnetpp.log)
-	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/train/output/omnetpp.sca)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/train/output/omnetpp.log),omnetpp.log) \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/train/output/omnetpp.sca),omnetpp.sca) \
+	$(call check_all_result)
 
 ref-cmp:
-	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/ref/output/omnetpp.log)
-	$(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/ref/output/omnetpp.sca)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.log, data/ref/output/omnetpp.log),omnetpp.log) \
+	$(call only_check, $(call SPECDIFF, --abstol 1e-06  --reltol 1e-05, $(RUN_DIR)/omnetpp.sca, data/ref/output/omnetpp.sca),omnetpp.sca) \
+	$(call check_all_result)
 include Makefile.deps

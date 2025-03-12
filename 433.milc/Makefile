@@ -18,11 +18,17 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/test/output/su3imp.out)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/test/output/su3imp.out),su3imp.out) \
+	$(call check_all_result)
 
 train-cmp:
-	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/train/output/su3imp.out)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/train/output/su3imp.out),su3imp.out) \
+	$(call check_all_result)
 
 ref-cmp:
-	$(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/ref/output/su3imp.out)
+	@total=0; success=0; failed=0; \
+	$(call only_check, $(call SPECDIFF, --abstol 2e-07 --reltol 0.0001, $(RUN_DIR)/su3imp.out, data/ref/output/su3imp.out),su3imp.out) \
+	$(call check_all_result)
 include Makefile.deps

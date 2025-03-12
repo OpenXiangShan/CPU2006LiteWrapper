@@ -9,4 +9,7 @@ pgo/
 bin
 cpu2006_build/
 Makefile.spec
-
+run_ref*/
+run_test*/
+run_train*/
+cpu2006_build*/

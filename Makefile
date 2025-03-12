@@ -159,19 +159,18 @@ backup_fp_$(1): $(foreach t,$(SPECFP),backup-$t-$(1))
 backup_all_$(1): $(foreach t,$(SPECINT) $(SPECFP),backup-$t-$(1))
 
 run-%-$(1):
-	@echo "Running $(1) on $$*"
+	@echo "Running $$* [$(1)]..."
 	@-$(MAKE) -s -C $$* run TYPE=$(1) > $$*/run/run-$(1).log 2>&1
+	@-$(MAKE) -s -C $$* $(1)-cmp
 
 backup-%-$(1):
 	@echo "Backup $(1) on $$*"
 	@-$(MAKE) -s -C $$* run_result_backup TYPE=$(1)
 
 report-int-$(1):
-	for t in $$(SPECINT); do cat $$$$t/run/run-$(1).sh.timelog; echo ""; done
 	for t in $$(SPECINT); do cat $$$$t/run/run-$(1).sh.timelog | grep "# elapsed in second" | sed -e "s/#.*/\t$$$$t/"; done
 
 report-fp-$(1):
-	for t in $$(SPECFP); do cat $$$$t/run/run-$(1).sh.timelog; echo ""; done
 	for t in $$(SPECFP); do cat $$$$t/run/run-$(1).sh.timelog | grep "# elapsed in second" | sed -e "s/#.*/\t$$$$t/"; done
 
 endef

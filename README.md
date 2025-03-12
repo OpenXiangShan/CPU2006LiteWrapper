@@ -79,29 +79,11 @@ make ARCH=riscv64 \
      build-all -j `nproc`
 ```
 
-# Run with QEMU to difftest
-
-use qemu-riscv64 to run the riscv compiled binarys, 
-compare the output with speccpu reference output,
-you can check the correctness of the compiled binarys.
-
-use nix to install qemu or 
-sudo apt install qemu-user-static.
-```
-nix-env -iA nixpkgs.qemu 
-sudo apt install qemu-user-static  // ubuntu
-```
-
-qemu version should support riscv64 Bit extension
+# Run and Compare with Reference Output
 
 ```shell
-export ARCH=riscv64
-make ARCH=riscv64 \
-     CROSS_COMPILE=riscv64-unknown-linux-gnu- \
-     OPTIMIZE="-O3 -flto" \
-     build-all -j `nproc`     // compile riscv version
-make run-int-test   // use specint test input, qemu runs about 3mins
-make run-fp-test    // use specfp test input, qemu runs about 15mins
+# Build the ELF and initialize the data before running.
+make ARCH=riscv64 run-all-test  # Run all tests using the test input set. Use run-all-train or run-all-ref for train or ref input sets.
 ```
 
 We will use `qemu-$(ARCH)` to run the compiled binary when `$(ARCH)` does not match `uname -m`.
@@ -109,21 +91,10 @@ We will use `qemu-$(ARCH)` to run the compiled binary when `$(ARCH)` does not ma
 You can also specify `LOADER` argument to run the compiled binarys with different loader, such as `qemu-riscv64-static`:
 
 ```shell
-make run-int-test LOADER=qemu-riscv64-static
+make run-int-test LOADER="qemu-riscv64 -cpu rv64,v=true,vlen=128,rvv_ta_all_1s=true"
 ```
 
 if no error occurs, the compiled binarys are correct.
-
-you can also compile x86 version and run the x86 compiled binarys native on your machine.
-
-```shell
-export ARCH=x86_64
-make ARCH=x86_64 \
-     OPTIMIZE="-O3 -flto" \
-     build-all -j `nproc`     // compile x86 version
-make run-int-test   // use specint test input
-make run-fp-test    // use specfp test input
-```
 
 # Note for GCC >= 14
 

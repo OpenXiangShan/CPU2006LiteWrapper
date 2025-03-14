@@ -1,1 +1,1 @@
-${APP}${TAG} train.txt > train.out
+${APP} train.txt > train.out

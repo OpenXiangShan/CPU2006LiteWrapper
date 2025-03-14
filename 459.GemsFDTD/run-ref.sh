@@ -1,1 +1,1 @@
-${APP}${TAG} > ref.log
+${APP} > ref.log

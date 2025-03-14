@@ -9,8 +9,8 @@ html:
 
 ### Default to create elf
 ifeq ($(MAKECMDGOALS),)
-  MAKECMDGOALS  = $(APP)$(TAG)
-  .DEFAULT_GOAL = $(APP)$(TAG)
+  MAKECMDGOALS  = $(APP)
+  .DEFAULT_GOAL = $(APP)
 endif
 
 ### Override checks when `make clean/clean-all/html`
@@ -32,11 +32,11 @@ endif
 
 ### Create the destination directory (`build/`)
 WORK_DIR  = .
-DST_DIR   = $(WORK_DIR)/build
+DST_DIR   = $(WORK_DIR)/build$(TAG)
 $(shell mkdir -p $(DST_DIR))
 
 ### Compilation targets 
-APP_REL = build/$(NAME)
+APP_REL = $(DST_DIR)/$(NAME)
 APP     = $(abspath $(APP_REL))
 
 ### Files to be linked: object files (`.o`) and libraries (`.a`)
@@ -48,7 +48,7 @@ OBJS := $(patsubst %.c,%.o,$(OBJS))
 OBJS := $(patsubst %.C,%.o,$(OBJS))
 OBJS := $(patsubst %.cpp,%.o,$(OBJS))
 OBJS := $(patsubst %.cc,%.o,$(OBJS))
-OBJS := $(addprefix $(DST_DIR)/$(TAG), $(OBJS))
+OBJS := $(addprefix $(DST_DIR)/, $(OBJS))
 
 ifneq (,$(findstring -g, $(OPTIMIZE)))
 .PRECIOUS: %.fppized.f90 %.fppized.f
@@ -90,42 +90,42 @@ endif
 ## 4. Compilation Rules
 
 ### Rule (compile): a single `.c` -> `.o` (gcc)
-$(DST_DIR)/$(TAG)%.o: %.c
+$(DST_DIR)/%.o: %.c
 	@mkdir -p $(dir $@) && echo + CC $<
 	@$(CC) $(CFLAGS) -c -o $(abspath $@) $(abspath $<)
 
 ### Rule (compile): a single `.C` -> `.o` (g++)
-$(DST_DIR)/$(TAG)%.o: %.C
+$(DST_DIR)/%.o: %.C
 	@mkdir -p $(dir $@) && echo + CXX $<
 	@$(CXX) $(CXXFLAGS) -c -o $(abspath $@) $(abspath $<)
 
 ### Rule (compile): a single `.cc` -> `.o` (g++)
-$(DST_DIR)/$(TAG)%.o: %.cc
+$(DST_DIR)/%.o: %.cc
 	@mkdir -p $(dir $@) && echo + CXX $<
 	@$(CXX) $(CXXFLAGS) -c -o $(abspath $@) $(abspath $<)
 
 ### Rule (compile): a single `.cpp` -> `.o` (g++)
-$(DST_DIR)/$(TAG)%.o: %.cpp
+$(DST_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@) && echo + CXX $<
 	@$(CXX) $(CXXFLAGS) -c -o $(abspath $@) $(abspath $<)
 
 ### Rule (compile): a single `.f` -> `.o` (gfortran)
-$(DST_DIR)/$(TAG)%.o: %.f
+$(DST_DIR)/%.o: %.f
 	@mkdir -p $(dir $@) && echo + FC $<
 	@cd $(dir $<) && $(FC) $(FFLAGS) -c -o $(abspath $@) $(abspath $<)
 
 ### Rule (compile): a single `.fppized.f90` -> `.fppized.o` (gfortran)
-$(DST_DIR)/$(TAG)%.fppized.o: %.fppized.f90
+$(DST_DIR)/%.fppized.o: %.fppized.f90
 	@mkdir -p $(dir $@) && echo + FC $<
 	@cd $(dir $<) && $(FC) $(FFLAGS) -c -o $(abspath $@) $(abspath $<)
 
 ### Rule (compile): a single `.fppized.f` -> `.fppized.o` (gfortran)
-$(DST_DIR)/$(TAG)%.fppized.o: %.fppized.f
+$(DST_DIR)/%.fppized.o: %.fppized.f
 	@mkdir -p $(dir $@) && echo + FC $<
 	@cd $(dir $<) && $(FC) $(FFLAGS) -c -o $(abspath $@) $(abspath $<)
 
 ### Rule (compile): a single `.f90` -> `.o` (gfortran)
-$(DST_DIR)/$(TAG)%.o: %.f90
+$(DST_DIR)/%.o: %.f90
 	@mkdir -p $(dir $@) && echo + FC $<
 	@cd $(dir $<) && $(FC) $(FFLAGS) -c -o $(abspath $@) $(abspath $<)
 
@@ -140,7 +140,7 @@ $(DST_DIR)/$(TAG)%.o: %.f90
 	@cd $(dir $<) && ${SPEC}/bin/specperl ${SPEC}/bin/specpp $(SPECPPFLAGS) $(abspath $@) $(abspath $<)
 
 ### Rule (link): objects (`*.o`) and libraries (`*.a`) -> `IMAGE.elf`, the final ELF binary to be packed into image (ld)
-$(APP)$(TAG): $(OBJS)
+$(APP): $(OBJS)
 	@echo + LD "->" $(APP_REL)
 	@$(LD) $(LDFLAGS) -o $(abspath $@) $(abspath $^) $(JEMALLOC_LIBS) $(LIBS)
 
@@ -161,9 +161,9 @@ copy-data:
 	@chmod -R +w data
 
 .PHONY: collect
-collect: $(APP)$(TAG)
+collect: $(APP)
 	@mkdir -p $(ELF_PATH)
-	@cp $(APP)$(TAG) $(ELF_PATH)/$(patsubst $(basename $(NAME)).%,%,$(NAME))
+	@cp $(APP) $(ELF_PATH)/$(patsubst $(basename $(NAME)).%,%,$(NAME))
 
 ### Clean a single project (remove `build/`)
 .PHONY: clean-src
@@ -180,12 +180,12 @@ clean-logs:
 
 .PHONY: clean-build
 clean-build:
-	@rm -rf ./build
+	@rm -rf ./build$(TAG)
 	@rm -rf src/*.mod
 
 .PHONY: clean-obj
 clean-obj:
-	@rm -rf $(DST_DIR)/$(TAG)src $(DST_DIR)/$(APP)$(TAG)
+	@rm -rf $(DST_DIR)/src $(DST_DIR)/$(APP)
 
 .PHONY: clean-pgo
 clean-pgo:

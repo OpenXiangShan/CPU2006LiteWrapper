@@ -1,1 +1,1 @@
-${APP}${TAG} inp.in > inp.out
+${APP} inp.in > inp.out

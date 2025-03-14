@@ -1,3 +1,3 @@
 for f in 13x13 nngs score2 trevorc trevord; do
-  ${APP}${TAG} --quiet --mode gtp < $f.tst > $f.out;
+  ${APP} --quiet --mode gtp < $f.tst > $f.out;
 done

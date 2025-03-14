@@ -1,1 +1,1 @@
-${APP}${TAG} < su3imp.in > su3imp.out
+${APP} < su3imp.in > su3imp.out

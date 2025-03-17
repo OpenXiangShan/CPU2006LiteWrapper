@@ -1,1 +1,1 @@
-${APP}${TAG} benchADM.par > benchADM.out
+${APP} benchADM.par > benchADM.out

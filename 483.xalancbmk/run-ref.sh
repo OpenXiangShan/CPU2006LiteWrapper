@@ -1,1 +1,1 @@
-${APP}${TAG} -v t5.xml xalanc.xsl > ref.out
+${APP} -v t5.xml xalanc.xsl > ref.out

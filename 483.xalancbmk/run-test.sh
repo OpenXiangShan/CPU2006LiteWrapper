@@ -1,1 +1,1 @@
-${APP}${TAG} -v test.xml xalanc.xsl > test.out
+${APP} -v test.xml xalanc.xsl > test.out

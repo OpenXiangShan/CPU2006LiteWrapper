@@ -160,7 +160,7 @@ backup_all_$(1): $(foreach t,$(SPECINT) $(SPECFP),backup-$t-$(1))
 
 run-%-$(1):
 	@echo "Running $(1) on $$*"
-	@-$(MAKE) -s -C $$* run TYPE=$(1) > $$*/run/run-$(1).log 2>&1
+	@-$(MAKE) -s -C $$* run TYPE=$(1) > $$*/logs/run-$(1).log 2>&1
 
 backup-%-$(1):
 	@echo "Backup $(1) on $$*"

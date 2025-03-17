@@ -1,1 +1,1 @@
-${APP}${TAG} > test.log
+${APP} > test.log

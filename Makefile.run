@@ -53,7 +53,7 @@ prepare_data:
 .PHONY: run
 run: copy_run_data prepare_data
 	cd $(RUN_DIR) && \
-		APP='/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build/$(WORKLOAD_NAME)' \
+		APP='/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build$(TAG)/$(WORKLOAD_NAME)' \
 		sh $(RUN_SH) && \
 		cd $(CURDIR) \
 	make -s $(SIZE)-cmp

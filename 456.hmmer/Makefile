@@ -15,17 +15,17 @@ include ../Makefile.run
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/bombesin.out, data/test/output/bombesin.out), bombesin.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/bombesin.out, data/test/output/bombesin.out), bombesin.out) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/leng100.out, data/train/output/leng100.out), leng100.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/leng100.out, data/train/output/leng100.out), leng100.out) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/nph3.out, data/ref/output/nph3.out), nph3.out) \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/retro.out, data/ref/output/retro.out) retro.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/nph3.out, data/ref/output/nph3.out), nph3.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.002 --skiptol 10, $(RUN_DIR)/retro.out, data/ref/output/retro.out) retro.out) \
 	$(call check_all_result)
 include Makefile.deps

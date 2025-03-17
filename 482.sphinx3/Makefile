@@ -17,22 +17,22 @@ $(DST_DIR)/$(TAG)%.o: %.c
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/test/output/an4.log), an4.log) \
-	$(call only_check, $(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/test/output/considered.out),considered.out) \
-	$(call only_check, $(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/test/output/total_considered.out),total_considered.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/test/output/an4.log), an4.log) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/test/output/considered.out),considered.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/test/output/total_considered.out),total_considered.out) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/train/output/an4.log),an4.log) \
-	$(call only_check, $(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/train/output/considered.out),considered.out) \
-	$(call only_check, $(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/train/output/total_considered.out),total_considered.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/train/output/an4.log),an4.log) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/train/output/considered.out),considered.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/train/output/total_considered.out),total_considered.out) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/ref/output/an4.log),an4.log) \
-	$(call only_check, $(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/ref/output/considered.out),considered.out) \
-	$(call only_check, $(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/ref/output/total_considered.out),total_considered.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.001  --floatcompare, $(RUN_DIR)/an4.log, data/ref/output/an4.log),an4.log) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.0004 --floatcompare, $(RUN_DIR)/considered.out, data/ref/output/considered.out),considered.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 1e-06  --floatcompare, $(RUN_DIR)/total_considered.out, data/ref/output/total_considered.out),total_considered.out) \
 	$(call check_all_result)
 include Makefile.deps

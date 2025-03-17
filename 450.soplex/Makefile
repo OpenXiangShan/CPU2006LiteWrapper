@@ -21,32 +21,32 @@ adapt_suffix = $(shell if test -f $(1)$(2); then echo $(1)$(2); elif test -f $(1
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001 --obiwan, $(RUN_DIR)/test.out, data/test/output/test.out),test.out) \
-	$(call only_check, $(call SPECDIFF, --abstol 20  --reltol 10 --obiwan, \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001 --obiwan, $(RUN_DIR)/test.out, data/test/output/test.out),test.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 20  --reltol 10 --obiwan, \
 		$(call adapt_suffix,$(RUN_DIR)/test,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/test/output/test,.mps.out,.mps.stderr,.mps.info,.out,.stderr)),test.x) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, $(RUN_DIR)/pds-20.mps.out, data/train/output/pds-20.mps.out),pds-20.mps.out) \
-	$(call only_check, $(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, $(RUN_DIR)/pds-20.mps.out, data/train/output/pds-20.mps.out),pds-20.mps.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
 		$(call adapt_suffix,$(RUN_DIR)/pds-20,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/train/output/pds-20,.mps.out,.mps.stderr,.mps.info,.out,.stderr)),pds-20.x) \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, $(RUN_DIR)/train.out, data/train/output/train.out),train.out) \
-	$(call only_check, $(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 20 --obiwan, $(RUN_DIR)/train.out, data/train/output/train.out),train.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
 		$(call adapt_suffix,$(RUN_DIR)/train,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/train/output/train,.mps.out,.mps.stderr,.mps.info,.out,.stderr)),train.x) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, $(RUN_DIR)/pds-50.mps.out, data/ref/output/pds-50.mps.out),pds-50.mps.out) \
-	$(call only_check, $(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, $(RUN_DIR)/pds-50.mps.out, data/ref/output/pds-50.mps.out),pds-50.mps.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
 		$(call adapt_suffix,$(RUN_DIR)/pds-50,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/ref/output/pds-50,.mps.out,.mps.stderr,.mps.info,.out,.stderr)),pds-50.x) \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, $(RUN_DIR)/ref.out, data/ref/output/ref.out),ref.out) \
-	$(call only_check, $(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.02 --obiwan, $(RUN_DIR)/ref.out, data/ref/output/ref.out),ref.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 20  --reltol 0.0001 --obiwan, \
 		$(call adapt_suffix,$(RUN_DIR)/ref,.mps.out,.mps.stderr,.mps.info,.out,.stderr), \
 		$(call adapt_suffix,data/ref/output/ref,.mps.out,.mps.stderr,.mps.info,.out,.stderr)),ref.x) \
 	$(call check_all_result)

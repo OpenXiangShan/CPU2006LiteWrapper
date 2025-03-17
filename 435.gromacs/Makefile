@@ -26,16 +26,16 @@ include ../Makefile.run
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/test/output/gromacs.out),gromacs.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/test/output/gromacs.out),gromacs.out) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/train/output/gromacs.out),gromacs.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/train/output/gromacs.out),gromacs.out) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/ref/output/gromacs.out),gromacs.out) \
+	$(call check_single_result, $(call SPECDIFF, --reltol 0.0125, $(RUN_DIR)/gromacs.out, data/ref/output/gromacs.out),gromacs.out) \
 	$(call check_all_result)
 include Makefile.deps

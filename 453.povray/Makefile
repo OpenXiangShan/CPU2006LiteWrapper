@@ -24,19 +24,19 @@ include ../Makefile.run
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 0  --reltol 0.0002, $(RUN_DIR)/SPEC-benchmark.log, data/test/output/SPEC-benchmark.log),SPEC-benchmark.log) \
-	$(call only_check, $(call SPECDIFF, --abstol 0  --reltol 0.0002  --skiptol 50 --binary, $(RUN_DIR)/SPEC-benchmark.tga, data/test/output/SPEC-benchmark.tga),SPEC-benchmark.tga) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0  --reltol 0.0002, $(RUN_DIR)/SPEC-benchmark.log, data/test/output/SPEC-benchmark.log),SPEC-benchmark.log) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0  --reltol 0.0002  --skiptol 50 --binary, $(RUN_DIR)/SPEC-benchmark.tga, data/test/output/SPEC-benchmark.tga),SPEC-benchmark.tga) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 0  --reltol 5e-05, $(RUN_DIR)/SPEC-benchmark.log, data/train/output/SPEC-benchmark.log),SPEC-benchmark.log) \
-	$(call only_check, $(call SPECDIFF, --abstol 0  --reltol 5e-05  --skiptol 50 --binary, $(RUN_DIR)/SPEC-benchmark.tga, data/train/output/SPEC-benchmark.tga),SPEC-benchmark.tga) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0  --reltol 5e-05, $(RUN_DIR)/SPEC-benchmark.log, data/train/output/SPEC-benchmark.log),SPEC-benchmark.log) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0  --reltol 5e-05  --skiptol 50 --binary, $(RUN_DIR)/SPEC-benchmark.tga, data/train/output/SPEC-benchmark.tga),SPEC-benchmark.tga) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 0  --reltol 5e-05, $(RUN_DIR)/SPEC-benchmark.log, data/ref/output/SPEC-benchmark.log),SPEC-benchmark.log) \
-	$(call only_check, $(call SPECDIFF, --abstol 0  --reltol 5e-05  --skiptol 50 --binary, $(RUN_DIR)/SPEC-benchmark.tga, data/ref/output/SPEC-benchmark.tga),SPEC-benchmark.tga) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0  --reltol 5e-05, $(RUN_DIR)/SPEC-benchmark.log, data/ref/output/SPEC-benchmark.log),SPEC-benchmark.log) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0  --reltol 5e-05  --skiptol 50 --binary, $(RUN_DIR)/SPEC-benchmark.tga, data/ref/output/SPEC-benchmark.tga),SPEC-benchmark.tga) \
 	$(call check_all_result)
 include Makefile.deps

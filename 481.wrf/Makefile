@@ -59,16 +59,16 @@ include ../Makefile.run
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/test/output/rsl.out.0000),rsl.out.0000) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/test/output/rsl.out.0000),rsl.out.0000) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/train/output/rsl.out.0000),rsl.out.0000) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/train/output/rsl.out.0000),rsl.out.0000) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/ref/output/rsl.out.0000),rsl.out.0000) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 0.01  --reltol 0.05, $(RUN_DIR)/rsl.out.0000, data/ref/output/rsl.out.0000),rsl.out.0000) \
 	$(call check_all_result)
 include Makefile.deps

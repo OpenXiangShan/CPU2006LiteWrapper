@@ -31,21 +31,21 @@ include ../Makefile.run
 test-cmp:
 	@total=0; success=0; failed=0; \
 	for f in cccp; do \
-	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.s data/test/output/$$f.s) \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.s data/test/output/$$f.s) \
 	done; \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
 	for f in integrate; do \
-	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.s data/train/output/$$f.s) \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.s data/train/output/$$f.s) \
 	done; \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
 	for f in 166 200 c-typeck cp-decl expr expr2 g23 s04 scilab; do \
-	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.s data/ref/output/$$f.s) \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.s data/ref/output/$$f.s) \
 	done; \
 	$(call check_all_result)
 include Makefile.deps

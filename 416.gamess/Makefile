@@ -29,18 +29,18 @@ include ../Makefile.run
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/exam29.out, data/test/output/exam29.out),exam29.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/exam29.out, data/test/output/exam29.out),exam29.out) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/h2ocu2+.energy.out, data/train/output/h2ocu2+.energy.out),h2ocu2+.energy.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/h2ocu2+.energy.out, data/train/output/h2ocu2+.energy.out),h2ocu2+.energy.out) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/cytosine.2.out, data/ref/output/cytosine.2.out),cytosine.2.out) \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/h2ocu2+.gradient.out, data/ref/output/h2ocu2+.gradient.out),h2ocu2+.gradient.out) \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/triazolium.out, data/ref/output/triazolium.out),triazolium.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/cytosine.2.out, data/ref/output/cytosine.2.out),cytosine.2.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/h2ocu2+.gradient.out, data/ref/output/h2ocu2+.gradient.out),h2ocu2+.gradient.out) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-05  --reltol 0.0001  --ignorecase, $(RUN_DIR)/triazolium.out, data/ref/output/triazolium.out),triazolium.out) \
 	$(call check_all_result)
 include Makefile.deps

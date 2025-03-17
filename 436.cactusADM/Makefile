@@ -139,16 +139,16 @@ include ../Makefile.run
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/test/output/benchADM.out),benchADM.out) \
+	$(call check_single_result, $(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/test/output/benchADM.out),benchADM.out) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/train/output/benchADM.out),benchADM.out) \
+	$(call check_single_result, $(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/train/output/benchADM.out),benchADM.out) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/ref/output/benchADM.out),benchADM.out) \
+	$(call check_single_result, $(call SPECDIFF, --floatcompare, $(RUN_DIR)/benchADM.out, data/ref/output/benchADM.out),benchADM.out) \
 	$(call check_all_result)
 include Makefile.deps

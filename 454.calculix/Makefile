@@ -168,19 +168,19 @@ include ../Makefile.run
 
 test-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/test/output/SPECtestformatmodifier_z.txt), SPECtestformatmodifier_z.txt) \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/beampic.dat, data/test/output/beampic.dat) beampic.dat) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/test/output/SPECtestformatmodifier_z.txt), SPECtestformatmodifier_z.txt) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/beampic.dat, data/test/output/beampic.dat) beampic.dat) \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/train/output/SPECtestformatmodifier_z.txt), SPECtestformatmodifier_z.txt) \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/stairs.dat, data/train/output/stairs.dat), stairs.dat) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/train/output/SPECtestformatmodifier_z.txt), SPECtestformatmodifier_z.txt) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/stairs.dat, data/train/output/stairs.dat), stairs.dat) \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/ref/output/SPECtestformatmodifier_z.txt), SPECtestformatmodifier_z.txt) \
-	$(call only_check, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/hyperviscoplastic.dat, data/ref/output/hyperviscoplastic.dat),hyperviscoplastic.dat) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/SPECtestformatmodifier_z.txt, data/ref/output/SPECtestformatmodifier_z.txt), SPECtestformatmodifier_z.txt) \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-09  --reltol 1e-09 --obiwan, $(RUN_DIR)/hyperviscoplastic.dat, data/ref/output/hyperviscoplastic.dat),hyperviscoplastic.dat) \
 	$(call check_all_result)
 include Makefile.deps

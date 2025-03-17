@@ -27,21 +27,21 @@ include ../Makefile.run
 test-cmp:
 	@total=0; success=0; failed=0; \
 	for f in capture connect connect_rot connection connection_rot cutstone dniwog; do \
-	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out) \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out) \
 	done; \
 	$(call check_all_result)
 
 train-cmp:
 	@total=0; success=0; failed=0; \
 	for f in arb arend arion atari_atari blunder buzco nicklas2 nicklas4; do \
-	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out) \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out) \
 	done; \
 	$(call check_all_result)
 
 ref-cmp:
 	@total=0; success=0; failed=0; \
 	for f in 13x13 nngs score2 trevorc trevord; do \
-	$(call check_single_result, $(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out) \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out) \
 	done; \
 	$(call check_all_result)
 include Makefile.deps

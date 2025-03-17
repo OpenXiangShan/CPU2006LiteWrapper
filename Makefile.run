@@ -64,7 +64,8 @@ run_result_backup:
 		fi
 	@echo "Already backup into $(RUN_DIR)_$(TYPE)_$(TIMESTAMP)_backup"
 
-define check_single_result
+# this function executes the command provided as an argument within a for loop, and the loop variable if f, the command is formed using the variable f.
+define check_single_result_in_for
 	total=$$((total + 1)); \
 	if $(1) > /dev/null 2>&1; then \
 		success=$$((success + 1)); \
@@ -74,7 +75,8 @@ define check_single_result
 	fi;
 endef
 
-define only_check
+# this function executes a single command that is not controlled by a for loop, the parameters passed to it include the command to be executed and the name of the workload parameter. the workload parameter name is used to determine which command is executed
+define check_single_result
 	total=$$((total + 1)); \
 	if $(1) > /dev/null 2>&1; then \
 		success=$$((success + 1)); \
@@ -84,6 +86,7 @@ define only_check
 	fi;
 endef
 
+# this function is used to count the total number of executed commands, as well as the number of successful and failed commands, after all commands have been executed.
 define check_all_result
 	if [ $${failed} -eq 0 ]; then \
 		echo "SUCCESS: All $${success}/$${total} $(NAME) $(TYPE) testcase SUCCESS/ALL"; \

@@ -64,7 +64,7 @@ run_result_backup:
 		fi
 	@echo "Already backup into $(RUN_DIR)_$(TYPE)_$(TIMESTAMP)_backup"
 
-# this function executes the command provided as an argument within a for loop, and the loop variable if f, the command is formed using the variable f.
+# this function executes the command provided as an argument within a for loop, and the loop variable is f, the command is formed using the variable f.
 define check_single_result_in_for
 	total=$$((total + 1)); \
 	if $(1) > /dev/null 2>&1; then \

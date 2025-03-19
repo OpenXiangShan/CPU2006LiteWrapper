@@ -8,11 +8,17 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	$(call SPECDIFF, --obiwan, $(RUN_DIR)/test.out, data/test/output/test.out)
+	@total=0; success=0; failed=0; \
+	$(call check_single_result, $(call SPECDIFF, --obiwan, $(RUN_DIR)/test.out, data/test/output/test.out),test.out) \
+	$(call check_all_result)
 
 train-cmp:
-	$(call SPECDIFF, --obiwan, $(RUN_DIR)/train.out, data/train/output/train.out)
+	@total=0; success=0; failed=0; \
+	$(call check_single_result, $(call SPECDIFF, --obiwan, $(RUN_DIR)/train.out, data/train/output/train.out),train.out) \
+	$(call check_all_result)
 
 ref-cmp:
-	$(call SPECDIFF, --obiwan, $(RUN_DIR)/ref.out, data/ref/output/ref.out)
+	@total=0; success=0; failed=0; \
+	$(call check_single_result, $(call SPECDIFF, --obiwan, $(RUN_DIR)/ref.out, data/ref/output/ref.out),ref.out) \
+	$(call check_all_result)
 include Makefile.deps

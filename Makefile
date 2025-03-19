@@ -159,8 +159,9 @@ backup_fp_$(1): $(foreach t,$(SPECFP),backup-$t-$(1))
 backup_all_$(1): $(foreach t,$(SPECINT) $(SPECFP),backup-$t-$(1))
 
 run-%-$(1):
-	@echo "Running $(1) on $$*"
+	@echo "Running $$* [$(1)]..."
 	@-$(MAKE) -s -C $$* run TYPE=$(1) > $$*/logs/run-$(1).log 2>&1
+	@-$(MAKE) -s -C $$* $(1)-cmp
 
 backup-%-$(1):
 	@echo "Backup $(1) on $$*"

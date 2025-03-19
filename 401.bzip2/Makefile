@@ -6,17 +6,23 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	@for f in dryer.jpg input.program; do \
-		$(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out; \
-	done
+	@total=0; success=0; failed=0; \
+	for f in dryer.jpg input.program; do \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out) \
+	done; \
+	$(call check_all_result)
 
 train-cmp:
-	@for f in byoudoin.jpg input.combined input.program; do \
-		$(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out; \
-	done
+	@total=0; success=0; failed=0; \
+	for f in byoudoin.jpg input.combined input.program; do \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out) \
+	done; \
+	$(call check_all_result)
 
 ref-cmp:
-	@for f in chicken.jpg input.combined input.program input.source liberty.jpg text.html; do \
-		$(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out; \
-	done
+	@total=0; success=0; failed=0; \
+	for f in chicken.jpg input.combined input.program input.source liberty.jpg text.html; do \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out) \
+	done; \
+	$(call check_all_result)
 include Makefile.deps

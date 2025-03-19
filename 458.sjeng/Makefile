@@ -6,11 +6,23 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
-	$(DIFF) $(RUN_DIR)/test.out data/test/output/test.out
+	@total=0; success=0; failed=0; \
+	for f in test; do \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/test/output/$$f.out) \
+	done; \
+	$(call check_all_result)
 
 train-cmp:
-	$(DIFF) $(RUN_DIR)/train.out data/train/output/train.out
+	@total=0; success=0; failed=0; \
+	for f in train; do \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/train/output/$$f.out) \
+	done; \
+	$(call check_all_result)
 
 ref-cmp:
-	$(DIFF) $(RUN_DIR)/ref.out data/ref/output/ref.out
+	@total=0; success=0; failed=0; \
+	for f in ref; do \
+	$(call check_single_result_in_for, $(DIFF) $(RUN_DIR)/$$f.out data/ref/output/$$f.out) \
+	done; \
+	$(call check_all_result)
 include Makefile.deps

@@ -39,24 +39,23 @@ copy_run_data:
 		cp -r $(SOURCE_SIZE_INPUT)/* $(RUN_DIR)/ ; \
 		fi
 	@if [ -d $(SOURCE_EXTRA_INPUT) ]; then \
-		echo "Prepare extra data..."; \
+		echo "Prepare extra data..." >> $(TIME_LOG); \
 		sh $(SOURCE_EXTRA_INPUT)/$(SIZE).sh; \
 		fi
 
 .PHONY: prepare_data
 prepare_data:
-	@export TIME='%Uuser %Ssystem %Eelapsed %PCPU (%Xtext+%Ddata %Mmax)k\n%Iinputs+%Ooutputs (%Fmajor+%Rminor)pagefaults %Wswaps\n%e # elapsed in second'
-	@date | tee $(TIME_LOG)
-	@echo "Using command: ${LOADER} to execute" | tee -a $(TIME_LOG)
-	@echo "@@@@@ Running $(WORKLOAD_NAME) [$(SIZE)]..." | tee -a $(TIME_LOG)
+	@date >> $(TIME_LOG)
+	@echo "Using command: ${LOADER} to execute" >> $(TIME_LOG)
+	@echo "@@@@@ Running $(WORKLOAD_NAME) [$(SIZE)]..." >> $(TIME_LOG)
 
 .PHONY: run
 run: copy_run_data prepare_data
 	cd $(RUN_DIR) && \
-		APP='/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build$(TAG)/$(WORKLOAD_NAME)' \
+		export TIME="%U user %S system %E elapsed %P CPU (%X text + %D data %M max)k\n%I inputs + %O outputs (%F major + %R minor)pagefaults %W swaps\n%e # elapsed in second"  && \
+    APP='/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build$(TAG)/$(WORKLOAD_NAME)' \
 		sh $(RUN_SH) && \
-		cd $(CURDIR) \
-	make -s $(SIZE)-cmp
+		cd $(CURDIR)
 
 .PHONY: run_result_backup
 run_result_backup:
@@ -64,5 +63,38 @@ run_result_backup:
 		cp -r $(RUN_DIR) $(RUN_DIR)_$(TYPE)_$(TIMESTAMP)_backup; \
 		fi
 	@echo "Already backup into $(RUN_DIR)_$(TYPE)_$(TIMESTAMP)_backup"
+
+# this function executes the command provided as an argument within a for loop, and the loop variable is f, the command is formed using the variable f.
+define check_single_result_in_for
+	total=$$((total + 1)); \
+	if $(1) > /dev/null 2>&1; then \
+		success=$$((success + 1)); \
+	else \
+		echo "$(NAME) $(TYPE) $$f [ FAIL ]"; \
+		failed=$$((failed + 1)); \
+	fi;
+endef
+
+# this function executes a single command that is not controlled by a for loop, the parameters passed to it include the command to be executed and the name of the workload parameter. the workload parameter name is used to determine which command is executed
+define check_single_result
+	total=$$((total + 1)); \
+	if $(1) > /dev/null 2>&1; then \
+		success=$$((success + 1)); \
+	else \
+		echo "$(NAME) $(TYPE) $(2) [ FAIL ]"; \
+		failed=$$((failed + 1)); \
+	fi;
+endef
+
+# this function is used to count the total number of executed commands, as well as the number of successful and failed commands, after all commands have been executed.
+define check_all_result
+	if [ $${failed} -eq 0 ]; then \
+		echo "SUCCESS: All $${success}/$${total} $(NAME) $(TYPE) testcase SUCCESS/ALL"; \
+		exit 0; \
+	else \
+		echo "ERROR: $${success}/$${total} $(NAME) $(TYPE) testcase SUCCESS/ALL"; \
+		exit 1; \
+	fi;
+endef
 
 

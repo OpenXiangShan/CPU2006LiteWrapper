@@ -38,31 +38,37 @@ include ../Makefile.apps
 include ../Makefile.run
 
 test-cmp:
+	@total=0; success=0; failed=0; \
 	for i in 0 1 2 3 4 5 6 7 8; do \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps); \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv); \
-	done
-	$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/log, data/test/output/log)
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps),grid-$$i.eps) \
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv),solution-$$i.gmv) \
+	done; \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/log, data/test/output/log),log) \
+	$(call check_all_result)
 
 train-cmp:
+	@total=0; success=0; failed=0; \
 	for i in 0 1 2 3 4 5 6 7 8; do \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps); \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv); \
-	done
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps),grid-$$i.eps) \
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv),solution-$$i.gmv) \
+	done; \
 	for i in 9 10; do \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/train/output/grid-$$i.eps); \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/train/output/solution-$$i.gmv); \
-	done
-	$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/log, data/train/output/log)
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/train/output/grid-$$i.eps),grid-$$i.eps) \
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/train/output/solution-$$i.gmv),solution-$$i.gmv) \
+	done; \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/log, data/train/output/log),log) \
+	$(call check_all_result)
 
 ref-cmp:
+	@total=0; success=0; failed=0; \
 	for i in 0 1 2 3 4 5 6 7 8; do \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps); \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv); \
-	done
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/all/output/grid-$$i.eps),grid-$$i.eps) \
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/all/output/solution-$$i.gmv),solution-$$i.gmv) \
+	done; \
 	for i in 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23; do \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/ref/output/grid-$$i.eps); \
-		$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/ref/output/solution-$$i.gmv); \
-	done
-	$(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/log, data/ref/output/log)
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/grid-$$i.eps, data/ref/output/grid-$$i.eps),grid-$$i.eps) \
+		$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/solution-$$i.gmv, data/ref/output/solution-$$i.gmv),solution-$$i.gmv) \
+	done; \
+	$(call check_single_result, $(call SPECDIFF, --abstol 1e-07, $(RUN_DIR)/log, data/ref/output/log),log) \
+	$(call check_all_result)
 include Makefile.deps

@@ -1,1 +1,1 @@
-${APP}${TAG} 143 25 > train.out
+${APP} 143 25 > train.out

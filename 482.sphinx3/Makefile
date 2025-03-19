@@ -11,7 +11,7 @@ include ../Makefile.apps
 include ../Makefile.run
 
 ### Override rule (compile): a single `.c` -> `.o` (gcc)
-$(DST_DIR)/$(TAG)%.o: %.c
+$(DST_DIR)/%.o: %.c
 	@mkdir -p $(dir $@) && echo + CC $<
 	cd $(dir $<) && $(CC) $(CFLAGS) -c -o $(abspath $@) $(notdir $<)
 

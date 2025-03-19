@@ -1,1 +1,1 @@
-${APP}${TAG} -i hyperviscoplastic > hyperviscoplastic.log
+${APP} -i hyperviscoplastic > hyperviscoplastic.log

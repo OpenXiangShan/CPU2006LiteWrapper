@@ -53,7 +53,7 @@ prepare_data:
 run: copy_run_data prepare_data
 	cd $(RUN_DIR) && \
 		export TIME="%U user %S system %E elapsed %P CPU (%X text + %D data %M max)k\n%I inputs + %O outputs (%F major + %R minor)pagefaults %W swaps\n%e # elapsed in second"  && \
-		APP="/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build/$(WORKLOAD_NAME)" \
+    APP='/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build$(TAG)/$(WORKLOAD_NAME)' \
 		sh $(RUN_SH) && \
 		cd $(CURDIR)
 

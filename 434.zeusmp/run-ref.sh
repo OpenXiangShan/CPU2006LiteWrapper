@@ -1,1 +1,1 @@
-${APP}${TAG} > zeusmp.stdout
+${APP} > zeusmp.stdout

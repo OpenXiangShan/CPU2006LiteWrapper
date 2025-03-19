@@ -48,13 +48,13 @@ def get_ref_time(benchspec, input):
   bench_dir = os.path.join(spec_dir, "benchspec", "CPU2006", benchspec)
   reftime_path = os.path.join(bench_dir, "data", input, "reftime")
   f = open(reftime_path)
-  reftime = int(f.readlines()[-1])
+  reftime = float(f.readlines()[-1].rstrip('\n'))
   f.close()
   return reftime
 
 def get_run_time(benchspec, input):
   elapsed_time = 0
-  log_path = os.path.join(benchspec, "build", f"run-{input}.log")
+  log_path = os.path.join(benchspec, "run", f"run-{input}.sh.timelog")
   if not os.path.exists(log_path):
     if verbose:
       print(f"Does not find {log_path} for {benchspec}. Use REFTIME instead.")
@@ -65,7 +65,7 @@ def get_run_time(benchspec, input):
         elapsed_time += float(line.split("#")[0].strip())
   return elapsed_time
 
-def report(input):
+def report(input, fp_case, int_case):
   def bold(s, replace_slash=True):
     if not replace_slash:
         return '\033[1m' + s + '\033[0m'
@@ -86,17 +86,30 @@ def report(input):
   print(bold("************************************************"))
   print(bold("|  SPEC CPU2006  | REFTIME  | RUNTIME  | SCORE |"))
   print(bold("************************************************"))
-  report_partial("SPECint2006", get_spec_int())
-  print("------------------------------------------------")
-  report_partial("SPECfp2006", get_spec_fp())
-  print(bold("************************************************"))
+  if int_case:
+    report_partial("SPECint2006", get_spec_int())
+    print("------------------------------------------------")
+  if fp_case:
+    report_partial("SPECfp2006", get_spec_fp())
+    print(bold("************************************************"))
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="report marks for SPEC CPU2006")
+  parser.add_argument('--spec', default="all", type=str, help="Testcase FP/INT/ALL for SPEC2006 (fp, int, all)")
   parser.add_argument('--input', default="ref", type=str, help='input of SPEC CPU2006 (ref, train, test)')
   parser.add_argument('--verbose', '-v', default=False, action='store_true', help='verbose level')
   args = parser.parse_args()
 
   verbose = args.verbose
 
-  report(args.input)
+  if args.spec == "all":
+    fp_case = True
+    int_case = True
+  elif args.spec == "fp":
+    fp_case = True
+    int_case = False
+  else:
+    int_case = True
+    fp_case = False
+
+  report(args.input, fp_case, int_case)

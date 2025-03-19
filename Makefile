@@ -168,10 +168,10 @@ backup-%-$(1):
 	@-$(MAKE) -s -C $$* run_result_backup TYPE=$(1)
 
 report-int-$(1):
-	for t in $$(SPECINT); do cat $$$$t/run/run-$(1).sh.timelog | grep "# elapsed in second" | sed -e "s/#.*/\t$$$$t/"; done
+	@python scripts/report.py --input $(1) --spec int
 
 report-fp-$(1):
-	for t in $$(SPECFP); do cat $$$$t/run/run-$(1).sh.timelog | grep "# elapsed in second" | sed -e "s/#.*/\t$$$$t/"; done
+	@python scripts/report.py --input $(1) --spec fp
 
 endef
 

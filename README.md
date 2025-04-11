@@ -91,10 +91,17 @@ We will use `qemu-$(ARCH)` to run the compiled binary when `$(ARCH)` does not ma
 You can also specify `LOADER` argument to run the compiled binarys with different loader, such as `qemu-riscv64-static`:
 
 ```shell
-make run-int-test LOADER="qemu-riscv64 -cpu rv64,v=true,vlen=128,rvv_ta_all_1s=true"
+make ARCH=riscv64 run-int-test LOADER="qemu-riscv64 -cpu rv64,v=true,vlen=128,rvv_ta_all_1s=true"
 ```
 
 if no error occurs, the compiled binarys are correct.
+
+# Test compiled ELF
+
+```shell
+make apply-elf-all ELF_PATH=/path/to/elf
+make ARCH=riscv64 run-int-test LOADER="qemu-riscv64 -cpu rv64,v=true,vlen=128,rvv_ta_all_1s=true" # LOADER is optional
+```
 
 # Note for GCC >= 14
 

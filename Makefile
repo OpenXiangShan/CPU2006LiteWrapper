@@ -88,6 +88,9 @@ build_fp_%:
 collect_%:
 	@$(MAKE) -s -C $* ELF_PATH=$(COPY_DST_PATH) collect
 
+apply_%:
+	@$(MAKE) -s -C $* ELF_PATH=$(ELF_PATH) apply-elf
+
 copy-int-src: $(foreach t,$(SPECINT),copy_src_$t)
 copy-fp-src: $(foreach t,$(SPECFP),copy_src_$t)
 copy-all-src: copy-int-src copy-fp-src
@@ -131,6 +134,10 @@ collect-int: $(foreach t,$(SPECINT),collect_$t)
 collect-fp: $(foreach t,$(SPECFP),collect_$t)
 collect-all: collect-fp collect-int
 
+apply-elf-int: $(foreach t,$(SPECINT),apply_$t)
+apply-elf-fp: $(foreach t,$(SPECFP),apply_$t)
+apply-elf-all: apply-elf-fp apply-elf-int
+
 # prototype: cmd_template(size)
 define cmd_template
 run-int-$(1): $(foreach t,$(SPECINT),run-$t-$(1))
@@ -160,7 +167,7 @@ backup_all_$(1): $(foreach t,$(SPECINT) $(SPECFP),backup-$t-$(1))
 
 run-%-$(1):
 	@echo "Running $$* [$(1)]..."
-	@-$(MAKE) -s -C $$* run TYPE=$(1) > $$*/logs/run-$(1).log 2>&1
+	@-$(MAKE) -s -C $$* run TYPE=$(1) > $$*/build/run-$(1).log 2>&1
 	@-$(MAKE) -s -C $$* $(1)-cmp
 
 backup-%-$(1):

@@ -1,7 +1,6 @@
-diff --git a/DefaultTimers.c b/DefaultTimers.c
-index 0d8e2ec..a4bd937 100644
---- a/DefaultTimers.c
-+++ b/DefaultTimers.c
+diff a/436.cactusADM/src/Cactus/DefaultTimers.c b/436.cactusADM/src/Cactus/DefaultTimers.c
+--- a/436.cactusADM/src/Cactus/DefaultTimers.c
++++ b/436.cactusADM/src/Cactus/DefaultTimers.c
 @@ -247,7 +247,6 @@ static void CCTKi_TimerGetTimeOfDayStart(int timernum, void *idata)
    t_GetTimeOfDayTimer *data;
  

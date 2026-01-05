@@ -24,7 +24,7 @@ pushd $SPEC && source shrc && popd
 ``` shell
 make copy-all-src
 ```
-- compile binarys
+- compile binaries
 ```
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
@@ -44,7 +44,7 @@ make collect-all ELF_PATH=/path/to/elf # ELF_PATH is optional
 
 # With Vector extension
 
-- compile binarys
+- compile binaries
 ```
 make ARCH=riscv64 \
      CROSS_COMPILE=riscv64-unknown-linux-gnu- \
@@ -86,15 +86,45 @@ make ARCH=riscv64 \
 make ARCH=riscv64 run-all-test  # Run all tests using the test input set. Use run-all-train or run-all-ref for train or ref input sets.
 ```
 
+You can also specify `VALIDATE=0` and `REPORT=0` to disable validation and report generation to speed up the running process,
+this relaxes the need of `SPEC` env var at runtime:
+
+```shell
+make ARCH=riscv64 VALIDATE=0 REPORT=0 run-all-test
+```
+
 We will use `qemu-$(ARCH)` to run the compiled binary when `$(ARCH)` does not match `uname -m`.
 
-You can also specify `LOADER` argument to run the compiled binarys with different loader, such as `qemu-riscv64-static`:
+You can also specify `LOADER` argument to run the compiled binaries with different loader, such as `qemu-riscv64-static`:
 
 ```shell
 make ARCH=riscv64 run-int-test LOADER="qemu-riscv64 -cpu rv64,v=true,vlen=128,rvv_ta_all_1s=true"
 ```
 
-if no error occurs, the compiled binarys are correct.
+if no error occurs, the compiled binaries are correct.
+
+When running on a real hardware, sometimes you may want to know the performance counter of the binaries, you can specify `PROFILER` argument to run the compiled binaries with different profiler, such as `perf`:
+
+```shell
+make ARCH=riscv64 run-int-test PROFILER="perf stat -e cycles,instructions,branch-misses,cache-misses --append -o ../../perf.log"
+```
+
+When you need to compile different binaries with different architecture or flags, you can specify `TAG` argument to distinguish the compiled binaries, it will use `build$(TAG)` as the build folder name:
+
+```shell
+make ARCH=x86_64 build-all -j `nproc`
+make ARCH=x86_64 run-int-test
+make ARCH=riscv64 TAG=riscv64 build-all -j `nproc`
+make ARCH=riscv64 TAG=riscv64 run-int-test
+```
+
+When you need to run the multiple compiled binaries on a shared storage (e.g. NFS) at the same time, you can specify `RUN_TAG` argument to distinguish the run folders, it will use `run$(RUN_TAG)` as the run folder name:
+
+```shell
+make ARCH=riscv64 RUN_TAG=run1 run-int-test
+make ARCH=riscv64 RUN_TAG=run2 run-int-test
+```
+
 
 # Test compiled ELF
 

@@ -1,1 +1,1 @@
-cp run/le/32/RRTM_DATA run/RRTM_DATA
+cp $1/le/32/RRTM_DATA $1/RRTM_DATA

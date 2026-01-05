@@ -52,9 +52,9 @@ def get_ref_time(benchspec, input):
   f.close()
   return reftime
 
-def get_run_time(benchspec, input):
+def get_run_time(benchspec, input, run_tag):
   elapsed_time = 0
-  log_path = os.path.join(benchspec, "run", f"run-{input}.sh.timelog")
+  log_path = os.path.join(benchspec, f"run{run_tag}", f"run-{input}.sh.timelog")
   if not os.path.exists(log_path):
     if verbose:
       print(f"Does not find {log_path} for {benchspec}. Use REFTIME instead.")
@@ -65,7 +65,7 @@ def get_run_time(benchspec, input):
         elapsed_time += float(line.split("#")[0].strip())
   return elapsed_time
 
-def report(input, fp_case, int_case):
+def report(input, fp_case, int_case, run_tag):
   def bold(s, replace_slash=True):
     if not replace_slash:
         return '\033[1m' + s + '\033[0m'
@@ -76,7 +76,7 @@ def report(input, fp_case, int_case):
     spec_score = 1
     for benchspec in benchspecs:
       ref_time = get_ref_time(benchspec, input)
-      run_time = get_run_time(benchspec, input)
+      run_time = get_run_time(benchspec, input, run_tag)
       score = ref_time / run_time
       spec_score *= score
       print(f"| {benchspec:15}| {ref_time:8.2f} | {run_time:8.2f} | {score:5.2f} |")
@@ -97,10 +97,12 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="report marks for SPEC CPU2006")
   parser.add_argument('--spec', default="all", type=str, help="Testcase FP/INT/ALL for SPEC2006 (fp, int, all)")
   parser.add_argument('--input', default="ref", type=str, help='input of SPEC CPU2006 (ref, train, test)')
+  parser.add_argument('--run-tag', default="", type=str, help='tag for run directory')
   parser.add_argument('--verbose', '-v', default=False, action='store_true', help='verbose level')
   args = parser.parse_args()
 
   verbose = args.verbose
+  run_tag = args.run_tag
 
   if args.spec == "all":
     fp_case = True
@@ -112,4 +114,4 @@ if __name__ == "__main__":
     int_case = True
     fp_case = False
 
-  report(args.input, fp_case, int_case)
+  report(args.input, fp_case, int_case, run_tag)

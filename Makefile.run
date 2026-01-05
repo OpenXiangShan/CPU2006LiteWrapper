@@ -11,7 +11,7 @@ SOURCE_ALL_INPUT := $(CURDIR)/data/all/input
 SOURCE_SIZE_INPUT := $(CURDIR)/data/$(SIZE)/input
 SOURCE_EXTRA_INPUT := $(CURDIR)/extra-data
 
-RUN_DIR := $(CURDIR)/run
+RUN_DIR := $(CURDIR)/run$(RUN_TAG)
 
 TIME_LOG := $(RUN_DIR)/run-$(SIZE).sh.timelog
 
@@ -40,7 +40,7 @@ copy_run_data:
 		fi
 	@if [ -d $(SOURCE_EXTRA_INPUT) ]; then \
 		echo "Prepare extra data..." >> $(TIME_LOG); \
-		sh $(SOURCE_EXTRA_INPUT)/$(SIZE).sh; \
+		sh $(SOURCE_EXTRA_INPUT)/$(SIZE).sh $(RUN_DIR); \
 		fi
 
 .PHONY: prepare_data

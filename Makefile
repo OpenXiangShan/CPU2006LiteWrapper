@@ -175,10 +175,10 @@ backup-%-$(1):
 	@-$(MAKE) -s -C $$* run_result_backup TYPE=$(1)
 
 report-int-$(1):
-	@python scripts/report.py --input $(1) --spec int
+	@python scripts/report.py --input $(1) --spec int --run-tag "$(RUN_TAG)"
 
 report-fp-$(1):
-	@python scripts/report.py --input $(1) --spec fp
+	@python scripts/report.py --input $(1) --spec fp --run-tag "$(RUN_TAG)"
 
 endef
 

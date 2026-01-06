@@ -2,6 +2,9 @@ SPECINT = 400.perlbench 401.bzip2 403.gcc 429.mcf 445.gobmk 456.hmmer 458.sjeng 
 
 SPECFP = 410.bwaves 416.gamess 433.milc 434.zeusmp 435.gromacs 436.cactusADM 437.leslie3d 444.namd 447.dealII 450.soplex 453.povray 454.calculix 459.GemsFDTD 465.tonto 470.lbm 481.wrf 482.sphinx3
 
+VALIDATE ?= 1
+REPORT   ?= 1
+
 ARCH ?= $(shell uname -m)
 export ARCH
 
@@ -57,7 +60,7 @@ build_intpgo_%:
 	@mkdir -p $(CURDIR)/$*/pgo
 	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off PGO_FLAG=-fprofile-generate=$(CURDIR)/$*/pgo >> $*/logs/profilebuild_int_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build INT PGO generator: $*"
-	@$(MAKE) run-$*-train >> $*/logs/pgorun_int_$*_$(TIMESTAMP).log 2>&1
+	@$(MAKE) runeach-$*-train >> $*/logs/pgorun_int_$*_$(TIMESTAMP).log 2>&1
 	@echo "Train INT PGO target: $*"
 	@$(MAKE) -s -C $* clean-obj
 	@$(MAKE) -s -C $* TESTSET_SPECIFIC_FLAG=-ffp-contract=off PGO_FLAG=-fprofile-use=$(CURDIR)/$*/pgo >> $*/logs/pgobuild_int_$*_$(TIMESTAMP).log 2>&1
@@ -74,7 +77,7 @@ build_fppgo_%:
 	@mkdir -p $(CURDIR)/$*/pgo
 	@$(MAKE) -s -C $* PGO_FLAG=-fprofile-generate=$(CURDIR)/$*/pgo >> $*/logs/profilebuild_fp_$*_$(TIMESTAMP).log 2>&1
 	@echo "Build FP PGO generator: $*"
-	@$(MAKE) run-$*-train >> $*/logs/pgorun_fp_$*_$(TIMESTAMP).log 2>&1
+	@$(MAKE) runeach-$*-train >> $*/logs/pgorun_fp_$*_$(TIMESTAMP).log 2>&1
 	@echo "Train FP PGO target: $*"
 	@$(MAKE) -s -C $* clean-obj
 	@$(MAKE) -s -C $* PGO_FLAG=-fprofile-use=$(CURDIR)/$*/pgo >> $*/logs/pgobuild_fp_$*_$(TIMESTAMP).log 2>&1
@@ -140,23 +143,29 @@ apply-elf-all: apply-elf-fp apply-elf-int
 
 # prototype: cmd_template(size)
 define cmd_template
-run-int-$(1): $(foreach t,$(SPECINT),run-$t-$(1))
+run-int-$(1): $(foreach t,$(SPECINT),runeach-$t-$(1))
+ifeq ($(REPORT),1)
 	@echo "\n\n\n"
 	$(MAKE) report-int-$(1)
+endif
 
 validate-int-$(1):
 	for t in $$(SPECINT); do $(MAKE) -s -C $$$$t $(1)-cmp; done
 
 backup_int_$(1): $(foreach t,$(SPECINT),backup-$t-$(1))
 
-run-fp-$(1): $(foreach t,$(SPECFP),run-$t-$(1))
+run-fp-$(1): $(foreach t,$(SPECFP),runeach-$t-$(1))
+ifeq ($(REPORT),1)
 	@echo "\n\n\n"
 	$(MAKE) report-fp-$(1)
+endif
 
-run-all-$(1): $(foreach t,$(SPECINT) $(SPECFP),run-$t-$(1))
+run-all-$(1): $(foreach t,$(SPECINT) $(SPECFP),runeach-$t-$(1))
+ifeq ($(REPORT),1)
 	@echo "\n\n\n"
 	$(MAKE) report-int-$(1)
 	$(MAKE) report-fp-$(1)
+endif
 
 validate-fp-$(1):
 	for t in $$(SPECFP); do $(MAKE) -s -C $$$$t $(1)-cmp; done
@@ -165,20 +174,22 @@ backup_fp_$(1): $(foreach t,$(SPECFP),backup-$t-$(1))
 
 backup_all_$(1): $(foreach t,$(SPECINT) $(SPECFP),backup-$t-$(1))
 
-run-%-$(1):
+runeach-%-$(1):
 	@echo "Running $$* [$(1)]..."
 	@-$(MAKE) -s -C $$* run TYPE=$(1) > $$*/build/run-$(1).log 2>&1
+ifeq ($(VALIDATE),1)
 	@-$(MAKE) -s -C $$* $(1)-cmp
+endif
 
 backup-%-$(1):
 	@echo "Backup $(1) on $$*"
 	@-$(MAKE) -s -C $$* run_result_backup TYPE=$(1)
 
 report-int-$(1):
-	@python scripts/report.py --input $(1) --spec int
+	@python scripts/report.py --input $(1) --spec int --run-tag "$(RUN_TAG)"
 
 report-fp-$(1):
-	@python scripts/report.py --input $(1) --spec fp
+	@python scripts/report.py --input $(1) --spec fp --run-tag "$(RUN_TAG)"
 
 endef
 

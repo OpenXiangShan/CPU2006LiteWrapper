@@ -11,7 +11,7 @@ SOURCE_ALL_INPUT := $(CURDIR)/data/all/input
 SOURCE_SIZE_INPUT := $(CURDIR)/data/$(SIZE)/input
 SOURCE_EXTRA_INPUT := $(CURDIR)/extra-data
 
-RUN_DIR := $(CURDIR)/run
+RUN_DIR := $(CURDIR)/run$(RUN_TAG)
 
 TIME_LOG := $(RUN_DIR)/run-$(SIZE).sh.timelog
 
@@ -40,7 +40,7 @@ copy_run_data:
 		fi
 	@if [ -d $(SOURCE_EXTRA_INPUT) ]; then \
 		echo "Prepare extra data..." >> $(TIME_LOG); \
-		sh $(SOURCE_EXTRA_INPUT)/$(SIZE).sh; \
+		sh $(SOURCE_EXTRA_INPUT)/$(SIZE).sh $(RUN_DIR); \
 		fi
 
 .PHONY: prepare_data
@@ -54,7 +54,7 @@ run: copy_run_data prepare_data
 	cd $(RUN_DIR) && \
 		export TIME="%U user %S system %E elapsed %P CPU (%X text + %D data %M max)k\n%I inputs + %O outputs (%F major + %R minor)pagefaults %W swaps\n%e # elapsed in second"  && \
     APP='/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build$(TAG)/$(WORKLOAD_NAME)' \
-		sh $(RUN_SH) && \
+		$(PROFILER) sh $(RUN_SH) && \
 		cd $(CURDIR)
 
 .PHONY: run_result_backup

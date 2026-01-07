@@ -140,3 +140,7 @@ The old version of xerces-c in 483.xalancbmk [contains a bug](https://gcc.gnu.or
 # Note for GCC >= 15
 
 The 436.cactusADM [contains a bug](https://stackoverflow.com/questions/25483031/storage-size-of-tzp-isn-t-known) that will cause compile errors in GCC 15 and later. You may need to apply the [patch](./patches/436.cactusADM.patch) to fix it.
+
+# Note for LLVM >= 21
+
+The 445.gobmk [contains a bug](https://discourse.llvm.org/t/is-anyone-else-seeing-an-error-in-spec2k6-445-gobmk-using-just-scalar/85752) that will cause miscompilation in LLVM 21 and later. You may need to apply the [patch](./patches/445.gobmk.patch) to fix it.

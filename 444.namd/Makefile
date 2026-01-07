@@ -3,6 +3,7 @@ SRCS = $(addprefix src/, Compute.C ComputeList.C ComputeNonbondedUtil.C LJTable.
 Molecule.C Patch.C PatchList.C ResultSet.C SimParameters.C erf.C \
 spec_namd.C)
 LD_CXX = 1
+CFLAGS += -std=c++98
 include ../Makefile.apps
 include ../Makefile.run
 

@@ -1,7 +1,7 @@
 NAME = 473.astar
 SRCS = $(addprefix src/, CreateWay_.cpp Places_.cpp RegBounds_.cpp RegMng_.cpp Way2_.cpp \
 	 WayInit_.cpp Library.cpp Random.cpp Region_.cpp RegWay_.cpp Way_.cpp)
-CFLAGS += -DSPEC_CPU_LITTLE_ENDIAN
+CFLAGS += -DSPEC_CPU_LITTLE_ENDIAN -std=c++98
 LD_CXX = 1
 include ../Makefile.apps
 include ../Makefile.run

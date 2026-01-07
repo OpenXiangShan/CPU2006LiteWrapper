@@ -144,3 +144,5 @@ The 436.cactusADM [contains a bug](https://stackoverflow.com/questions/25483031/
 # Note for LLVM >= 21
 
 The 445.gobmk [contains a bug](https://discourse.llvm.org/t/is-anyone-else-seeing-an-error-in-spec2k6-445-gobmk-using-just-scalar/85752) that will cause miscompilation in LLVM 21 and later. You may need to apply the [patch](./patches/445.gobmk.patch) to fix it.
+
+You may also need to set `ulimit -s unlimited` before running LLVM-compiled binaries to avoid stack overflow.

@@ -1,0 +1,13 @@
+diff a/445.gobmk/src/utils/gg_utils.c b/445.gobmk/src/utils/gg_utils.c
+--- a/445.gobmk/src/utils/gg_utils.c
++++ b/445.gobmk/src/utils/gg_utils.c
+@@ -167,7 +167,8 @@
+ {
+   int gap = nel;
+   int swap_made;
+-  char *end = (char *) base + width * (nel - 1);
++  long offset = width * (nel - 1);
++  char *end = (char *) base + offset;
+   do {
+     char *a, *b;
+     swap_made = 0;

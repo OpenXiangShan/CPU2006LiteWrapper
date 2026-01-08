@@ -51,7 +51,10 @@ SRCS += $(addprefix src/, wrf_num_bytes_between.c pack_utils.c module_driver_con
 	 netcdf/typeSizes.f90 netcdf/netcdf.f90)
 
 CFLAGS += -I$(abspath ./src) -I$(abspath ./src/netcdf/include) -DSPEC_CPU_CASE_FLAG -DSPEC_CPU_LINUX -Wno-error
-FFLAGS = -I$(abspath ./src) -I$(abspath ./src/netcdf/include) -std=legacy -fallow-argument-mismatch
+FFLAGS = -I$(abspath ./src) -I$(abspath ./src/netcdf/include)
+ifeq ($(findstring clang,$(CC)),)
+FFLAGS += -std=legacy -fallow-argument-mismatch
+endif
 LD_FORTRAN = 1
 SPECPPFLAGS = -w -m literal.pm -I. -DINTIO -DIWORDSIZE=4  -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNETCDF  -DTRIEDNTRUE -DLIMIT_ARGS -DEM_CORE=1  -DNMM_CORE=0 -DNMM_MAX_DIM=1000 -DCOAMPS_CORE=0  -DEXP_CORE=0 -DF90_STANDALONE -DCONFIG_BUF_LEN=8192 -DMAX_DOMAINS_F=21 -DNO_NAMELIST_PRINT -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64 -DSPEC_CPU_CASE_FLAG -DSPEC_CPU_LINUX
 include ../Makefile.apps

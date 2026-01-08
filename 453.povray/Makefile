@@ -19,6 +19,7 @@ SRCS = $(addprefix src/, atmosph.cpp bbox.cpp bcyl.cpp bezier.cpp blob.cpp boxes
 	 tokenize.cpp torus.cpp triangle.cpp truetype.cpp txttest.cpp \
 	 userdisp.cpp userio.cpp vbuffer.cpp vlbuffer.cpp warps.cpp)
 LD_CXX = 1
+CFLAGS += -std=c++98
 include ../Makefile.apps
 include ../Makefile.run
 

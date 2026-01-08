@@ -1,6 +1,16 @@
 NAME = 416.gamess
+ifneq (,$(findstring clang,$(CC)))
+CFLAGS +=
+else
 CFLAGS += -funconstrained-commons
+endif
+
+ifneq (,$(findstring flang,$(FC)))
+FFLAGS_EXTRA =
+else
 FFLAGS_EXTRA = -std=legacy -funconstrained-commons -fno-strict-aliasing
+endif
+
 LD_FORTRAN = 1
 SRCS = $(addprefix src/, aldeci.F algnci.F basecp.F basext.f bashuz.f bashz2.f basn21.F \
 basn31.f bassto.F blas.F ccaux.f ccsdt.F chgpen.F cisgrd.F cosmo.F \

@@ -158,7 +158,12 @@ SRCS = $(addprefix src/, CalculiX.c add_pr.f add_sm_ei.f add_sm_st.f allocation.
 	 SPOOLES/ZV/src/ZV_instance.c \
 	 SPOOLES/misc/src/misc_orderViaBestOfNDandMS.c)
 PPREFIX = .fppized.o
-FFLAGS += -I$(abspath src/SPOOLES) -Wno-error
+FFLAGS += -I$(abspath src/SPOOLES)
+
+ifeq ($(findstring clang,$(CC)),)
+FFLAGS += -Wno-error
+endif
+
 CFLAGS += -I$(abspath src/SPOOLES) -Wno-error
 LD_FORTRAN = 1
 LIBS += -lm

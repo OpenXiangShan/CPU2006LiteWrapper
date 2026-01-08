@@ -265,7 +265,7 @@ SRCS = $(addprefix src/, AIXPlatformUtils.cpp CSetDefs.cpp BinHTTPURLInputStream
 	 XercesTextWrapperAllocator.cpp XercesWrapperHelper.cpp \
 	 XercesWrapperNavigator.cpp XercesWrapperToXalanNodeMap.cpp XalanExe.cpp)
 
-CFLAGS += -I$(abspath ./src) -I$(abspath ./src/xercesc) -I$(abspath ./src/xercesc/dom) -I$(abspath ./src/xercesc/dom/impl) -I$(abspath ./src/xercesc/sax) -I$(abspath ./src/xercesc/util/MsgLoaders/InMemory) -I$(abspath ./src/xercesc/util/Transcoders/Iconv) -I$(abspath ./src/xalanc/include) -DPROJ_XMLPARSER -DPROJ_XMLUTIL -DPROJ_PARSERS -DPROJ_SAX4C -DPROJ_SAX2 -DPROJ_DOM -DPROJ_VALIDATORS -DXML_USE_NATIVE_TRANSCODER -DXML_USE_INMEM_MESSAGELOADER -DXML_USE_PTHREADS -DSPEC_CPU_LINUX -DAPP_NO_THREADS -DXALAN_INMEM_MSG_LOADER -DSPEC_CPU_LINUX -include cstring -Wno-error
+CFLAGS += -I$(abspath ./src) -I$(abspath ./src/xercesc) -I$(abspath ./src/xercesc/dom) -I$(abspath ./src/xercesc/dom/impl) -I$(abspath ./src/xercesc/sax) -I$(abspath ./src/xercesc/util/MsgLoaders/InMemory) -I$(abspath ./src/xercesc/util/Transcoders/Iconv) -I$(abspath ./src/xalanc/include) -DPROJ_XMLPARSER -DPROJ_XMLUTIL -DPROJ_PARSERS -DPROJ_SAX4C -DPROJ_SAX2 -DPROJ_DOM -DPROJ_VALIDATORS -DXML_USE_NATIVE_TRANSCODER -DXML_USE_INMEM_MESSAGELOADER -DXML_USE_PTHREADS -DSPEC_CPU_LINUX -DAPP_NO_THREADS -DXALAN_INMEM_MSG_LOADER -DSPEC_CPU_LINUX -include cstring -Wno-error -std=c++98
 LD_CXX = 1
 include ../Makefile.apps
 include ../Makefile.run

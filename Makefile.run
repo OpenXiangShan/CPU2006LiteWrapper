@@ -44,13 +44,13 @@ copy_run_data:
 		fi
 
 .PHONY: prepare_data
-prepare_data:
+prepare_data: copy_run_data
 	@date >> $(TIME_LOG)
 	@echo "Using command: ${LOADER} to execute" >> $(TIME_LOG)
 	@echo "@@@@@ Running $(WORKLOAD_NAME) [$(SIZE)]..." >> $(TIME_LOG)
 
 .PHONY: run
-run: copy_run_data prepare_data
+run: prepare_data
 	cd $(RUN_DIR) && \
 		export TIME="%U user %S system %E elapsed %P CPU (%X text + %D data %M max)k\n%I inputs + %O outputs (%F major + %R minor)pagefaults %W swaps\n%e # elapsed in second"  && \
     APP='/usr/bin/time -a -o $(TIME_LOG) $(LOADER) $(CURDIR)/build$(TAG)/$(WORKLOAD_NAME)' \

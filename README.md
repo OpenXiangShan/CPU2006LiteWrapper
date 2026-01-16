@@ -3,6 +3,13 @@
 This repo compile SPECCPU2006 (mostly) in parallel.
 This repo depends on official spec tools to preprocess Fortran files.
 
+Thus, before using this repo, please ensure that you have correctly installed the SPEC tools (in the source tar ball).
+
+``` shell
+cd /spec2006_path
+./install.sh
+```
+
 The global optimization flags are set in the root Makefile and Makefile.apps.
 The compatibility flags and including paths are set in each Makefile of benchmarks.
 
@@ -14,7 +21,7 @@ The compatibility flags and including paths are set in each Makefile of benchmar
 export SPEC=/spec2006_path
 ```
 
-- source shrc
+- source shrc (if you encounter errors, please check whether you have installed SPEC tools correctly)
 
 ``` shell
 pushd $SPEC && source shrc && popd

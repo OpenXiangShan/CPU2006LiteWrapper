@@ -21,6 +21,9 @@ writeps.c xdrd.c xtcio.c xutils.c xvgr.c)
 CFLAGS += -I./src -DHAVE_CONFIG_H
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 LD_FORTRAN = 1
+ifneq ($(findstring ifort,$(FC)),)
+LDFLAGS += -nofor-main
+endif
 include ../Makefile.apps
 include ../Makefile.run
 

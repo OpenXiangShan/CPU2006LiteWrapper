@@ -134,6 +134,9 @@ IOBasic/cctk_ThornBindings.c)
 CFLAGS += -I./src/include -DCCODE -D__USE_BSD -std=gnu89
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 LD_FORTRAN = 1
+ifneq ($(findstring ifort,$(FC)),)
+LDFLAGS += -nofor-main
+endif
 include ../Makefile.apps
 include ../Makefile.run
 

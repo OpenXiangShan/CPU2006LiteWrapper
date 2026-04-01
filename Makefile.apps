@@ -77,11 +77,21 @@ READELF   = $(CROSS_COMPILE)readelf
 OPTIMIZE ?= -O3 -flto
 COPTIMIZE := $(OPTIMIZE)
 FOPTIMIZE := $(OPTIMIZE)
-CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration $(TESTSET_SPECIFIC_FLAG) $(PGO_FLAG)
+CFLAGS   += $(COPTIMIZE) -MMD -DSPEC_CPU -DNDEBUG -static -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing $(TESTSET_SPECIFIC_FLAG) $(PGO_FLAG)
+# GCC/Clang-specific warning flags, not supported by ICC
+ifeq ($(findstring icc,$(CC)),)
+CFLAGS   += -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration
+endif
+# ICC compatibility header: fix _Float32 and __float128 issues with modern glibc/libstdc++
+ifneq ($(findstring icc,$(CC)),)
+CFLAGS   += -include $(abspath ../scripts/icc_gnuc_compat.h)
+endif
 CXXFLAGS += $(filter-out -Wno-implicit-int -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-implicit-function-declaration, $(CFLAGS))
 FFLAGS   += $(FOPTIMIZE) $(FFLAGS_EXTRA) -static $(TESTSET_SPECIFIC_FLAG) $(PGO_FLAG)
-ifeq ($(findstring clang,$(CC)),)
+ifeq ($(findstring flang,$(FC)),)
+ifeq ($(findstring ifort,$(FC)),)
 FFLAGS   += -fno-strict-aliasing
+endif
 endif
 LDFLAGS  += -static $(OPTIMIZE) $(PGO_FLAG)
 SPECPPFLAGS += -o

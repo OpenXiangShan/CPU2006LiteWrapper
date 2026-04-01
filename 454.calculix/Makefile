@@ -161,11 +161,16 @@ PPREFIX = .fppized.o
 FFLAGS += -I$(abspath src/SPOOLES)
 
 ifeq ($(findstring clang,$(CC)),)
+ifeq ($(findstring ifort,$(FC)),)
 FFLAGS += -Wno-error
+endif
 endif
 
 CFLAGS += -I$(abspath src/SPOOLES) -Wno-error
 LD_FORTRAN = 1
+ifneq ($(findstring ifort,$(FC)),)
+LDFLAGS += -nofor-main
+endif
 LIBS += -lm
 SPECPPFLAGS = -DSPEC_CPU -DNDEBUG -DSPEC_CPU_LP64
 include ../Makefile.apps

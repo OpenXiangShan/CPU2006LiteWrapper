@@ -32,7 +32,10 @@ tria_accessor.cc tria_boundary.cc tria_boundary_lib.cc vector.cc \
 vector.long_double.cc vectors.all_dimensions.cc fe_dgp_monomial.cc \
 fe_poly.cc polynomials_bdm.cc polynomials_p.cc fe_dgp_monomial.cc \
 fe_poly.cc polynomials_bdm.cc polynomials_p.cc vectors.cc)
-CFLAGS += -I$(abspath ./src/include) -DBOOST_DISABLE_THREADS -Ddeal_II_dimension=3 -fpermissive -include cstring -std=c++98
+CFLAGS += -I$(abspath ./src/include) -DBOOST_DISABLE_THREADS -Ddeal_II_dimension=3 -include cstring -std=c++98
+ifeq ($(findstring icc,$(CC)),)
+CFLAGS += -fpermissive
+endif
 LD_CXX = 1
 include ../Makefile.apps
 include ../Makefile.run

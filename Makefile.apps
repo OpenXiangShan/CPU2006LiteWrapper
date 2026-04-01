@@ -4,8 +4,8 @@
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
 .PHONY: html
-
 ## 1. Basic Setup and Checks
+SPEC=~/dev/SPEC2006/cpu2006-1.2/
 
 ### Default to create elf
 ifeq ($(MAKECMDGOALS),)

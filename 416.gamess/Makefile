@@ -1,11 +1,15 @@
 NAME = 416.gamess
 ifneq (,$(findstring clang,$(CC)))
 CFLAGS +=
+else ifneq (,$(findstring icc,$(CC)))
+CFLAGS +=
 else
 CFLAGS += -funconstrained-commons
 endif
 
 ifneq (,$(findstring flang,$(FC)))
+FFLAGS_EXTRA =
+else ifneq (,$(findstring ifort,$(FC)))
 FFLAGS_EXTRA =
 else
 FFLAGS_EXTRA = -std=legacy -funconstrained-commons -fno-strict-aliasing

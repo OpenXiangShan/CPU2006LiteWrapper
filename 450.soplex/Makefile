@@ -12,6 +12,11 @@ SRCS = $(addprefix src/, changesoplex.cc didxset.cc dsvector.cc dvector.cc enter
 	 spxweightpr.cc spxweightst.cc ssvector.cc svector.cc svset.cc timer.cc \
 	 unitvector.cc update.cc updatevector.cc vector.cc vsolve.cc)
 CFLAGS += -std=c++03
+# ICC doesn't support -std=c++03; use -std=c++98 instead
+ifneq ($(findstring icc,$(CC)),)
+CFLAGS := $(subst -std=c++03,-std=c++98,$(CFLAGS))
+CFLAGS += -fp-model precise
+endif
 LD_CXX = 1
 include ../Makefile.apps
 include ../Makefile.run
